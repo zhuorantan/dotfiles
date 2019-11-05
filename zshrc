@@ -119,6 +119,12 @@ if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
     export GEM_HOME="/usr/local/lib/ruby/gems/"
 fi
 
+# just env path
+if [[ "$(hostname)" == "Zhuorans-MacBook-Pro-for-Work.local" ]]; then
+    export PATH="$HOME/.just-installs/bin:$PATH"
+    [ -f ~/.tbenv/bundler-exec.sh ] && source ~/.tbenv/bundler-exec.sh
+fi 
+
 # aliases    
 alias rm='rm -i'
 alias ss='http_proxy=http://127.0.0.1:7890 https_proxy=http://127.0.0.1:7890'
