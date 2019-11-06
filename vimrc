@@ -1,7 +1,5 @@
-if has("macunix")
-    source /usr/local/share/vim/vim81/defaults.vim
-else
-    source /usr/share/vim/vim81/defaults.vim
+if $VIM !~ "nvim"
+    source $VIMRUNTIME/defaults.vim
 endif
 
 set clipboard=unnamed
