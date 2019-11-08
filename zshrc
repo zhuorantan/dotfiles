@@ -68,7 +68,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z colored-man-pages history docker)
+plugins=(git z colored-man-pages history docker fzf)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -118,6 +118,7 @@ if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
     export PATH="/usr/local/opt/python/libexec/bin:/usr/local/opt/ruby/bin:$PATH"
     export GEM_HOME="/usr/local/lib/ruby/gems/"
 fi
+export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
 
 # just env path
 if [[ "$(hostname)" == "Zhuorans-MacBook-Pro-for-Work.local" ]]; then

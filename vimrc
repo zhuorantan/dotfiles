@@ -30,3 +30,5 @@ set mouse=a
 cmap w!! w !sudo tee > /dev/null %
 
 highlight LineNr ctermfg=grey
+
+set rtp+=/usr/local/opt/fzf
