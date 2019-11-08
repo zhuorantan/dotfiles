@@ -29,6 +29,14 @@ set mouse=a
 " allow saving of files as sudo
 cmap w!! w !sudo tee > /dev/null %
 
+let mapleader = ","
+let g:mapleader = ","
+
+nnoremap <leader><space> :nohlsearch<CR>
+
+nnoremap n nzz
+nnoremap N Nzz
+
 highlight LineNr ctermfg=grey
 
 set rtp+=/usr/local/opt/fzf
