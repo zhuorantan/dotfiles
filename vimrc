@@ -42,5 +42,5 @@ highlight LineNr ctermfg=grey
 if has("macunix")
     set rtp+=/usr/local/opt/fzf
 else
-    source /usr/share/doc/fzf/examples/plugin/fzf.vim
+    set rtp+=/usr/share/doc/fzf/examples
 endif
