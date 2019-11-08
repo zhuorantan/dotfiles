@@ -39,4 +39,8 @@ nnoremap N Nzz
 
 highlight LineNr ctermfg=grey
 
-set rtp+=/usr/local/opt/fzf
+if has("macunix")
+    set rtp+=/usr/local/opt/fzf
+else
+    source /usr/share/doc/fzf/examples/plugin/fzf.vim
+endif

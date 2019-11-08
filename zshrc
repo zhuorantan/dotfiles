@@ -68,7 +68,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git z colored-man-pages history docker fzf)
+plugins=(git z colored-man-pages history docker vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -98,6 +98,13 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# fzf plugin
+if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
+    plugins=($plugins fzf)
+else
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi
+
 # custom plugins
 if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
     source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -119,8 +126,9 @@ if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
     export GEM_HOME="/usr/local/lib/ruby/gems/"
 fi
 export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
+export KEYTIMEOUT=1
 
-# just env path
+# just and taobaoenv env path
 if [[ "$(hostname)" == "Zhuorans-MacBook-Pro-for-Work.local" ]]; then
     export PATH="$HOME/.just-installs/bin:$PATH"
     [ -f ~/.tbenv/bundler-exec.sh ] && source ~/.tbenv/bundler-exec.sh
