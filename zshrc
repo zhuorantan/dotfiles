@@ -132,7 +132,6 @@ alias rm='rm -i'
 alias ss='http_proxy=http://127.0.0.1:7890 https_proxy=http://127.0.0.1:7890'
 alias vi='nvim'
 alias v='vi'
-alias lc='leetcode'
 
 if [ -x "$(command -v trash)" ]; then
     alias del='trash'
@@ -142,3 +141,6 @@ if [ -x "$(command -v leetcode)" ]; then
     alias lc='leetcode'
 fi
 
+if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then
+    alias python='python3'
+fi
