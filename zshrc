@@ -115,8 +115,11 @@ prompt spaceship
 
 # environment variables
 if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
-    export PATH="/usr/local/opt/python/libexec/bin:/usr/local/opt/ruby/bin:$PATH"
-    export GEM_HOME="/usr/local/lib/ruby/gems/"
+    # python
+    export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+    # ruby
+    export GEM_HOME="/usr/local/lib/ruby/gems"
+    export PATH="/usr/local/opt/ruby/bin:$GEM_HOME/bin:$PATH"
 fi
 export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
 export KEYTIMEOUT=1
@@ -124,7 +127,7 @@ export KEYTIMEOUT=1
 # just and taobaoenv env path
 if [[ "$(hostname)" == "Zhuorans-MacBook-Pro-for-Work.local" ]]; then
     export PATH="$HOME/.just-installs/bin:$PATH"
-    [ -f ~/.tbenv/bundler-exec.sh ] && source ~/.tbenv/bundler-exec.sh
+#    [ -f ~/.tbenv/bundler-exec.sh ] && source ~/.tbenv/bundler-exec.sh
 fi 
 
 # aliases    
@@ -144,3 +147,4 @@ fi
 if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then
     alias python='python3'
 fi
+
