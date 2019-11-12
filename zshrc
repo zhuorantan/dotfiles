@@ -98,8 +98,6 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-source /etc/os-release 2> /dev/null
-
 # custom plugins
 if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
     source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -108,7 +106,7 @@ if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
 else
     plugins=($plugins zsh-completions)
 
-    if [[ "$ID" == "alpine" ]]; then
+    if [[ "(source /etc/os-release 2> /dev/null; echo $ID)" == "alpine" ]]; then
 	plugins=($plugins zsh-autosuggestions zsh-syntax-highlighting)
     else
     	source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -117,7 +115,7 @@ else
 fi
 
 # Set Spaceship ZSH as a prompt
-if [[ "$ID" != "alpine" ]]; then
+if [[ "(source /etc/os-release 2> /dev/null; echo $ID)" != "alpine" ]]; then
     autoload -U promptinit; promptinit
     prompt spaceship
 fi
