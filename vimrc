@@ -3,7 +3,7 @@ if $VIM !~ "nvim"
 endif
 
 set clipboard=unnamed
-set number relativenumber
+set number
 
 augroup numbertoggle
     autocmd!
@@ -42,6 +42,11 @@ nnoremap <leader><space> :nohlsearch<CR>
 
 nnoremap n nzz
 nnoremap N Nzz
+nnoremap <C-p> :FZF<CR>
+
+autocmd! FileType fzf
+autocmd FileType fzf set laststatus=0 noshowmode noruler nonumber norelativenumber
+autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
 highlight LineNr ctermfg=grey
 
