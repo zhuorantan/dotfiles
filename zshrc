@@ -107,7 +107,7 @@ else
     plugins=($plugins zsh-completions)
 
     if [[ "(source /etc/os-release 2> /dev/null; echo $ID)" == "alpine" ]]; then
-	plugins=($plugins zsh-autosuggestions zsh-syntax-highlighting)
+	    plugins=($plugins zsh-autosuggestions zsh-syntax-highlighting)
     else
     	source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     	source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
