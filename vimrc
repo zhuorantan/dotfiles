@@ -13,7 +13,6 @@ endif
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-surround'
 Plug 'airblade/vim-gitgutter'
-" Plug 'ycm-core/YouCompleteMe'
 
 call plug#end()
 
@@ -79,8 +78,14 @@ nnoremap <Space> zz
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
+nnoremap <C-x> :bnext<CR>
+nnoremap <C-z> :bprev<CR>
+
+nnoremap <space> zz
+
 nmap <leader>w :w<CR>
 nmap <leader>q :q<CR>
+nmap <leader>f za
 nnoremap <leader><space> :nohlsearch<CR>
 
 tnoremap <Esc> <C-\><C-n>
