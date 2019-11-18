@@ -2,7 +2,34 @@ if $VIM !~ "nvim"
     source $VIMRUNTIME/defaults.vim
 endif
 
+" ========== plugins ==========
+call plug#begin('~/.vim/plugged')
+
+if has("macunix")
+    Plug '/usr/local/opt/fzf'
+else
+    Plug '/usr/share/doc/fzf/examples'
+endif
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-surround'
+Plug 'airblade/vim-gitgutter'
+" Plug 'ycm-core/YouCompleteMe'
+
+call plug#end()
+
+" ========== General ==========
+let mapleader = ","
+
 set clipboard=unnamed
+
+set undofile
+
+set mouse=a
+
+set foldmethod=indent
+set foldlevelstart=99 " start file with all folds opened
+
+" ========== line number ==========
 set number
 
 augroup numbertoggle
@@ -11,47 +38,76 @@ augroup numbertoggle
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
 augroup END
 
+highlight LineNr ctermfg=grey
+
+highlight GitGutterAdd    guifg=#009900 ctermfg=2
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1
+
+" ========== split ==========
 set splitright
 set splitbelow
-set laststatus=2
 
-set ruler
+highlight VertSplit cterm=NONE
+
+" ========== search ==========
 set incsearch
 set hlsearch
+
 set ignorecase
 set smartcase
 
+" ========== status line ==========
+set ruler
+set laststatus=2
+
+" ========== indent and tab ==========
 set autoindent
 set smarttab
 
 set expandtab
 set tabstop=4
 set shiftwidth=4
-
 set shiftround
 
-set mouse=a
-
+" ========== keymaps ==========
 " allow saving of files as sudo
 cmap w!! w !sudo tee > /dev/null %
 
-let mapleader = ","
-let g:mapleader = ","
+nnoremap <Space> zz
 
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+nmap <leader>w :w<CR>
+nmap <leader>q :q<CR>
 nnoremap <leader><space> :nohlsearch<CR>
 
-nnoremap n nzz
-nnoremap N Nzz
+tnoremap <Esc> <C-\><C-n>
+
+" ========== FZF ==========
 nnoremap <C-p> :FZF<CR>
 
 autocmd! FileType fzf
 autocmd FileType fzf set laststatus=0 noshowmode noruler nonumber norelativenumber
 autocmd BufLeave <buffer> set laststatus=2 showmode ruler
 
-highlight LineNr ctermfg=grey
+" ========== netrw ==========
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 20
 
-if has("macunix")
-    set rtp+=/usr/local/opt/fzf
-else
-    set rtp+=/usr/share/doc/fzf/examples
-endif
+" ========== auto ==========
+" automatically source .vimrc on save
+augroup Vimrc
+    autocmd! bufwritepost .vimrc source $MYVIMRC
+augroup END
+
+" remember last cursor position
+autocmd BufReadPost *
+            \ if line("'\"") > 1 && line("'\"") <= line("$") |
+            \     exe "normal! g`\"" |
+            \ endif
+
