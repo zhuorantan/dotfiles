@@ -33,8 +33,9 @@ set number
 
 augroup numbertoggle
     autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufEnter,FocusGained,InsertLeave * if &buftype != 'terminal' | set relativenumber | endif
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
+    autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
 
 highlight LineNr ctermfg=grey
@@ -114,5 +115,11 @@ augroup END
 autocmd BufReadPost *
             \ if line("'\"") > 1 && line("'\"") <= line("$") |
             \     exe "normal! g`\"" |
+            \ endif
+
+" enter insert mode when enter terminal emulator
+autocmd BufEnter,BufNew *
+            \ if &buftype == 'terminal' |
+            \     startinsert |
             \ endif
 
