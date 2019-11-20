@@ -99,14 +99,14 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # custom plugins
-if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
+if [ "$(uname)" = "Darwin" ]; then
     source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     fpath=(/usr/local/share/zsh-completion $fpath)
 else
     plugins=($plugins zsh-completions)
 
-    if [[ "(source /etc/os-release 2> /dev/null; echo $ID)" == "alpine" ]]; then
+    if [ "$(source /etc/os-release 2> /dev/null; echo $ID)" = "alpine" ]; then
 	    plugins=($plugins zsh-autosuggestions zsh-syntax-highlighting)
     else
     	source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -115,13 +115,13 @@ else
 fi
 
 # Set Spaceship ZSH as a prompt
-if [[ "(source /etc/os-release 2> /dev/null; echo $ID)" != "alpine" ]]; then
+if [ "$(source /etc/os-release 2> /dev/null; echo $ID)" != "alpine" ]; then
     autoload -U promptinit; promptinit
     prompt spaceship
 fi
 
 # environment variables
-if [[ "$(uname 2> /dev/null)" == "Darwin" ]]; then
+if [ "$(uname)" = "Darwin" ]; then
     # python
     export PATH="/usr/local/opt/python/libexec/bin:$PATH"
     # ruby
@@ -133,10 +133,10 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/"'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
 
-# just and taobaoenv env path
-if [[ "$(hostname)" == "Zhuorans-MacBook-Pro-for-Work.local" ]]; then
+# alibaba tools
+if [ "$(hostname)" = "Zhuorans-MacBook-Pro-for-Work.local" ]; then
     export PATH="$HOME/.just-installs/bin:$PATH"
-    [ -f ~/.tbenv/bundler-exec.sh ] && source ~/.tbenv/bundler-exec.sh
+    alias tbenv='bundle exec --gemfile=~/.tbenv/$(cat TaobaoEnv)/Gemfile pod'
 fi 
 
 # aliases    
@@ -153,7 +153,7 @@ if [ -x "$(command -v leetcode)" ]; then
     alias lc='leetcode'
 fi
 
-if [[ "$(uname 2> /dev/null)" == "Linux" ]]; then
+if [ "$(uname)" = "Linux" ]; then
     alias python='python3'
 fi
 

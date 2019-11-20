@@ -118,7 +118,7 @@ autocmd BufReadPost *
             \ endif
 
 " enter insert mode when enter terminal emulator
-autocmd BufEnter,BufNew *
+autocmd TermOpen,BufEnter,BufNew *
             \ if &buftype == 'terminal' |
             \     startinsert |
             \ endif
