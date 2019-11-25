@@ -37,6 +37,7 @@ Plug 'altercation/vim-colors-solarized'
 call plug#end()
 
 " ========== General ==========
+
 let mapleader = ","
 
 set clipboard=unnamed
@@ -50,7 +51,7 @@ set mouse=a
 set foldmethod=indent
 set foldlevelstart=99 " start file with all folds opened
 
-set signcolumn=yes " always show sign columns
+set cursorline
 
 " ========== line number ==========
 set number
@@ -61,12 +62,6 @@ augroup numbertoggle
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
     autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
-
-highlight LineNr ctermfg=grey
-
-highlight GitGutterAdd    guifg=#009900 ctermfg=2
-highlight GitGutterChange guifg=#bbbb00 ctermfg=3
-highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
 " ========== split ==========
 set splitright
@@ -174,6 +169,7 @@ autocmd FileType fzf set laststatus=0 noruler nonumber norelativenumber |
 
 let g:solarized_termcolors=256
 colorscheme solarized
+highlight CursorLineNr ctermbg=235
 
 " ========== lightline ==========
 
@@ -212,7 +208,7 @@ if has_key(g:plugs, 'coc.nvim')
 
     " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
     " Coc only does snippet and additional edit on confirm.
-    inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    imap <expr> <cr> pumvisible() ? coc#_select_confirm() : "\<Plug>delimitMateCR"
     " Or use `complete_info` if your vim support it, like:
     " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
     
