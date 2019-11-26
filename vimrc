@@ -146,9 +146,11 @@ autocmd! TermOpen,BufEnter,BufNew *
 
 nnoremap <leader>ga :Git add %:p<CR>
 nnoremap <leader>gc :Gcommit -q<CR>
-nnoremap <leader>gg :Gstatus<CR>
+nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gd :Gdiffsplit<CR>
 nnoremap <leader>gp :Gpush<CR>
+nnoremap <leader>gf :Gfetch<CR>
+nnoremap <leader>gl :Gpull<CR>
 nnoremap <leader>gb :Gblame<CR>
 vnoremap <leader>gb :Gblame<CR>
 
