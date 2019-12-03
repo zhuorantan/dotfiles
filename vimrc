@@ -27,9 +27,11 @@ Plug 'airblade/vim-gitgutter'
 Plug 'thalesmello/tabfold'
 Plug 'raimondi/delimitmate'
 Plug 'thinca/vim-quickrun'
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
+Plug 'machakann/vim-highlightedyank'
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
