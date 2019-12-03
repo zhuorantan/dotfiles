@@ -26,6 +26,7 @@ Plug 'tpope/vim-repeat'
 Plug 'airblade/vim-gitgutter'
 Plug 'thalesmello/tabfold'
 Plug 'raimondi/delimitmate'
+Plug 'thinca/vim-quickrun'
 
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
@@ -54,6 +55,7 @@ set foldlevelstart=99 " start file with all folds opened
 set cursorline
 
 " ========== line number ==========
+
 set number
 
 augroup numbertoggle
@@ -64,12 +66,14 @@ augroup numbertoggle
 augroup END
 
 " ========== split ==========
+
 set splitright
 set splitbelow
 
 highlight VertSplit cterm=NONE
 
 " ========== search ==========
+
 set incsearch
 set hlsearch
 
@@ -77,10 +81,12 @@ set ignorecase
 set smartcase
 
 " ========== status line ==========
+
 set ruler
 set laststatus=2
 
 " ========== indent and tab ==========
+
 set autoindent
 set smarttab
 
@@ -90,8 +96,12 @@ set shiftwidth=4
 set shiftround
 
 " ========== keymaps ==========
+
 " allow saving of files as sudo
 cmap w!! w !sudo tee > /dev/null %
+
+" fix
+nnoremap Y y$
 
 " center
 nnoremap <Space> zz
@@ -121,8 +131,11 @@ let g:netrw_winsize = 20
 
 " ========== auto ==========
 
+" save file on focus lost
+autocmd! FocusLost * silent! :wa
+
 " automatically source .vimrc on save
-autocmd! bufwritepost .vimrc source $MYVIMRC
+autocmd! Bufwritepost .vimrc source $MYVIMRC
 
 " remember last cursor position
 autocmd! BufReadPost *
@@ -130,11 +143,28 @@ autocmd! BufReadPost *
             \     exe "normal! g`\"" |
             \ endif
 
+" open help vertically
+autocmd! FileType help wincmd L
+
 " spell check for git commits
 autocmd! FileType gitcommit setlocal spell
 
 " resize panes when window resizes
 autocmd! VimResized * :wincmd =
+
+" prevent unintended write
+autocmd BufReadPost fugitive:///*//0/* setlocal nomodifiable readonly
+
+" only show cursor line in active window
+augroup cusorlineToggle
+    autocmd!
+    autocmd InsertLeave,WinEnter * set cursorline
+    autocmd InsertEnter,WinLeave * set nocursorline
+augroup END
+
+" load file when changed in disk
+autocmd! FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
+autocmd! FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
 
 " enter insert mode when enter terminal emulator
 autocmd! TermOpen,BufEnter,BufNew *
@@ -187,6 +217,26 @@ let g:lightline = {
             \     'currentfunction': 'CocCurrentFunction'
             \   },
             \ }
+
+" hide when lost focus
+autocmd FocusGained * call setwinvar(winnr(), '&statusline', lightline#statusline(0))
+autocmd FocusLost * call setwinvar(winnr(), '&statusline', lightline#statusline(1))
+
+" ========== delimitMate ==========
+
+let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_space = 1
+
+" ========== buftabline ==========
+
+let g:buftabline_show = 1
+let g:buftabline_numbers = 2
+let g:buftabline_indicators = 1
+
+for s:n in range(10)
+    let s:b = s:n == 0 ? -1 : s:n
+    execute printf("nmap <leader>%d <Plug>BufTabLine.Go(%d)", s:n, s:b)
+endfor
 
 " ========== coc ==========
 
