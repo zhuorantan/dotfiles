@@ -41,7 +41,7 @@ call plug#end()
 
 " ========== General ==========
 
-let mapleader = ","
+let mapleader = "\<Space>"
 
 set clipboard=unnamed
 
@@ -106,7 +106,6 @@ cmap w!! w !sudo tee > /dev/null %
 nnoremap Y y$
 
 " center
-nnoremap <Space> zz
 nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap * *zzzv
@@ -117,9 +116,10 @@ nnoremap <C-x> :bnext<CR>
 nnoremap <C-z> :bprev<CR>
 
 " leader
+nnoremap <silent><leader><Space> zz:nohlsearch<CR>
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
-nnoremap <leader><space> :nohlsearch<CR>
+nnoremap <leader><Tab> <C-^>
 
 " terminal
 tnoremap <Esc> <C-\><C-n>
