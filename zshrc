@@ -127,6 +127,8 @@ if [ "$(uname)" = "Darwin" ]; then
     # ruby
     export GEM_HOME="/usr/local/lib/ruby/gems"
     export PATH="/usr/local/opt/ruby/bin:$GEM_HOME/bin:$PATH"
+else
+    export PATH="$HOME/.local/bin:$PATH"
 fi
 
 export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git/"'
