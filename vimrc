@@ -56,6 +56,8 @@ set foldlevelstart=99 " start file with all folds opened
 
 set cursorline
 
+set hidden
+
 " ========== line number ==========
 
 set number
@@ -284,12 +286,23 @@ if has_key(g:plugs, 'coc.nvim')
         endif
     endfunction
 
+    " Highlight symbol under cursor on CursorHold
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+
     " Remap for rename current word
     nmap <leader>rn <Plug>(coc-rename)
 
     " Remap for format selected region
     xmap <leader>f <Plug>(coc-format-selected)
     nmap <leader>f <Plug>(coc-format-selected)
+
+    augroup cochighlight
+        autocmd!
+        " Setup formatexpr specified filetype(s).
+        autocmd FileType python,typescript,json setl formatexpr=CocAction('formatSelected')
+        " Update signature help on jump placeholder
+        autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+    augroup END
 
     " Add status line support, for integration with other plugin, checkout `:h coc-status`
     function! CocCurrentFunction()
