@@ -29,6 +29,8 @@ Plug 'raimondi/delimitmate'
 Plug 'thinca/vim-quickrun'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 
+Plug 'christoomey/vim-tmux-navigator'
+
 Plug 'itchyny/lightline.vim'
 Plug 'ap/vim-buftabline'
 Plug 'machakann/vim-highlightedyank'
@@ -241,6 +243,14 @@ for s:n in range(10)
     let s:b = s:n == 0 ? -1 : s:n
     execute printf("nmap <leader>%d <Plug>BufTabLine.Go(%d)", s:n, s:b)
 endfor
+
+" ========== tmux navigator ==========
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <C-w>h :TmuxNavigateLeft<cr>
+nnoremap <silent> <C-w>j :TmuxNavigateDown<cr>
+nnoremap <silent> <C-w>k :TmuxNavigateUp<cr>
+nnoremap <silent> <C-w>l :TmuxNavigateRight<cr>
 
 " ========== coc ==========
 
