@@ -68,7 +68,7 @@ set number
 
 augroup numbertoggle
     autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * if &buftype != 'terminal' | set relativenumber | endif
+    autocmd BufEnter,FocusGained,InsertLeave * if &buftype != 'terminal' && &filetype != 'nerdtree' | set relativenumber | endif
     autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
     autocmd TermOpen * setlocal nonumber norelativenumber
 augroup END
