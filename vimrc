@@ -28,6 +28,8 @@ Plug 'thalesmello/tabfold'
 Plug 'raimondi/delimitmate'
 Plug 'thinca/vim-quickrun'
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeFind' }
+Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 
 Plug 'christoomey/vim-tmux-navigator'
 
@@ -122,18 +124,33 @@ nnoremap <C-z> :bprev<CR>
 " leader
 nnoremap <silent><leader><Space> zz:nohlsearch<CR>
 nnoremap <leader>w :w<CR>
-nnoremap <leader>q :q<CR>
+nnoremap <leader>q :Sayonara<CR>
+nnoremap <leader>Q :Sayonara!<CR>
 nnoremap <leader><Tab> <C-^>
 
 " terminal
 tnoremap <Esc> <C-\><C-n>
 
-" ========== netrw ==========
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 20
+" ========== nerdtree ==========
+
+function! s:nerdtreeToggle()
+    if &filetype == 'nerdtree'
+        :NERDTreeToggle
+    else
+        :NERDTreeFind
+    endif
+endfunction
+
+" disable netrw
+let loaded_netrwPlugin = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeShowHidden=1
+let NERDTreeQuitOnOpen=1
+let NERDTreeIgnore=['\.vim$', '\~$', '\.git$', '.DS_Store']
+nnoremap <Leader>n :call <SID>nerdtreeToggle()<CR>
+
+" close vim if the only window left open is a NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " ========== auto ==========
 
