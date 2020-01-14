@@ -117,15 +117,11 @@ nnoremap N Nzzzv
 nnoremap * *zzzv
 nnoremap # #zzzv
 
-" buffer navigation
-nnoremap <C-x> :bnext<CR>
-nnoremap <C-z> :bprev<CR>
-
 " leader
 nnoremap <silent><leader><Space> zz:nohlsearch<CR>
-nnoremap <leader>w :w<CR>
-nnoremap <leader>q :Sayonara<CR>
-nnoremap <leader>Q :Sayonara!<CR>
+nnoremap <silent><leader>w :w<CR>
+nnoremap <silent><leader>q :Sayonara<CR>
+nnoremap <silent><leader>Q :Sayonara!<CR>
 nnoremap <leader><Tab> <C-^>
 
 " terminal
@@ -147,7 +143,7 @@ let NERDTreeMinimalUI = 1
 let NERDTreeShowHidden=1
 let NERDTreeQuitOnOpen=1
 let NERDTreeIgnore=['\.vim$', '\~$', '\.git$', '.DS_Store']
-nnoremap <Leader>n :call <SID>nerdtreeToggle()<CR>
+nnoremap <silent><Leader>n :call <SID>nerdtreeToggle()<CR>
 
 " close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -268,6 +264,10 @@ nnoremap <silent> <C-w>h :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-w>j :TmuxNavigateDown<cr>
 nnoremap <silent> <C-w>k :TmuxNavigateUp<cr>
 nnoremap <silent> <C-w>l :TmuxNavigateRight<cr>
+
+" ========== undotree ==========
+
+nnoremap <silent><leader>u :UndotreeToggle<CR>
 
 " ========== coc ==========
 
