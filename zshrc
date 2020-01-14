@@ -146,6 +146,7 @@ alias rm='rm -i'
 alias ss='http_proxy=http://127.0.0.1:7890 https_proxy=http://127.0.0.1:7890'
 alias vi='nvim'
 alias v='vi'
+alias tm='tmux attach || tmux new'
 
 if [ -x "$(command -v trash)" ]; then
     alias del='trash'
