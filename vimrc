@@ -210,6 +210,7 @@ nnoremap <leader>b :Buffers<CR>
 nnoremap <leader>c :Commands<CR>
 nnoremap <leader>M :Maps<CR>
 nnoremap <leader>l :Lines<CR>
+nnoremap <leader>L :BLines<CR>
 nnoremap <leader>t :Filetypes<CR>
 
 autocmd! FileType fzf
