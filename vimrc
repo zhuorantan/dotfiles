@@ -230,9 +230,10 @@ set noshowmode
 let g:lightline = {
             \   'active': {
             \     'left': [ [ 'mode', 'paste' ],
-            \               [ 'readonly', 'filename', 'modified', 'cocstatus', 'currentfunction' ] ]
+            \               [ 'readonly', 'filename', 'modified', 'gitbranch', 'cocstatus', 'currentfunction' ] ]
             \   },
             \   'component_function': {
+            \     'gitbranch': 'FugitiveHead',
             \     'cocstatus': 'coc#status',
             \     'currentfunction': 'CocCurrentFunction'
             \   },
