@@ -193,15 +193,18 @@ autocmd! TermOpen,BufEnter,BufNew *
 
 " ========== fugitive ==========
 
-nnoremap <leader>ga :Git add %:p<CR>
-nnoremap <leader>gc :Gcommit -q<CR>
 nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gd :Gdiffsplit<CR>
-nnoremap <leader>gp :Gpush<CR>
-nnoremap <leader>gf :Gfetch<CR>
-nnoremap <leader>gl :Gpull<CR>
+nnoremap <leader>gg :Glog<CR>
 nnoremap <leader>gb :Gblame<CR>
 vnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gd :Gdiffsplit<CR>
+
+nnoremap <leader>ga :Git add %:p<CR>
+nnoremap <leader>gc :Gcommit -q<CR>
+nnoremap <leader>gm :Gmerge<CR>
+nnoremap <leader>gf :Gfetch<CR>
+nnoremap <leader>gl :Gpull<CR>
+nnoremap <leader>gp :Gpush<CR>
 
 " ========== FZF ==========
 
