@@ -215,6 +215,7 @@ nnoremap <leader>M :Maps<CR>
 nnoremap <leader>l :Lines<CR>
 nnoremap <leader>L :BLines<CR>
 nnoremap <leader>t :Filetypes<CR>
+nnoremap <leader>/ :Rg<CR>
 
 autocmd! FileType fzf
 autocmd FileType fzf set laststatus=0 noruler nonumber norelativenumber |
