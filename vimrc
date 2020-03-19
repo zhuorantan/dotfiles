@@ -208,6 +208,8 @@ nnoremap <leader>gf :Gfetch<CR>
 nnoremap <leader>gl :Gpull<CR>
 nnoremap <leader>gp :Gpush<CR>
 
+nnoremap <leader>gv :GV<CR>
+
 " ========== FZF ==========
 
 nnoremap <C-p> :Files<CR>
