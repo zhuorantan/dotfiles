@@ -43,6 +43,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 Plug 'altercation/vim-colors-solarized'
 
+Plug 'sheerun/vim-polyglot'
+
 call plug#end()
 
 " ========== General ==========
@@ -63,17 +65,6 @@ set foldlevelstart=99 " start file with all folds opened
 set cursorline
 
 set hidden
-
-" ========== line number ==========
-
-set number
-
-augroup numbertoggle
-    autocmd!
-    autocmd BufEnter,FocusGained,InsertLeave * if &buftype != 'terminal' && &filetype != 'nerdtree' | set relativenumber | endif
-    autocmd BufLeave,FocusLost,InsertEnter * set norelativenumber
-    autocmd TermOpen * setlocal nonumber norelativenumber
-augroup END
 
 " ========== split ==========
 
@@ -183,9 +174,9 @@ augroup cusorlineToggle
     autocmd InsertEnter,WinLeave * set nocursorline
 augroup END
 
-" load file when changed in disk
-autocmd! FocusGained,BufEnter,CursorHold,CursorHoldI * if mode() != 'c' | checktime | endif
-autocmd! FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None
+ " refresh changed content of file
+autocmd CursorHold * if getcmdwintype() == '' | checktime | endif
+autocmd FileChangedShellPost * echohl WarningMsg | echo "Warning: File changed on disk. Buffer reloaded." | echohl None
 
 " enter insert mode when enter terminal emulator
 autocmd! TermOpen,BufEnter,BufNew *
