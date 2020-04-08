@@ -11,6 +11,32 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
+" Vim enhancements
+Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
+Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
+Plug 'thalesmello/tabfold'
+Plug 'tpope/vim-vinegar'
+
+Plug 'haya14busa/is.vim' " incremental search
+Plug 'tpope/vim-dispatch'
+
+Plug 'sheerun/vim-polyglot'
+Plug 'ap/vim-buftabline'
+
+" Edit enchancements
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-sleuth' " auto change shiftwidth
+Plug 'raimondi/delimitmate'
+
+" UI
+Plug 'altercation/vim-colors-solarized'
+Plug 'itchyny/lightline.vim'
+Plug 'machakann/vim-highlightedyank'
+
+" FZF
 if has("macunix")
     Plug '/usr/local/opt/fzf'
 else
@@ -18,38 +44,18 @@ else
 endif
 Plug 'junegunn/fzf.vim'
 
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-surround'
+" Git
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/gv.vim'
-
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-repeat'
 Plug 'airblade/vim-gitgutter'
-Plug 'thalesmello/tabfold'
-Plug 'raimondi/delimitmate'
-Plug 'thinca/vim-quickrun'
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeFind' }
-Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 
-Plug 'christoomey/vim-tmux-navigator'
-
-Plug 'itchyny/lightline.vim'
-Plug 'ap/vim-buftabline'
-Plug 'machakann/vim-highlightedyank'
-
+" COC
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-Plug 'altercation/vim-colors-solarized'
-
-Plug 'sheerun/vim-polyglot'
 
 call plug#end()
 
 " ========== General ==========
-
-let mapleader = "\<Space>"
 
 set clipboard=unnamed
 
@@ -57,7 +63,7 @@ set undofile
 set autowrite
 set inccommand=nosplit
 
-set mouse=a
+set mouse=nvi
 
 set foldmethod=indent
 set foldlevelstart=99 " start file with all folds opened
@@ -65,6 +71,9 @@ set foldlevelstart=99 " start file with all folds opened
 set cursorline
 
 set hidden
+
+set scrolloff=1
+set sidescrolloff=5
 
 " ========== split ==========
 
@@ -109,45 +118,25 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap * *zzzv
 nnoremap # #zzzv
+map * *<Plug>(is-nohl-1)
+map g* g*<Plug>(is-nohl-1)
+map # <Plug>(is-nohl-1)
+map g# g#<Plug>(is-nohl-1)
 
 " leader
+let mapleader = "\<Space>"
+
+nnoremap <Space> <Nop>
 nnoremap <silent><leader><Space> zz:nohlsearch<CR>
 nnoremap <silent><leader>w :w<CR>
 nnoremap <silent><leader>q :Sayonara<CR>
 nnoremap <silent><leader>Q :Sayonara!<CR>
 nnoremap <leader><Tab> <C-^>
 
-" terminal
-tnoremap <Esc> <C-\><C-n>
-
-" ========== nerdtree ==========
-
-function! s:nerdtreeToggle()
-    if &filetype == 'nerdtree'
-        :NERDTreeToggle
-    else
-        :NERDTreeFind
-    endif
-endfunction
-
-" disable netrw
-let loaded_netrwPlugin = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeShowHidden=1
-let NERDTreeQuitOnOpen=1
-let NERDTreeIgnore=['\.vim$', '\~$', '\.git$', '.DS_Store']
-nnoremap <silent><Leader>n :call <SID>nerdtreeToggle()<CR>
-
-" close vim if the only window left open is a NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
 " ========== auto ==========
 
 " save file on focus lost
 autocmd! FocusLost * silent! :wa
-
-" automatically source .vimrc on save
-autocmd! Bufwritepost .vimrc source $MYVIMRC
 
 " remember last cursor position
 autocmd! BufReadPost *
@@ -156,7 +145,7 @@ autocmd! BufReadPost *
             \ endif
 
 " open help vertically
-autocmd! FileType help wincmd L
+autocmd BufEnter * if &filetype ==# 'help' | wincmd L | endif
 
 " spell check for git commits
 autocmd! FileType gitcommit setlocal spell
@@ -178,11 +167,22 @@ augroup END
 autocmd CursorHold * if getcmdwintype() == '' | checktime | endif
 autocmd FileChangedShellPost * echohl WarningMsg | echo "Warning: File changed on disk. Buffer reloaded." | echohl None
 
-" enter insert mode when enter terminal emulator
-autocmd! TermOpen,BufEnter,BufNew *
-            \ if &buftype == 'terminal' |
-            \     startinsert |
-            \ endif
+augroup terminal
+    autocmd!
+
+    " termianl mode Esc map
+    autocmd TermOpen * tnoremap <buffer> <Esc> <C-\><C-n>
+
+    " enter insert mode when enter terminal emulator
+    autocmd TermOpen,BufEnter,BufNew *
+                \ if &buftype == 'terminal' |
+                \     startinsert |
+                \ endif
+augroup END
+
+" ========== netrw ==========
+
+let g:netrw_liststyle = 3
 
 " ========== fugitive ==========
 
@@ -199,9 +199,11 @@ nnoremap <leader>gf :Gfetch<CR>
 nnoremap <leader>gl :Gpull<CR>
 nnoremap <leader>gp :Gpush<CR>
 
-nnoremap <leader>gv :GV<CR>
+nnoremap <leader>gv :GV --all<CR>
 
 " ========== FZF ==========
+
+let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
 
 nnoremap <C-p> :Files<CR>
 nnoremap <leader>b :Buffers<CR>
@@ -212,9 +214,7 @@ nnoremap <leader>L :BLines<CR>
 nnoremap <leader>t :Filetypes<CR>
 nnoremap <leader>/ :Rg<CR>
 
-autocmd! FileType fzf
-autocmd FileType fzf set laststatus=0 noruler nonumber norelativenumber |
-            \ autocmd BufLeave <buffer> set laststatus=2 ruler
+autocmd! FileType fzf tunmap <buffer> <Esc>
 
 " ========== solarized ==========
 
@@ -258,17 +258,13 @@ for s:n in range(10)
     execute printf("nmap <leader>%d <Plug>BufTabLine.Go(%d)", s:n, s:b)
 endfor
 
-" ========== tmux navigator ==========
-let g:tmux_navigator_no_mappings = 1
-
-nnoremap <silent> <C-w>h :TmuxNavigateLeft<cr>
-nnoremap <silent> <C-w>j :TmuxNavigateDown<cr>
-nnoremap <silent> <C-w>k :TmuxNavigateUp<cr>
-nnoremap <silent> <C-w>l :TmuxNavigateRight<cr>
-
 " ========== undotree ==========
 
 nnoremap <silent><leader>u :UndotreeToggle<CR>
+
+" ========== dispatch ==========
+
+let g:dispatch_no_tmux_make = 1
 
 " ========== coc ==========
 

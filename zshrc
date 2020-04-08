@@ -133,6 +133,9 @@ fi
 
 export EDITOR="nvim"
 
+export FZF_DEFAULT_COMMAND="fd --type f -I --hidden --follow --exclude .git"
+export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
+export FZF_ALT_C_COMMAND="fd --type d -I --hidden --follow --exclude .git"
 export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
 
 # alibaba tools
