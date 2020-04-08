@@ -15,7 +15,7 @@ call plug#begin('~/.vim/plugged')
 Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'thalesmello/tabfold'
-Plug 'tpope/vim-vinegar'
+Plug 'preservim/nerdtree', { 'on': 'NERDTreeFind' }
 
 Plug 'haya14busa/is.vim' " incremental search
 Plug 'tpope/vim-dispatch'
@@ -133,6 +133,28 @@ nnoremap <silent><leader>q :Sayonara<CR>
 nnoremap <silent><leader>Q :Sayonara!<CR>
 nnoremap <leader><Tab> <C-^>
 
+" ========== nerdtree ==========
+
+function! s:nerdtreeToggle()
+    if &filetype == 'nerdtree'
+        :NERDTreeToggle
+    else
+        :NERDTreeFind
+    endif
+endfunction
+
+" disable netrw
+let loaded_netrwPlugin = 1
+let NERDTreeMinimalUI = 1
+let NERDTreeShowHidden = 1
+let NERDTreeQuitOnOpen = 1
+let NERDTreeAutoDeleteBuffer = 1
+let NERDTreeIgnore=['\.vim$', '\~$', '\.git$', '.DS_Store']
+nnoremap <silent><Leader>n :call <SID>nerdtreeToggle()<CR>
+
+" close vim if the only window left open is a NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
 " ========== auto ==========
 
 " save file on focus lost
@@ -179,10 +201,6 @@ augroup terminal
                 \     startinsert |
                 \ endif
 augroup END
-
-" ========== netrw ==========
-
-let g:netrw_liststyle = 3
 
 " ========== fugitive ==========
 
@@ -264,6 +282,7 @@ nnoremap <silent><leader>u :UndotreeToggle<CR>
 
 " ========== dispatch ==========
 
+let g:dispatch_no_maps = 1
 let g:dispatch_no_tmux_make = 1
 
 " ========== coc ==========
