@@ -48,7 +48,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/gv.vim'
-Plug 'airblade/vim-gitgutter'
 
 " COC
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -317,6 +316,12 @@ if has_key(g:plugs, 'coc.nvim')
 
     " Remap keys for gotos
     nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gD <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+
+    " navigate chunks of current buffer
+    nmap [c <Plug>(coc-git-prevchunk)
+    nmap ]c <Plug>(coc-git-nextchunk)
 
     " Use K to show documentation in preview window
     nnoremap <silent> K :call <SID>show_documentation()<CR>
@@ -328,6 +333,8 @@ if has_key(g:plugs, 'coc.nvim')
             call CocAction('doHover')
         endif
     endfunction
+
+    let g:coc_global_extensions = ['coc-git', 'coc-snippets', 'coc-python', 'coc-solargraph', 'coc-tsserver']
 
     " Highlight symbol under cursor on CursorHold
     autocmd CursorHold * silent call CocActionAsync('highlight')
