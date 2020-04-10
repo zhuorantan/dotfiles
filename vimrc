@@ -238,6 +238,7 @@ autocmd! FileType fzf tunmap <buffer> <Esc>
 let g:solarized_termcolors=256
 colorscheme solarized
 highlight CursorLineNr ctermbg=235
+highlight SignColumn ctermbg=235
 
 " ========== lightline ==========
 
