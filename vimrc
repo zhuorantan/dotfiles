@@ -17,7 +17,6 @@ Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'thalesmello/tabfold'
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeFind' }
 
-Plug 'haya14busa/is.vim' " incremental search
 Plug 'tpope/vim-dispatch'
 
 Plug 'sheerun/vim-polyglot'
@@ -117,10 +116,6 @@ nnoremap n nzzzv
 nnoremap N Nzzzv
 nnoremap * *zzzv
 nnoremap # #zzzv
-map * *<Plug>(is-nohl-1)
-map g* g*<Plug>(is-nohl-1)
-map # <Plug>(is-nohl-1)
-map g# g#<Plug>(is-nohl-1)
 
 " leader
 let mapleader = "\<Space>"
