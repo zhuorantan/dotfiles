@@ -181,7 +181,7 @@ augroup END
 
  " refresh changed content of file
 autocmd CursorHold * if getcmdwintype() == '' | checktime | endif
-autocmd FileChangedShellPost * echohl WarningMsg | echo "Warning: File changed on disk. Buffer reloaded." | echohl None
+autocmd FileChangedShellPost * echohl WarningMsg | echom "Warning: File changed on disk. Buffer reloaded." | echohl None
 
 augroup terminal
     autocmd!
@@ -255,11 +255,6 @@ let g:lightline = {
 autocmd FocusGained * call setwinvar(winnr(), '&statusline', lightline#statusline(0))
 autocmd FocusLost * call setwinvar(winnr(), '&statusline', lightline#statusline(1))
 
-" ========== delimitMate ==========
-
-let g:delimitMate_expand_cr = 1
-let g:delimitMate_expand_space = 1
-
 " ========== buftabline ==========
 
 let g:buftabline_show = 1
@@ -300,11 +295,9 @@ if has_key(g:plugs, 'coc.nvim')
         return !col || getline('.')[col - 1]  =~# '\s'
     endfunction
 
-    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
-    " Coc only does snippet and additional edit on confirm.
-    imap <expr> <cr> pumvisible() ? coc#_select_confirm() : "\<Plug>delimitMateCR"
-    " Or use `complete_info` if your vim support it, like:
-    " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
+    " position. Coc only does snippet and additional edit on confirm.
+    inoremap <expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
     
     " Use `[g` and `]g` to navigate diagnostics
     nmap <silent> [g <Plug>(coc-diagnostic-prev)
@@ -330,7 +323,7 @@ if has_key(g:plugs, 'coc.nvim')
         endif
     endfunction
 
-    let g:coc_global_extensions = ['coc-git', 'coc-snippets', 'coc-python', 'coc-solargraph', 'coc-tsserver']
+    let g:coc_global_extensions = ['coc-git', 'coc-snippets', 'coc-python', 'coc-solargraph', 'coc-tsserver', 'coc-pairs', 'coc-json']
 
     " Highlight symbol under cursor on CursorHold
     autocmd CursorHold * silent call CocActionAsync('highlight')
