@@ -33,7 +33,6 @@ Plug 'raimondi/delimitmate'
 " UI
 Plug 'altercation/vim-colors-solarized'
 Plug 'itchyny/lightline.vim'
-Plug 'machakann/vim-highlightedyank'
 
 " FZF
 if has("macunix")
@@ -323,7 +322,7 @@ if has_key(g:plugs, 'coc.nvim')
         endif
     endfunction
 
-    let g:coc_global_extensions = ['coc-git', 'coc-snippets', 'coc-python', 'coc-solargraph', 'coc-tsserver', 'coc-pairs', 'coc-json']
+    let g:coc_global_extensions = ['coc-git', 'coc-snippets', 'coc-python', 'coc-solargraph', 'coc-tsserver', 'coc-pairs', 'coc-json', 'coc-yank']
 
     " Highlight symbol under cursor on CursorHold
     autocmd CursorHold * silent call CocActionAsync('highlight')

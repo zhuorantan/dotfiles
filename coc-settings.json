@@ -1,0 +1,5 @@
+{
+    "coc.preferences.useQuickfixForLocations": true,
+    "python.jediEnabled": false,
+    "yank.enableCompletion": false
+}
