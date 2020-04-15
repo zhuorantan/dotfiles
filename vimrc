@@ -322,7 +322,7 @@ if has_key(g:plugs, 'coc.nvim')
         endif
     endfunction
 
-    let g:coc_global_extensions = ['coc-git', 'coc-snippets', 'coc-python', 'coc-solargraph', 'coc-tsserver', 'coc-pairs', 'coc-json', 'coc-yank']
+    let g:coc_global_extensions = ['coc-git', 'coc-snippets', 'coc-python', 'coc-solargraph', 'coc-tsserver', 'coc-pairs', 'coc-json', 'coc-yank', 'coc-css']
 
     " Highlight symbol under cursor on CursorHold
     autocmd CursorHold * silent call CocActionAsync('highlight')
