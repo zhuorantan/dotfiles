@@ -72,6 +72,9 @@ set hidden
 set scrolloff=1
 set sidescrolloff=5
 
+set exrc " read project sepecific vimrc
+set secure
+
 " ========== split ==========
 
 set splitright
