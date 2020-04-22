@@ -35,11 +35,7 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'itchyny/lightline.vim'
 
 " FZF
-if has("macunix")
-    Plug '/usr/local/opt/fzf'
-else
-    Plug '/usr/share/doc/fzf/examples'
-endif
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 
 " Git
