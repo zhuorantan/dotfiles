@@ -105,20 +105,13 @@ if [ "$(uname)" = "Darwin" ]; then
     fpath=(/usr/local/share/zsh-completion $fpath)
 else
     plugins=($plugins zsh-completions)
-
-    if [ "$(source /etc/os-release 2> /dev/null; echo $ID)" = "alpine" ]; then
-	    plugins=($plugins zsh-autosuggestions zsh-syntax-highlighting)
-    else
-    	source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    	source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    fi
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # Set Spaceship ZSH as a prompt
-if [ "$(source /etc/os-release 2> /dev/null; echo $ID)" != "alpine" ]; then
-    autoload -U promptinit; promptinit
-    prompt spaceship
-fi
+autoload -U promptinit; promptinit
+prompt spaceship
 
 # environment variables
 if [ "$(uname)" = "Darwin" ]; then
@@ -162,5 +155,6 @@ fi
 if [ "$(uname)" = "Linux" ]; then
     alias python='python3'
     alias pip='pip3'
+    alias fd='fdfind'
 fi
 
