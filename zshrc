@@ -118,9 +118,10 @@ if [ "$(uname)" = "Darwin" ]; then
     source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
     fpath=(/usr/local/share/zsh-completion $fpath)
 else
-    plugins=($plugins zsh-completions)
     source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    plugins=($plugins zsh-completions)
+    autoload -U compinit && compinit
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
@@ -148,12 +149,6 @@ else
 fi
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
-
-# alibaba tools
-if [ "$(hostname)" = "Zhuorans-MacBook-Pro-for-Work.local" ]; then
-    export PATH="$HOME/.just-installs/bin:$PATH"
-    alias tbenv='bundle exec --gemfile=~/.tbenv/$(cat TaobaoEnv)/Gemfile pod'
-fi 
 
 # aliases    
 alias rm='rm -i'
