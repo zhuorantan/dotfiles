@@ -29,6 +29,7 @@ Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-sleuth' " auto change shiftwidth
 Plug 'raimondi/delimitmate'
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
 
 " UI
 Plug 'altercation/vim-colors-solarized'
@@ -273,6 +274,12 @@ nnoremap <silent><leader>u :UndotreeToggle<CR>
 
 let g:dispatch_no_maps = 1
 let g:dispatch_no_tmux_make = 1
+
+" ========== markdown preview ==========
+
+nmap <leader>p <Plug>MarkdownPreviewToggle
+
+let g:mkdp_auto_start = 1
 
 " ========== coc ==========
 
