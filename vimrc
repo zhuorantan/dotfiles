@@ -210,6 +210,7 @@ nnoremap <leader>gl :Gpull<CR>
 nnoremap <leader>gp :Gpush<CR>
 
 nnoremap <leader>gv :GV --all<CR>
+nnoremap <leader>gV :GV<CR>
 
 " ========== FZF ==========
 
