@@ -279,8 +279,6 @@ let g:dispatch_no_tmux_make = 1
 
 nmap <leader>p <Plug>MarkdownPreviewToggle
 
-let g:mkdp_auto_start = 1
-
 " ========== coc ==========
 
 if has_key(g:plugs, 'coc.nvim')
@@ -341,6 +339,7 @@ if has_key(g:plugs, 'coc.nvim')
     " Remap for format selected region
     xmap <leader>f <Plug>(coc-format-selected)
     nmap <leader>f <Plug>(coc-format-selected)
+    nmap <leader>F <Plug>(coc-format)
 
     augroup cochighlight
         autocmd!
