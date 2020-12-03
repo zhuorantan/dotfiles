@@ -124,6 +124,7 @@ nnoremap <silent><leader><Space> zz:nohlsearch<CR>
 nnoremap <silent><leader>w :w<CR>
 nnoremap <silent><leader>q :Sayonara<CR>
 nnoremap <silent><leader>Q :Sayonara!<CR>
+nnoremap <silent><leader>N :enew<CR>
 nnoremap <leader><Tab> <C-^>
 
 " ========== nerdtree ==========
