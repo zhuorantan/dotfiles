@@ -8,6 +8,20 @@ plugins=(git z colored-man-pages history docker fzf)
 source $ZSH/oh-my-zsh.sh
 
 
+# custom plugins
+if [ "$(uname)" = "Darwin" ]; then
+    source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+else
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+fi
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+
 # environment variables
 export EDITOR="nvim"
 
@@ -32,21 +46,6 @@ else
 fi
 
 
-# custom plugins
-if [ "$(uname)" = "Darwin" ]; then
-    source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-else
-    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    # autoload -U compinit && compinit
-fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-
 # aliases
 alias rm='rm -i'
 alias ss='http_proxy=http://127.0.0.1:7890 https_proxy=http://127.0.0.1:7890'
@@ -57,7 +56,6 @@ alias tm='tmux attach || tmux new'
 if [ -x "$(command -v trash)" ]; then
     alias del='trash'
 fi
-
 if [ -x "$(command -v leetcode)" ]; then
     alias lc='leetcode'
 fi
