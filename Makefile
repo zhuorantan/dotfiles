@@ -11,7 +11,7 @@ link:
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf
 
 vim:
-	sh -c 'curl -fLo $(or ${XDG_DATA_HOME}, ${HOME}/.config)/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+	sh -c 'curl -fLo $(or ${XDG_DATA_HOME}, ${HOME}/.local/share)/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 	nvim --headless +PlugInstall +qall!
 
 clean:
