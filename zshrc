@@ -69,7 +69,7 @@ fi
 
 # M1 Mac
 if [ "$(uname)" = "Darwin" ]; then
-    export PATH="/opt/homebrew/bin:$PATH"
+    export PATH="/opt/homebrew/bin:/opt/homebrew/opt/python/libexec/bin:$PATH"
     alias i='arch -x86_64'
     alias ibrew='arch -x86_64 /usr/local/bin/brew'
 fi
