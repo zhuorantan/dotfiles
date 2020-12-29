@@ -88,8 +88,6 @@ set autoindent
 set smarttab
 
 set expandtab
-set tabstop=4
-set shiftwidth=4
 set shiftround
 
 " ========== keymaps ==========
@@ -319,7 +317,7 @@ if has_key(g:plugs, 'coc.nvim')
         endif
     endfunction
 
-    let g:coc_global_extensions = ['coc-git', 'coc-snippets', 'coc-python', 'coc-solargraph', 'coc-tsserver', 'coc-pairs', 'coc-json', 'coc-yank', 'coc-css']
+    let g:coc_global_extensions = ['coc-git', 'coc-snippets', 'coc-python', 'coc-solargraph', 'coc-tsserver', 'coc-eslint', 'coc-pairs', 'coc-json', 'coc-yank', 'coc-css']
 
     " Highlight symbol under cursor on CursorHold
     autocmd CursorHold * silent call CocActionAsync('highlight')
