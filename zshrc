@@ -1,3 +1,9 @@
+# M1 Mac
+if [ "$(uname)" = "Darwin" ]; then
+    export FZF_BASE=/opt/homebrew/opt/fzf
+fi
+
+
 # Oh My ZSH
 export ZSH="$HOME/.oh-my-zsh"
 
@@ -73,4 +79,3 @@ if [ "$(uname)" = "Darwin" ]; then
     alias i='arch -x86_64'
     alias ibrew='arch -x86_64 /usr/local/bin/brew'
 fi
-
