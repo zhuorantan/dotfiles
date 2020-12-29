@@ -51,6 +51,8 @@ else
     export PATH="$HOME/.local/bin:$PATH"
 fi
 
+typeset -U PATH # remove duplicated entries in $PATH
+
 
 # aliases
 alias rm='rm -i'
