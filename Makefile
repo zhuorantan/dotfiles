@@ -1,6 +1,6 @@
 default: all
 
-all: link vim
+all: link vim plugins
 
 link:
 	mkdir -p $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
@@ -14,6 +14,10 @@ vim:
 	sh -c 'curl -fLo $(or ${XDG_DATA_HOME}, ${HOME}/.local/share)/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 	nvim --headless +PlugInstall +qall!
 
+plugins:
+	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 clean:
 	rm -f $(HOME)/.zsh
 	rm -f $(HOME)/.p10k.zsh
@@ -21,5 +25,5 @@ clean:
 	rm -f $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim/coc-settings.json
 	rm -f $(HOME)/.tmux.conf
 
-.PHONY: default all link vim clean
+.PHONY: default all link vim plugins clean
 
