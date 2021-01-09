@@ -53,7 +53,7 @@ fi
 
 typeset -U PATH # remove duplicated entries in $PATH
 
-if [ -n "$(netstat -anp tcp | grep -E '127.0.0.1.7890(.+)LISTEN')" ]; then
+if [ -n "$(netstat -anp tcp 2> /dev/null | grep -E '7890(.+)LISTEN')" ]; then
     export http_proxy=http://127.0.0.1:7890
     export https_proxy=http://127.0.0.1:7890
 fi
