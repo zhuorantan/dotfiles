@@ -58,6 +58,7 @@ if [ -n "$(netstat -anp tcp 2> /dev/null | grep -E '7890(.+)LISTEN')" ]; then
     export https_proxy=http://127.0.0.1:7890
 fi
 
+
 # aliases
 alias rm='rm -i'
 alias gfw='http_proxy= https_proxy='
@@ -77,6 +78,12 @@ if [ "$(uname)" = "Linux" ]; then
     alias pip='pip3'
     alias fd='fdfind'
 fi
+
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 
 
 # M1 Mac
