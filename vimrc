@@ -108,6 +108,8 @@ nnoremap # #zzzv
 let mapleader = "\<Space>"
 
 nnoremap <Space> <Nop>
+nnoremap <silent><leader><C-h> :bprevious<CR>
+nnoremap <silent><leader><C-l> :bnext<CR>
 nnoremap <silent><leader><Space> zz:nohlsearch<CR>
 nnoremap <silent><leader>w :w<CR>
 nnoremap <silent><leader>q :Sayonara<CR>
