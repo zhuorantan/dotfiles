@@ -32,11 +32,11 @@ source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
 export EDITOR="nvim"
 
 if [ "$(uname)" = "Darwin" ]; then
-    export FZF_DEFAULT_COMMAND="fd -I --hidden --follow --exclude .git"
-    export FZF_ALT_C_COMMAND="fd --type d -I --hidden --follow --exclude .git"
+    export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git"
+    export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
 else
-    export FZF_DEFAULT_COMMAND="fdfind -I --hidden --follow --exclude .git"
-    export FZF_ALT_C_COMMAND="fdfind --type d -I --hidden --follow --exclude .git"
+    export FZF_DEFAULT_COMMAND="fdfind --hidden --follow --exclude .git"
+    export FZF_ALT_C_COMMAND="fdfind --type d --hidden --follow --exclude .git"
 fi
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
