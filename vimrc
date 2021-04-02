@@ -189,17 +189,17 @@ augroup END
 " ========== fugitive ==========
 
 nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gg :Glog<CR>
-nnoremap <leader>gb :Gblame<CR>
-vnoremap <leader>gb :Gblame<CR>
+nnoremap <leader>gg :Git log<CR>
+nnoremap <leader>gb :Git blame<CR>
+vnoremap <leader>gb :Git blame<CR>
 nnoremap <leader>gd :Gdiffsplit<CR>
 
 nnoremap <leader>ga :Git add %:p<CR>
-nnoremap <leader>gc :Gcommit -q<CR>
-nnoremap <leader>gm :Gmerge<CR>
-nnoremap <leader>gf :Gfetch<CR>
-nnoremap <leader>gl :Gpull<CR>
-nnoremap <leader>gp :Gpush<CR>
+nnoremap <leader>gc :Git commit -q<CR>
+nnoremap <leader>gm :Git merge<CR>
+nnoremap <leader>gf :Git fetch<CR>
+nnoremap <leader>gl :Git pull<CR>
+nnoremap <leader>gp :Git push<CR>
 
 nnoremap <leader>gv :GV --all<CR>
 nnoremap <leader>gV :GV<CR>
