@@ -188,7 +188,7 @@ augroup END
 
 " ========== fugitive ==========
 
-nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gg :Git log<CR>
 nnoremap <leader>gb :Git blame<CR>
 vnoremap <leader>gb :Git blame<CR>
