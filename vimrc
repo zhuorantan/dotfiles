@@ -268,6 +268,7 @@ let g:dispatch_no_tmux_make = 1
 
 " ========== markdown preview ==========
 
+let g:mkdp_auto_close = 0
 nmap <leader>p <Plug>MarkdownPreviewToggle
 
 " ========== coc ==========
