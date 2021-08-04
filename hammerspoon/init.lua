@@ -99,6 +99,8 @@ hs.hotkey.bind(hyper, "j", Window.moveDown)
 hs.hotkey.bind(hyper, "k", Window.moveUp)
 hs.hotkey.bind(hyper, "l", Window.moveRight)
 
+hs.hotkey.bind({"cmd", "ctrl", "shift"}, "p", Window.movePrevScreen)
+hs.hotkey.bind({"cmd", "ctrl", "shift"}, "n", Window.moveNextScreen)
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "h", Window.resizeLeft)
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "j", Window.resizeDown)
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "k", Window.resizeUp)

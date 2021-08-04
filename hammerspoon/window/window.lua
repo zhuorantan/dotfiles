@@ -21,5 +21,7 @@ return {
     resizeUp = sizeFocusedWindow(Command.resizeUp),
     resizeDown = sizeFocusedWindow(Command.resizeDown),
     resizeLeft = sizeFocusedWindow(Command.resizeLeft),
-    resizeRight = sizeFocusedWindow(Command.resizeRight)
+    resizeRight = sizeFocusedWindow(Command.resizeRight),
+    movePrevScreen = sizeFocusedWindow(Command.movePrevScreen),
+    moveNextScreen = sizeFocusedWindow(Command.moveNextScreen)
 }

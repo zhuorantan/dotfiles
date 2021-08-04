@@ -109,4 +109,9 @@ function validator.centerVerticalThird(window, screen)
             approxEqual(window.h, screen.h)
 end
 
+function validator.inScreenBounds(window, screen)
+    return window.w <= screen.w and
+            window.h <= screen.h
+end
+
 return validator

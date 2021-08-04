@@ -147,4 +147,30 @@ function command.resizeRight(window, screen)
     return window
 end
 
+function command.movePrevScreen(window, screen)
+    local currentWindow = hs.window.focusedWindow()
+    local currentScreen = currentWindow:screen()
+    local prevScreen = currentScreen:previous()
+    local prevScreenFrame = prevScreen:frame()
+
+    if Validator.inScreenBounds(window, prevScreenFrame) then
+        return Resize.center(window, prevScreenFrame)
+    else
+        return Resize.fullScreen(window, prevScreenFrame)
+    end
+end
+
+function command.moveNextScreen(window, screen)
+    local currentWindow = hs.window.focusedWindow()
+    local currentScreen = currentWindow:screen()
+    local nextScreen = currentScreen:next()
+    local nextScreenFrame = nextScreen:frame()
+
+    if Validator.inScreenBounds(window, nextScreenFrame) then
+        return Resize.center(window, nextScreenFrame)
+    else
+        return Resize.fullScreen(window, nextScreenFrame)
+    end
+end
+
 return command
