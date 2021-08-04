@@ -26,7 +26,9 @@ end
 
 emacsNaviKeys = {
     newEmacsNaviBind("b", "left"),
-    newEmacsNaviBind("f", "right")
+    newEmacsNaviBind("f", "right"),
+    newEmacsNaviBind("p", "up"),
+    newEmacsNaviBind("n", "down")
 }
 
 local function toggleEmacsNaviKeys(name, event, app)
