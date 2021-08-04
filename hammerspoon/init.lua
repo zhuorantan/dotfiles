@@ -1,7 +1,18 @@
 local hyper = {"cmd", "ctrl"}
 
 -- Fancy config reload
-myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Documents/dotfiles/hammerspoon.lua", hs.reload):start()
+local function reloadConfig(files)
+    doReload = false
+    for _,file in pairs(files) do
+        if file:sub(-4) == ".lua" then
+            doReload = true
+        end
+    end
+    if doReload then
+        hs.reload()
+    end
+end
+myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Documents/dotfiles/hammerspoon", reloadConfig):start()
 hs.alert.show("Config loaded")
 
 -- Application keybinding
@@ -48,11 +59,11 @@ emacsNaviKeys = {
 local function toggleEmacsNaviKeys(name, event, app)
     if event == hs.application.watcher.activated then
         if name:sub(1, #"Microsoft") == "Microsoft" then -- MS apps suck
-            for k,v in pairs(emacsNaviKeys) do
+            for _,v in pairs(emacsNaviKeys) do
                 v:enable()
             end
         else
-            for k,v in pairs(emacsNaviKeys) do
+            for _,v in pairs(emacsNaviKeys) do
                 v:disable()
             end
         end
@@ -62,14 +73,14 @@ end
 hs.application.watcher.new(toggleEmacsNaviKeys):start()
 
 -- Window layout
-local leftScreen = hs.screen{x=0, y=0}
-local rightScreen = hs.screen{x=1, y=0}
+local leftScreen = hs.screen{x=0,y=0}
+local rightScreen = hs.screen{x=1,y=0}
 
 local windowLayout = {
     {"Safari Technology Preview", nil, leftScreen, hs.layout.left75, nil, nil},
     {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
     {"Terminal", nil, leftScreen, hs.layout.maximized, nil, nil},
-    {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
+    {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil}
 }
 
 hs.hotkey.bind(hyper, "'", function()
