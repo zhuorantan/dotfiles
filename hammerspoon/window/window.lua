@@ -13,7 +13,7 @@ end
 
 return {
     fullScreen = sizeFocusedWindow(Resize.fullScreen),
-    center = sizeFocusedWindow(Resize.center),
+    moveCenter = sizeFocusedWindow(Command.moveCenter),
     moveUp = sizeFocusedWindow(Command.moveUp),
     moveDown = sizeFocusedWindow(Command.moveDown),
     moveLeft = sizeFocusedWindow(Command.moveLeft),

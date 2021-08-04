@@ -8,10 +8,18 @@ function resize.fullScreen(window, screen)
     return window
 end
 
-function resize.center(window, screen)
+function resize.horizontalCenter(window, screen)
     window.x = screen.w // 6 + screen.x
-    window.y = screen.h // 6 + screen.y
+    window.y = screen.y
     window.w = screen.w * 2 // 3
+    window.h = screen.h
+    return window
+end
+
+function resize.verticalCenter(window, screen)
+    window.x = screen.x
+    window.y = screen.h // 6 + screen.y
+    window.w = screen.w
     window.h = screen.h * 2 // 3
     return window
 end

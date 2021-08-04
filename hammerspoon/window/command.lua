@@ -3,6 +3,14 @@ Validator = require('window/validator')
 
 local command = {}
 
+function command.moveCenter(window, screen)
+    if screen.w > screen.h then
+        return Resize.horizontalCenter(window, screen)
+    else
+        return Resize.verticalCenter(window, screen)
+    end
+end
+
 function command.moveUp(window, screen)
     if Validator.bottomHalf(window, screen) then
         return Resize.topHalf(window, screen)

@@ -93,7 +93,7 @@ hs.window.animationDuration = 0
 Window = require('window/window')
 
 hs.hotkey.bind(hyper, "return", Window.fullScreen)
-hs.hotkey.bind(hyper, "c", Window.center)
+hs.hotkey.bind(hyper, "c", Window.moveCenter)
 hs.hotkey.bind(hyper, "h", Window.moveLeft)
 hs.hotkey.bind(hyper, "j", Window.moveDown)
 hs.hotkey.bind(hyper, "k", Window.moveUp)
