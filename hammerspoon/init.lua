@@ -90,59 +90,19 @@ end)
 -- Window management
 hs.window.animationDuration = 0
 
-local function sizeFocusedWindow(sizeFunc)
-    return function()
-        local win = hs.window.focusedWindow()
-        local screen = win:screen()
-        local frame = sizeFunc(win:frame(), screen:frame())
+Window = require('window/window')
 
-        win:setFrame(frame)
-    end
-end
+hs.hotkey.bind(hyper, "return", Window.fullScreen)
+hs.hotkey.bind(hyper, "c", Window.center)
+hs.hotkey.bind(hyper, "h", Window.moveLeft)
+hs.hotkey.bind(hyper, "j", Window.moveDown)
+hs.hotkey.bind(hyper, "k", Window.moveUp)
+hs.hotkey.bind(hyper, "l", Window.moveRight)
 
-local function fullScreen(window, screen)
-    window.x = screen.x
-    window.y = screen.y
-    window.w = screen.w
-    window.h = screen.h
-    return window
-end
-local function leftHalfScreen(window, screen)
-    window.x = screen.x
-    window.y = screen.y
-    window.w = screen.w // 2
-    window.h = screen.h
-    return window
-end
-local function bottomHalfScreen(window, screen)
-    window.x = screen.x
-    window.y = (screen.h // 2) + screen.y
-    window.w = screen.w
-    window.h = screen.h // 2
-
-    return window
-end
-local function topHalfScreen(window, screen)
-    window.x = screen.x
-    window.y = screen.y
-    window.w = screen.w
-    window.h = screen.h // 2
-
-    return window
-end
-local function rightHalfScreen(window, screen)
-    window.x = (screen.w // 2) + screen.x
-    window.y = screen.y
-    window.w = screen.w // 2
-    window.h = screen.h
-    return window
-end
-
-hs.hotkey.bind(hyper, "return", sizeFocusedWindow(fullScreen))
-hs.hotkey.bind(hyper, "h", sizeFocusedWindow(leftHalfScreen))
-hs.hotkey.bind(hyper, "j", sizeFocusedWindow(bottomHalfScreen))
-hs.hotkey.bind(hyper, "k", sizeFocusedWindow(topHalfScreen))
-hs.hotkey.bind(hyper, "l", sizeFocusedWindow(rightHalfScreen))
+hs.hotkey.bind({"cmd", "ctrl", "shift"}, "h", Window.resizeLeft)
+hs.hotkey.bind({"cmd", "ctrl", "shift"}, "j", Window.resizeDown)
+hs.hotkey.bind({"cmd", "ctrl", "shift"}, "k", Window.resizeUp)
+hs.hotkey.bind({"cmd", "ctrl", "shift"}, "l", Window.resizeRight)
 
 -- Defeating paste blocking
 hs.hotkey.bind(hyper, "v", function()
