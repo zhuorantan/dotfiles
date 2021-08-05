@@ -51,28 +51,48 @@ local function newEmacsNaviBind(key, target)
     end)
 end
 
-emacsNaviKeys = {
+msftEmacsNaviKeys = {
     newEmacsNaviBind("b", "left"),
     newEmacsNaviBind("f", "right"),
     newEmacsNaviBind("p", "up"),
     newEmacsNaviBind("n", "down")
 }
 
+weChatNaviKeys = {
+    hs.hotkey.new({"ctrl", "shift"}, "tab", function()
+        hs.eventtap.keyStroke({}, "up")
+    end),
+    hs.hotkey.new({"ctrl"}, "tab", function()
+        hs.eventtap.keyStroke({}, "down")
+    end)
+}
+
 local function toggleEmacsNaviKeys(name, event, app)
     if event == hs.application.watcher.activated then
         if name:sub(1, #"Microsoft") == "Microsoft" then -- MS apps suck
-            for _,v in pairs(emacsNaviKeys) do
+            for _,v in pairs(msftEmacsNaviKeys) do
                 v:enable()
             end
         else
-            for _,v in pairs(emacsNaviKeys) do
+            for _,v in pairs(msftEmacsNaviKeys) do
+                v:disable()
+            end
+        end
+
+        if name == "WeChat" then
+            for _,v in pairs(weChatNaviKeys) do
+                v:enable()
+            end
+        else
+            for _,v in pairs(weChatNaviKeys) do
                 v:disable()
             end
         end
     end
 end
 
-hs.application.watcher.new(toggleEmacsNaviKeys):start()
+local appWatcher = hs.application.watcher.new(toggleEmacsNaviKeys)
+appWatcher:start()
 
 -- Window layout
 local leftScreen = hs.screen{x=0,y=0}
