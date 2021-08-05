@@ -154,7 +154,7 @@ function command.movePrevScreen(window, screen)
     local prevScreenFrame = prevScreen:frame()
 
     if Validate.inScreenBounds(window, prevScreenFrame) then
-        return Resize.center(window, prevScreenFrame)
+        return command.moveCenter(window, prevScreenFrame)
     else
         return Resize.fullScreen(window, prevScreenFrame)
     end
@@ -167,7 +167,7 @@ function command.moveNextScreen(window, screen)
     local nextScreenFrame = nextScreen:frame()
 
     if Validate.inScreenBounds(window, nextScreenFrame) then
-        return Resize.center(window, nextScreenFrame)
+        return command.moveCenter(window, nextScreenFrame)
     else
         return Resize.fullScreen(window, nextScreenFrame)
     end
