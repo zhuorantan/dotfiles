@@ -41,7 +41,7 @@ hs.hotkey.bind(hyper, "x", toggleApp("Xcode"))
 hs.hotkey.bind(hyper, "r", toggleApp("Simulator"))
 
 -- Enter ScreenSaver
-hs.hotkey.bind(hyper, "b", hs.caffeinate.startScreensaver)
+hs.hotkey.bind(hyper, "8", hs.caffeinate.startScreensaver)
 
 -- MSFT apps emacs navigation
 
@@ -115,3 +115,27 @@ end)
 
 -- Music
 hs.hotkey.bind(hyper, "p", hs.itunes.playpause)
+
+-- Click top notification
+local function clickTopNotification()
+    local element = hs.axuielement.applicationElement(hs.appfinder.appFromName("Notification Center"))
+    local stackSearchFunc = hs.axuielement.searchCriteriaFunction({attribute = "AXSubrole", value = "AXNotificationCenterAlertStack"})
+    local alertSearchFunc = hs.axuielement.searchCriteriaFunction({attribute = "AXSubrole", value = "AXNotificationCenterAlert"})
+
+    element:elementSearch(function(msg, elementSearchObject, count)
+        if count > 0 then
+            elementSearchObject[1]:performAction("AXPress")
+        end
+
+        element:elementSearch(function(msg, elementSearchObject, count)
+            if count == 0 then
+                hs.alert.show("No notifications")
+                return
+            end
+
+            elementSearchObject[1]:performAction("AXPress")
+        end, alertSearchFunc)
+    end, stackSearchFunc)
+end
+
+hs.hotkey.bind(hyper, ";", clickTopNotification)
