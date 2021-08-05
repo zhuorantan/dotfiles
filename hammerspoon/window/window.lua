@@ -1,5 +1,5 @@
-Resize = require('window/resize')
-Command = require('window/command')
+local Resize = require('window/resize')
+local Command = require('window/command')
 
 local function sizeFocusedWindow(sizeFunc)
     return function()

@@ -13,7 +13,7 @@ local function reloadConfig(files)
         hs.reload()
     end
 end
-myWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Documents/dotfiles/hammerspoon", reloadConfig):start()
+local configWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Documents/dotfiles/hammerspoon", reloadConfig):start()
 hs.alert.show("Config loaded")
 
 -- Application keybinding
@@ -44,22 +44,21 @@ hs.hotkey.bind(hyper, "r", toggleApp("Simulator"))
 -- Enter ScreenSaver
 hs.hotkey.bind(hyper, "8", hs.caffeinate.startScreensaver)
 
--- MSFT apps emacs navigation
-
+-- Apps navigation
 local function newEmacsNaviBind(key, target)
     return hs.hotkey.new({"ctrl"}, key, function()
         hs.eventtap.keyStroke({}, target)
     end)
 end
 
-msftEmacsNaviKeys = {
+local msftEmacsNaviKeys = {
     newEmacsNaviBind("b", "left"),
     newEmacsNaviBind("f", "right"),
     newEmacsNaviBind("p", "up"),
     newEmacsNaviBind("n", "down")
 }
 
-weChatNaviKeys = {
+local weChatNaviKeys = {
     hs.hotkey.new({"ctrl", "shift"}, "tab", function()
         hs.eventtap.keyStroke({}, "up")
     end),
@@ -92,8 +91,7 @@ local function toggleEmacsNaviKeys(name, event, app)
     end
 end
 
-local appWatcher = hs.application.watcher.new(toggleEmacsNaviKeys)
-appWatcher:start()
+local appWatcher = hs.application.watcher.new(toggleEmacsNaviKeys):start()
 
 -- Window layout
 local leftScreen = hs.screen{x=0,y=0}
@@ -113,7 +111,7 @@ end)
 -- Window management
 hs.window.animationDuration = 0
 
-Window = require('window/window')
+local Window = require('window/window')
 
 hs.hotkey.bind(hyper, "return", Window.fullScreen)
 hs.hotkey.bind(hyper, "c", Window.moveCenter)
