@@ -120,7 +120,7 @@ hs.hotkey.bind(hyper, "p", hs.itunes.playpause)
 local function clickTopNotification()
     local element = hs.axuielement.applicationElement(hs.appfinder.appFromName("Notification Center"))
     local stackSearchFunc = hs.axuielement.searchCriteriaFunction({attribute = "AXSubrole", value = "AXNotificationCenterAlertStack"})
-    local alertSearchFunc = hs.axuielement.searchCriteriaFunction({attribute = "AXSubrole", value = "AXNotificationCenterAlert"})
+    local alertSearchFunc = hs.axuielement.searchCriteriaFunction({attribute = "AXSubrole", value = {"AXNotificationCenterAlert", "AXNotificationCenterBanner"}})
 
     element:elementSearch(function(msg, elementSearchObject, count)
         if count > 0 then
