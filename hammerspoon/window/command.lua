@@ -1,154 +1,46 @@
-local Resize = require('window/resize')
+local Sizes = require('window/sizes')
+local Moves = require('window/moves')
 local Validate = require('window/validate')
+
+local function windowSize(screen, name)
+    local size = Sizes[name]
+
+    return {
+        x = screen.w * size.x + screen.x,
+        y = screen.h * size.y + screen.y,
+        w = screen.w * size.w,
+        h = screen.h * size.h,
+    }
+end
 
 local command = {}
 
-local moveDefinitions = {
-    moveUp = {
-        map = {
-            bottomHalf = "topHalf",
-            bottomThird = "centerHorizontalThird",
-            bottomTwoThirds = "topTwoThirds",
-            centerHorizontalThird = "topThird",
-        },
-        default = "topHalf",
-    },
-    moveDown = {
-        map = {
-            topHalf = "bottomHalf",
-            topThird = "centerHorizontalThird",
-            topTwoThirds = "bottomTwoThirds",
-            centerHorizontalThird = "bottomThird",
-        },
-        default = "bottomHalf",
-    },
-    moveLeft = {
-        map = {
-            rightHalf = "leftHalf",
-            rightThird = "centerVerticalThird",
-            rightTwoThirds = "leftTwoThirds",
-            centerVerticalThird = "leftThird",
-        },
-        default = "leftHalf",
-    },
-    moveRight = {
-        map = {
-            leftHalf = "rightHalf",
-            leftThird = "centerVerticalThird",
-            leftTwoThirds = "rightTwoThirds",
-            centerVerticalThird = "rightThird",
-        },
-        default = "rightHalf",
-    },
-    resizeUp = {
-        map = {
-            fullScreen = "topTwoThirds",
-            topHalf = "topThird",
-            topTwoThirds = "topHalf",
-            bottomHalf = "bottomTwoThirds",
-            bottomThird = "bottomHalf",
-        }
-    }
-}
-
-for name, definition in pairs(moveDefinitions) do
+for name, definition in pairs(Moves) do
     command[name] = function (window, screen)
         for current, target in pairs(definition.map) do
             if Validate[current](window, screen) then
-                return Resize[target](window, screen)
+                return windowSize(screen, target)
             end
         end
 
-        return Resize[definition.default](window, screen)
+        if not definition.default then
+            return window
+        end
+
+        return windowSize(screen, definition.default)
     end
+end
+
+function command.fullScreen(window, screen)
+    return windowSize(screen, "fullScreen")
 end
 
 function command.moveCenter(window, screen)
     if screen.w > screen.h then
-        return Resize.horizontalCenter(window, screen)
+        return windowSize(screen, "horizontalCenter")
     else
-        return Resize.verticalCenter(window, screen)
+        return windowSize(screen, "verticalCenter")
     end
-end
-
-function command.resizeUp(window, screen)
-    if Validate.fullScreen(window, screen) then
-        return Resize.topTwoThirds(window, screen)
-    elseif Validate.topHalf(window, screen) then
-        return Resize.topThird(window, screen)
-    elseif Validate.topTwoThirds(window, screen) then
-        return Resize.topHalf(window, screen)
-    elseif Validate.bottomHalf(window, screen) then
-        return Resize.bottomTwoThirds(window, screen)
-    elseif Validate.bottomThird(window, screen) then
-        return Resize.bottomHalf(window, screen)
-    elseif Validate.bottomTwoThirds(window, screen) then
-        return Resize.fullScreen(window, screen)
-    elseif Validate.centerHorizontalThird(window, screen) then
-        return Resize.topTwoThirds(window, screen)
-    end
-
-    return window
-end
-
-function command.resizeDown(window, screen)
-    if Validate.fullScreen(window, screen) then
-        return Resize.bottomTwoThirds(window, screen)
-    elseif Validate.topHalf(window, screen) then
-        return Resize.topTwoThirds(window, screen)
-    elseif Validate.topThird(window, screen) then
-        return Resize.topHalf(window, screen)
-    elseif Validate.topTwoThirds(window, screen) then
-        return Resize.fullScreen(window, screen)
-    elseif Validate.bottomHalf(window, screen) then
-        return Resize.bottomThird(window, screen)
-    elseif Validate.bottomTwoThirds(window, screen) then
-        return Resize.bottomHalf(window, screen)
-    elseif Validate.centerHorizontalThird(window, screen) then
-        return Resize.bottomTwoThirds(window, screen)
-    end
-
-    return window
-end
-
-function command.resizeLeft(window, screen)
-    if Validate.fullScreen(window, screen) then
-        return Resize.leftTwoThirds(window, screen)
-    elseif Validate.leftHalf(window, screen) then
-        return Resize.leftThird(window, screen)
-    elseif Validate.leftTwoThirds(window, screen) then
-        return Resize.leftHalf(window, screen)
-    elseif Validate.rightHalf(window, screen) then
-        return Resize.rightTwoThirds(window, screen)
-    elseif Validate.rightThird(window, screen) then
-        return Resize.rightHalf(window, screen)
-    elseif Validate.rightTwoThirds(window, screen) then
-        return Resize.fullScreen(window, screen)
-    elseif Validate.centerVerticalThird(window, screen) then
-        return Resize.leftTwoThirds(window, screen)
-    end
-
-    return window
-end
-
-function command.resizeRight(window, screen)
-    if Validate.fullScreen(window, screen) then
-        return Resize.rightTwoThirds(window, screen)
-    elseif Validate.leftHalf(window, screen) then
-        return Resize.leftTwoThirds(window, screen)
-    elseif Validate.leftThird(window, screen) then
-        return Resize.leftHalf(window, screen)
-    elseif Validate.leftTwoThirds(window, screen) then
-        return Resize.fullScreen(window, screen)
-    elseif Validate.rightHalf(window, screen) then
-        return Resize.rightThird(window, screen)
-    elseif Validate.rightTwoThirds(window, screen) then
-        return Resize.rightHalf(window, screen)
-    elseif Validate.centerVerticalThird(window, screen) then
-        return Resize.rightTwoThirds(window, screen)
-    end
-
-    return window
 end
 
 function command.movePrevScreen(window, screen)
@@ -160,7 +52,7 @@ function command.movePrevScreen(window, screen)
     if Validate.inScreenBounds(window, prevScreenFrame) then
         return command.moveCenter(window, prevScreenFrame)
     else
-        return Resize.fullScreen(window, prevScreenFrame)
+        return windowSize(prevScreenFrame, "fullScreen")
     end
 end
 
@@ -173,7 +65,7 @@ function command.moveNextScreen(window, screen)
     if Validate.inScreenBounds(window, nextScreenFrame) then
         return command.moveCenter(window, nextScreenFrame)
     else
-        return Resize.fullScreen(window, nextScreenFrame)
+        return windowSize(nextScreenFrame, "fullScreen")
     end
 end
 

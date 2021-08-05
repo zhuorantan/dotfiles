@@ -1,4 +1,3 @@
-local Resize = require('window/resize')
 local Command = require('window/command')
 
 local function sizeFocusedWindow(sizeFunc)
@@ -11,17 +10,10 @@ local function sizeFocusedWindow(sizeFunc)
     end
 end
 
-return {
-    fullScreen = sizeFocusedWindow(Resize.fullScreen),
-    moveCenter = sizeFocusedWindow(Command.moveCenter),
-    moveUp = sizeFocusedWindow(Command.moveUp),
-    moveDown = sizeFocusedWindow(Command.moveDown),
-    moveLeft = sizeFocusedWindow(Command.moveLeft),
-    moveRight = sizeFocusedWindow(Command.moveRight),
-    resizeUp = sizeFocusedWindow(Command.resizeUp),
-    resizeDown = sizeFocusedWindow(Command.resizeDown),
-    resizeLeft = sizeFocusedWindow(Command.resizeLeft),
-    resizeRight = sizeFocusedWindow(Command.resizeRight),
-    movePrevScreen = sizeFocusedWindow(Command.movePrevScreen),
-    moveNextScreen = sizeFocusedWindow(Command.moveNextScreen)
-}
+local window = {}
+
+for name, command in pairs(Command) do
+    window[name] = sizeFocusedWindow(command)
+end
+
+return window

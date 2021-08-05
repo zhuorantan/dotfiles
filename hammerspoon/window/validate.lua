@@ -5,19 +5,20 @@ local function approxEqual(a, b)
     return math.abs(a - b) < 8
 end
 
-local function windowSize(screen, size)
-    local window = {}
-    window.x = screen.w * size.x + screen.x
-    window.y = screen.h * size.y + screen.y
-    window.w = screen.w * size.w
-    window.h = screen.h * size.h
+local function windowSize(screen, name)
+    local size = Sizes[name]
 
-    return window
+    return {
+        x = screen.w * size.x + screen.x,
+        y = screen.h * size.y + screen.y,
+        w = screen.w * size.w,
+        h = screen.h * size.h,
+    }
 end
 
 for name, size in pairs(Sizes) do
     validate[name] = function (window, screen)
-        local newWindow = windowSize(screen, Sizes[name])
+        local newWindow = windowSize(screen, name)
 
         return approxEqual(window.x, newWindow.x) and
                 approxEqual(window.y, newWindow.y) and
