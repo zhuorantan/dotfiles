@@ -172,15 +172,17 @@ local function clickTopNotification()
         end
 
         -- Try to find an alert stack
-
         element:elementSearch(function(_, elementSearchObject, count)
-            if count > 0 then
-                elementSearchObject[1]:performAction("AXPress")
+            if count == 0 then
+                hs.alert.show("No notifications")
+                return
             end
+
+            elementSearchObject[1]:performAction("AXPress")
 
             element:elementSearch(function(_, elementSearchObject, count)
                 if count == 0 then
-                    hs.alert.show("No notifications")
+                    hs.alert.show("Notification not found in stack")
                     return
                 end
 
