@@ -29,15 +29,16 @@ local function toggleApp(name)
     end
 end
 
-hs.hotkey.bind(hyper, "m", toggleApp("Telegram"))
-hs.hotkey.bind(hyper, "w", toggleApp("WeChat"))
-hs.hotkey.bind(hyper, "u", toggleApp("Messages"))
-hs.hotkey.bind(hyper, "s", toggleApp(browserAppName))
 hs.hotkey.bind(hyper, "i", toggleApp("Terminal"))
-hs.hotkey.bind(hyper, "o", toggleApp("Microsoft Outlook"))
-hs.hotkey.bind(hyper, "e", toggleApp("Microsoft Teams"))
 hs.hotkey.bind(hyper, "x", toggleApp("Xcode"))
 hs.hotkey.bind(hyper, "r", toggleApp("Simulator"))
+hs.hotkey.bind(hyper, "s", toggleApp(browserAppName))
+hs.hotkey.bind(hyper, "m", toggleApp("Telegram"))
+hs.hotkey.bind(hyper, "u", toggleApp("Messages"))
+hs.hotkey.bind(hyper, "w", toggleApp("WeChat"))
+hs.hotkey.bind(hyper, "0", toggleApp("Music"))
+hs.hotkey.bind(hyper, "o", toggleApp("Microsoft Outlook"))
+hs.hotkey.bind(hyper, "e", toggleApp("Microsoft Teams"))
 
 -- Enter ScreenSaver
 hs.hotkey.bind(hyper, "8", hs.caffeinate.startScreensaver)
@@ -96,12 +97,22 @@ local leftScreen = hs.screen{x=0,y=0}
 local rightScreen = hs.screen{x=1,y=0}
 
 local windowLayout = {
-    {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},
-    {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
     {"Terminal", nil, leftScreen, hs.layout.maximized, nil, nil},
-    {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil}
+    {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
+    {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
+    {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},
+
+    {"Telegram", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+    {"Messages", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+    {"WeChat", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+
+    {"Music", nil, leftScreen, {x=0.05, y=0.1, w=0.55, h=0.8}, nil, nil},
+
+    {"Microsoft Outlook", nil, leftScreen, {x=0.15, y=0.05, w=0.7, h=0.9}, nil, nil},
+    {"Microsoft Teams", nil, leftScreen, {x=0.15, y=0.05, w=0.7, h=0.9}, nil, nil},
 }
 
+hs.layout.apply(windowLayout)
 hs.hotkey.bind(hyper, "'", function()
     hs.layout.apply(windowLayout)
 end)
