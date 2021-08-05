@@ -31,6 +31,8 @@ local function toggleApp(name)
 end
 
 hs.hotkey.bind(hyper, "m", toggleApp("Telegram"))
+hs.hotkey.bind(hyper, "w", toggleApp("WeChat"))
+hs.hotkey.bind(hyper, "u", toggleApp("Messages"))
 hs.hotkey.bind(hyper, "s", toggleApp("Safari Technology Preview"))
 hs.hotkey.bind(hyper, "i", toggleApp("Terminal"))
 hs.hotkey.bind(hyper, "o", toggleApp("Microsoft Outlook"))
