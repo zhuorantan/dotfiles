@@ -14,7 +14,7 @@ local function reloadConfig(files)
         hs.reload()
     end
 end
-local configWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Documents/dotfiles/hammerspoon", reloadConfig):start()
+configWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Documents/dotfiles/hammerspoon", reloadConfig):start()
 hs.alert.show("Config loaded")
 
 -- Application keybinding
@@ -94,7 +94,7 @@ local function toggleEmacsNaviKeys(name, event, app)
     end
 end
 
-local appWatcher = hs.application.watcher.new(toggleEmacsNaviKeys):start()
+appWatcher = hs.application.watcher.new(toggleEmacsNaviKeys):start()
 
 -- Window layout
 local leftScreen = hs.screen{x=0,y=0}
