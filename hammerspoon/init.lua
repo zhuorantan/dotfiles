@@ -1,4 +1,5 @@
 local hyper = {"cmd", "ctrl"}
+local browserAppName = hs.application.get(hs.application.defaultAppForUTI("public.html")):name()
 
 -- Fancy config reload
 local function reloadConfig(files)
@@ -33,7 +34,7 @@ end
 hs.hotkey.bind(hyper, "m", toggleApp("Telegram"))
 hs.hotkey.bind(hyper, "w", toggleApp("WeChat"))
 hs.hotkey.bind(hyper, "u", toggleApp("Messages"))
-hs.hotkey.bind(hyper, "s", toggleApp("Safari Technology Preview"))
+hs.hotkey.bind(hyper, "s", toggleApp(browserAppName))
 hs.hotkey.bind(hyper, "i", toggleApp("Terminal"))
 hs.hotkey.bind(hyper, "o", toggleApp("Microsoft Outlook"))
 hs.hotkey.bind(hyper, "e", toggleApp("Microsoft Teams"))
@@ -99,7 +100,7 @@ local leftScreen = hs.screen{x=0,y=0}
 local rightScreen = hs.screen{x=1,y=0}
 
 local windowLayout = {
-    {"Safari Technology Preview", nil, leftScreen, hs.layout.left75, nil, nil},
+    {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},
     {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
     {"Terminal", nil, leftScreen, hs.layout.maximized, nil, nil},
     {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil}
@@ -135,6 +136,8 @@ end)
 
 -- Music
 hs.hotkey.bind(hyper, "p", hs.itunes.playpause)
+hs.hotkey.bind(hyper, "]", hs.itunes.next)
+hs.hotkey.bind(hyper, "[", hs.itunes.previous)
 
 -- Click top notification
 local function clickTopNotification()
