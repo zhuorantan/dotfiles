@@ -3,26 +3,36 @@ local Validate = require('window/validate')
 
 local command = {}
 
+local moveMap = {
+    moveUp = {
+        {
+            bottomHalf = "topHalf",
+            bottomThird = "centerHorizontalThird",
+            bottomTwoThirds = "topTwoThirds",
+            centerHorizontalThird = "topThird",
+        },
+        "topHalf"
+    },
+}
+
+for name, map in pairs(moveMap) do
+    command[name] = function (window, screen)
+        for current, target in pairs(map[1]) do
+            if Validate[current](window, screen) then
+                return Resize[target](window, screen)
+            end
+        end
+
+        return Resize[map[2]](window, screen)
+    end
+end
+
 function command.moveCenter(window, screen)
     if screen.w > screen.h then
         return Resize.horizontalCenter(window, screen)
     else
         return Resize.verticalCenter(window, screen)
     end
-end
-
-function command.moveUp(window, screen)
-    if Validate.bottomHalf(window, screen) then
-        return Resize.topHalf(window, screen)
-    elseif Validate.bottomThird(window, screen) then
-        return Resize.centerHorizontalThird(window, screen)
-    elseif Validate.bottomTwoThirds(window, screen) then
-        return Resize.topTwoThirds(window, screen)
-    elseif Validate.centerHorizontalThird(window, screen) then
-        return Resize.topThird(window, screen)
-    end
-
-    return Resize.topHalf(window, screen)
 end
 
 function command.moveDown(window, screen)
