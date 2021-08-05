@@ -21,10 +21,10 @@ local function toggleApp(name)
     return function ()
         local app = hs.application.find(name)
 
-        if not app or hs.application.frontmostApplication() ~= app then
-            hs.application.launchOrFocus(name)
-        else
+        if app and hs.application.frontmostApplication() == app and next(app:visibleWindows()) ~= nil then
             app:hide()
+        else
+            hs.application.launchOrFocus(name)
         end
     end
 end
