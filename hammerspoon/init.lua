@@ -145,20 +145,29 @@ local function clickTopNotification()
     local stackSearchFunc = hs.axuielement.searchCriteriaFunction({attribute = "AXSubrole", value = "AXNotificationCenterAlertStack"})
     local alertSearchFunc = hs.axuielement.searchCriteriaFunction({attribute = "AXSubrole", value = {"AXNotificationCenterAlert", "AXNotificationCenterBanner"}})
 
-    element:elementSearch(function(msg, elementSearchObject, count)
+    element:elementSearch(function(_, elementSearchObject, count)
         if count > 0 then
             elementSearchObject[1]:performAction("AXPress")
+            return
         end
 
-        element:elementSearch(function(msg, elementSearchObject, count)
-            if count == 0 then
-                hs.alert.show("No notifications")
-                return
+        -- Try to find an alert stack
+
+        element:elementSearch(function(_, elementSearchObject, count)
+            if count > 0 then
+                elementSearchObject[1]:performAction("AXPress")
             end
 
-            elementSearchObject[1]:performAction("AXPress")
-        end, alertSearchFunc)
-    end, stackSearchFunc)
+            element:elementSearch(function(_, elementSearchObject, count)
+                if count == 0 then
+                    hs.alert.show("No notifications")
+                    return
+                end
+
+                elementSearchObject[1]:performAction("AXPress")
+            end, alertSearchFunc)
+        end, stackSearchFunc)
+    end, alertSearchFunc)
 end
 
 hs.hotkey.bind(hyper, ";", clickTopNotification)
