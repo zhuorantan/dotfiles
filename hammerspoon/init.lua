@@ -149,6 +149,11 @@ hs.hotkey.bind({"cmd", "ctrl", "shift"}, "j", Window.resizeDown)
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "k", Window.resizeUp)
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "l", Window.resizeRight)
 
+-- Show desktop
+hs.hotkey.bind(hyper, "z", function ()
+    hs.eventtap.keyStroke({"fn"}, "f11")
+end)
+
 -- Defeating paste blocking
 hs.hotkey.bind(hyper, "v", function()
     hs.eventtap.keyStrokes(hs.pasteboard.getContents())
