@@ -97,38 +97,40 @@ end
 appWatcher = hs.application.watcher.new(toggleEmacsNaviKeys):start()
 
 -- Window layout
-local leftScreen = hs.screen{x=0,y=0}
-local rightScreen = hs.screen{x=1,y=0}
+function layoutApps()
+    local leftScreen = hs.screen{x=0,y=0}
+    local rightScreen = hs.screen{x=1,y=0}
 
-local windowLayout
+    local windowLayout
 
-if isWorkComputer then
-    windowLayout = {
-        {"Terminal", nil, leftScreen, hs.layout.maximized, nil, nil},
-        {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
-        {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
-        {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},
+    if isWorkComputer then
+        windowLayout = {
+            {"Terminal", nil, leftScreen, hs.layout.maximized, nil, nil},
+            {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
+            {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
+            {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},
 
-        {"Telegram", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
-        {"Messages", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
-        {"WeChat", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+            {"Telegram", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+            {"Messages", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+            {"WeChat", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
 
-        {"Music", nil, leftScreen, {x=0.05, y=0.1, w=0.55, h=0.8}, nil, nil},
+            {"Music", nil, leftScreen, {x=0.05, y=0.1, w=0.55, h=0.8}, nil, nil},
 
-        {"Microsoft Outlook", nil, leftScreen, {x=0.15, y=0.05, w=0.7, h=0.9}, nil, nil},
-        {"Microsoft Teams", nil, leftScreen, {x=0.15, y=0.05, w=0.7, h=0.9}, nil, nil},
-    }
-else
-    windowLayout = {
-        {"Terminal", nil, rightScreen, hs.layout.maximized, nil, nil},
-        {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
-    }
+            {"Microsoft Outlook", nil, leftScreen, {x=0.15, y=0.05, w=0.7, h=0.9}, nil, nil},
+            {"Microsoft Teams", nil, leftScreen, {x=0.15, y=0.05, w=0.7, h=0.9}, nil, nil},
+        }
+    else
+        windowLayout = {
+            {"Terminal", nil, rightScreen, hs.layout.maximized, nil, nil},
+            {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
+        }
+    end
+
+    hs.layout.apply(windowLayout)
 end
 
-hs.layout.apply(windowLayout)
-hs.hotkey.bind(hyper, "'", function()
-    hs.layout.apply(windowLayout)
-end)
+layoutApps()
+hs.hotkey.bind(hyper, "'", layoutApps)
 
 -- Window management
 hs.window.animationDuration = 0
