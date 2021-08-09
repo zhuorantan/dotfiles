@@ -49,7 +49,7 @@ hs.hotkey.bind(hyper, "8", hs.caffeinate.startScreensaver)
 
 -- Apps navigation
 local function newEmacsNaviBind(key, target)
-    return hs.hotkey.new({"ctrl"}, key, function()
+    return hs.hotkey.new({"ctrl"}, key, nil, nil, function()
         hs.eventtap.keyStroke({}, target)
     end)
 end
