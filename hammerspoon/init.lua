@@ -1,6 +1,13 @@
 local hyper = {"cmd", "ctrl"}
 local browserAppName = hs.application.nameForBundleID(hs.application.defaultAppForUTI("public.html"))
-local isWorkComputer = hs.network.configuration.open():computerName() == "Zhuoran’s MacBook Pro for Work"
+
+local Device = {
+    mini = "Zhuoran’s Mac mini",
+    mbp = "Zhuoran’s MacBook Pro",
+    work = "Zhuoran’s MacBook Pro for Work",
+}
+
+local deviceName = hs.network.configuration.open():computerName()
 
 -- Fancy config reload
 local function reloadConfig(files)
@@ -39,7 +46,7 @@ hs.hotkey.bind(hyper, "u", toggleApp("Messages"))
 hs.hotkey.bind(hyper, "w", toggleApp("WeChat"))
 hs.hotkey.bind(hyper, "0", toggleApp("Music"))
 
-if isWorkComputer then
+if deviceName == Device.work then
     hs.hotkey.bind(hyper, "o", toggleApp("Microsoft Outlook"))
     hs.hotkey.bind(hyper, "e", toggleApp("Microsoft Teams"))
 end
@@ -103,7 +110,25 @@ local function layoutApps()
 
     local windowLayout
 
-    if isWorkComputer then
+    if deviceName == Device.mini then
+        windowLayout = {
+            {"Terminal", nil, rightScreen, hs.layout.maximized, nil, nil},
+            {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
+        }
+    elseif deviceName == Device.mbp then
+        windowLayout = {
+            {"Terminal", nil, leftScreen, hs.layout.maximized, nil, nil},
+            {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
+            {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
+            {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},
+
+            {"Telegram", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+            {"Messages", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+            {"WeChat", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+
+            {"Music", nil, leftScreen, {x=0.05, y=0.1, w=0.55, h=0.8}, nil, nil},
+        }
+    elseif deviceName == Device.work then
         windowLayout = {
             {"Terminal", nil, leftScreen, hs.layout.maximized, nil, nil},
             {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
@@ -118,11 +143,6 @@ local function layoutApps()
 
             {"Microsoft Outlook", nil, leftScreen, {x=0.15, y=0.05, w=0.7, h=0.9}, nil, nil},
             {"Microsoft Teams", nil, leftScreen, {x=0.15, y=0.05, w=0.7, h=0.9}, nil, nil},
-        }
-    else
-        windowLayout = {
-            {"Terminal", nil, rightScreen, hs.layout.maximized, nil, nil},
-            {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
         }
     end
 
