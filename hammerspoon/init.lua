@@ -97,7 +97,7 @@ end
 appWatcher = hs.application.watcher.new(toggleEmacsNaviKeys):start()
 
 -- Window layout
-function layoutApps()
+local function layoutApps()
     local leftScreen = hs.screen{x=0,y=0}
     local rightScreen = hs.screen{x=1,y=0}
 
