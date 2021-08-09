@@ -1,5 +1,5 @@
 local hyper = {"cmd", "ctrl"}
-local browserAppName = hs.application.get(hs.application.defaultAppForUTI("public.html")):name()
+local browserAppName = hs.application.nameForBundleID(hs.application.defaultAppForUTI("public.html"))
 local isWorkComputer = hs.network.configuration.open():computerName() == "Zhuoran’s MacBook Pro for Work"
 
 -- Fancy config reload
