@@ -39,7 +39,6 @@ end
 
 hs.hotkey.bind(hyper, "i", toggleApp("Terminal"))
 hs.hotkey.bind(hyper, "x", toggleApp("Xcode"))
-hs.hotkey.bind(hyper, "r", toggleApp("Simulator"))
 hs.hotkey.bind(hyper, "s", toggleApp(browserAppName))
 hs.hotkey.bind(hyper, "m", toggleApp("Telegram"))
 hs.hotkey.bind(hyper, "u", toggleApp("Messages"))
