@@ -1,6 +1,10 @@
 local hyper = {"cmd", "ctrl"}
 local browserAppName = hs.application.nameForBundleID(hs.application.defaultAppForUTI("public.html"))
 
+local xcodeHandle = io.popen("xcode-select -print-path")
+local xcodeAppName = string.match(xcodeHandle:read("*a"), "/Applications/(.*).app/Contents/Developer")
+xcodeHandle:close()
+
 local Device = {
     mini = "Zhuoran’s Mac mini",
     mbp = "Zhuoran’s MacBook Pro",
@@ -38,7 +42,7 @@ local function toggleApp(name)
 end
 
 hs.hotkey.bind(hyper, "i", toggleApp("Terminal"))
-hs.hotkey.bind(hyper, "x", toggleApp("Xcode"))
+hs.hotkey.bind(hyper, "x", toggleApp(xcodeAppName))
 hs.hotkey.bind(hyper, "s", toggleApp(browserAppName))
 hs.hotkey.bind(hyper, "m", toggleApp("Telegram"))
 hs.hotkey.bind(hyper, "u", toggleApp("Messages"))
