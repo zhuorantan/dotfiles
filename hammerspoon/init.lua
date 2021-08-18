@@ -51,7 +51,7 @@ hs.hotkey.bind(hyper, "0", toggleApp("Music"))
 
 if deviceName == Device.work then
     hs.hotkey.bind(hyper, "o", toggleApp("Microsoft Outlook"))
-    hs.hotkey.bind(hyper, "e", toggleApp("Microsoft Teams"))
+    hs.hotkey.bind(hyper, "r", toggleApp("Microsoft Teams"))
 end
 
 -- Enter ScreenSaver
