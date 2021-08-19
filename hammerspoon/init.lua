@@ -51,7 +51,7 @@ hs.hotkey.bind(hyper, "0", toggleApp("Music"))
 
 if deviceName == Device.work then
     hs.hotkey.bind(hyper, "o", toggleApp("Microsoft Outlook"))
-    hs.hotkey.bind(hyper, "r", toggleApp("Microsoft Teams"))
+    hs.hotkey.bind(hyper, "3", toggleApp("Microsoft Teams"))
 end
 
 -- Enter ScreenSaver
@@ -175,7 +175,7 @@ hs.hotkey.bind({"cmd", "ctrl", "shift"}, "k", Window.resizeUp)
 hs.hotkey.bind({"cmd", "ctrl", "shift"}, "l", Window.resizeRight)
 
 -- Show desktop
-hs.hotkey.bind(hyper, "z", function ()
+hs.hotkey.bind(hyper, "1", function ()
     hs.eventtap.keyStroke({"fn"}, "f11")
 end)
 
