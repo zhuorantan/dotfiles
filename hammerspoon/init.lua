@@ -119,18 +119,33 @@ local function layoutApps()
             {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
         }
     elseif deviceName == Device.mbp then
-        windowLayout = {
-            {"Terminal", nil, leftScreen, hs.layout.maximized, nil, nil},
-            {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
-            {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
-            {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},
+        if rightScreen then
+            windowLayout = {
+                {"Terminal", nil, leftScreen, hs.layout.maximized, nil, nil},
+                {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
+                {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
+                {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},
 
-            {"Telegram", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
-            {"Messages", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
-            {"WeChat", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+                {"Telegram", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+                {"Messages", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+                {"WeChat", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
 
-            {"Music", nil, leftScreen, {x=0.05, y=0.1, w=0.55, h=0.8}, nil, nil},
-        }
+                {"Music", nil, leftScreen, {x=0.05, y=0.1, w=0.55, h=0.8}, nil, nil},
+            }
+        else
+            windowLayout = {
+                {"Terminal", nil, leftScreen, hs.layout.maximized, nil, nil},
+                {"Xcode", nil, leftScreen, hs.layout.maximized, nil, nil},
+                {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
+                {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},
+
+                {"Telegram", nil, leftScreen, {x=0.15, y=0.0, w=0.7, h=1.0}, nil, nil},
+                {"Messages", nil, leftScreen, {x=0.15, y=0.0, w=0.7, h=1.0}, nil, nil},
+                {"WeChat", nil, leftScreen, {x=0.15, y=0.0, w=0.7, h=1.0}, nil, nil},
+
+                {"Music", nil, leftScreen, {x=0.05, y=0.1, w=0.55, h=0.8}, nil, nil},
+            }
+        end
     elseif deviceName == Device.work then
         windowLayout = {
             {"Terminal", nil, leftScreen, hs.layout.maximized, nil, nil},
