@@ -25,6 +25,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'altercation/vim-colors-solarized'
 Plug 'itchyny/lightline.vim'
 Plug 'ryanoasis/vim-devicons'
+Plug 'machakann/vim-highlightedyank'
 
 " FZF
 Plug 'junegunn/fzf'
@@ -34,9 +35,19 @@ Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/gv.vim'
+Plug 'airblade/vim-gitgutter'
 
-" COC
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" LSP
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/lsp-status.nvim'
+
+" Completion
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 
 call plug#end()
 
@@ -234,12 +245,11 @@ set noshowmode
 let g:lightline = {
             \   'active': {
             \     'left': [ [ 'mode', 'paste' ],
-            \               [ 'readonly', 'filename', 'modified', 'gitbranch', 'cocstatus', 'currentfunction' ] ]
+            \               [ 'readonly', 'filename', 'modified', 'gitbranch', 'cocstatus' ] ]
             \   },
             \   'component_function': {
             \     'gitbranch': 'FugitiveHead',
-            \     'cocstatus': 'coc#status',
-            \     'currentfunction': 'CocCurrentFunction'
+            \     'cocstatus': 'LspStatus',
             \   },
             \ }
 
@@ -272,96 +282,110 @@ let g:dispatch_no_tmux_make = 1
 let g:mkdp_auto_close = 0
 nmap <leader>p <Plug>MarkdownPreviewToggle
 
-" ========== coc ==========
+" ========== gitgutter ==========
+nmap [c <Plug>(GitGutterNextHunk)
+nmap ]c <Plug>(GitGutterPrevHunk)
 
-if has_key(g:plugs, 'coc.nvim')
-    set updatetime=300
+" ========== LSP ==========
 
-    set shortmess+=c
+lua << EOF
+local lsp_status = require('lsp-status')
+-- completion_customize_lsp_label as used in completion-nvim
+-- Optional: customize the kind labels used in identifying the current function.
+-- g:completion_customize_lsp_label is a dict mapping from LSP symbol kind 
+-- to the string you want to display as a label
+-- lsp_status.config { kind_labels = vim.g.completion_customize_lsp_label }
 
-    " Use tab for trigger completion with characters ahead and navigate.
-    " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-    inoremap <silent><expr> <TAB>
-                \ pumvisible() ? "\<C-n>" :
-                \ <SID>check_back_space() ? "\<TAB>" :
-                \ coc#refresh()
-    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+-- Register the progress handler
+lsp_status.register_progress()
+-- Set default client capabilities plus window/workDoneProgress
+-- config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
 
-    function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~# '\s'
-    endfunction
+local nvim_lsp = require('lspconfig')
 
-    " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current
-    " position. Coc only does snippet and additional edit on confirm.
-    inoremap <expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-    
-    " Use `[g` and `]g` to navigate diagnostics
-    nmap <silent> [g <Plug>(coc-diagnostic-prev)
-    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
 
-    " Remap keys for gotos
-    nmap <silent> gd <Plug>(coc-definition)
-    nmap <silent> gy <Plug>(coc-type-definition)
-    nmap <silent> gi <Plug>(coc-implementation)
-    nmap <silent> gr <Plug>(coc-references)
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-    " navigate chunks of current buffer
-    nmap [c <Plug>(coc-git-prevchunk)
-    nmap ]c <Plug>(coc-git-nextchunk)
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
 
-    " Use K to show documentation in preview window
-    nnoremap <silent> K :call <SID>show_documentation()<CR>
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<leader>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  -- buf_set_keymap('n', '<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('v', '<leader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
+  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
+  buf_set_keymap('n', '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
 
-    function! s:show_documentation()
-        if (index(['vim','help'], &filetype) >= 0)
-            execute 'h '.expand('<cword>')
-        else
-            call CocAction('doHover')
-        endif
-    endfunction
+  -- Register client for messages and set up buffer autocommands to update 
+  -- the statusline and the current function.
+  -- NOTE: on_attach is called with the client object, which is the "client" parameter below
+  lsp_status.on_attach(client)
+end
 
-    let g:coc_global_extensions = ['coc-git', 'coc-snippets', 'coc-python', 'coc-solargraph', 'coc-tsserver', 'coc-eslint', 'coc-pairs', 'coc-json', 'coc-yank', 'coc-css']
+-- Use a loop to conveniently call 'setup' on multiple servers and
+-- map buffer local keybindings when the language server attaches
+local servers = { 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jsonls', 'solargraph', 'sourcekit', 'pyright', 'tsserver' }
+-- let g:coc_global_extensions = ['coc-eslint', 'coc-pairs']
+for _, lsp in ipairs(servers) do
+  nvim_lsp[lsp].setup {
+    on_attach = on_attach,
+    flags = {
+      debounce_text_changes = 150,
+    }
+  }
+end
+EOF
 
-    " Highlight symbol under cursor on CursorHold
-    autocmd CursorHold * silent call CocActionAsync('highlight')
+function! LspStatus() abort
+  if luaeval('#vim.lsp.buf_get_clients() > 0')
+    return luaeval("require('lsp-status').status()")
+  endif
 
-    " Remap for rename current word
-    nmap <leader>rn <Plug>(coc-rename)
+  return ''
+endfunction
 
-    " Remap for format selected region
-    xmap <leader>f <Plug>(coc-format-selected)
-    nmap <leader>f <Plug>(coc-format-selected)
-    nmap <leader>F <Plug>(coc-format)
-
-    augroup cochighlight
-        autocmd!
-        " Setup formatexpr specified filetype(s).
-        autocmd FileType python,typescript,json setl formatexpr=CocAction('formatSelected')
-        " Update signature help on jump placeholder
-        autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
-    augroup END
-
-    " Applying codeAction to the selected region.
-    " Example: `<leader>aap` for current paragraph
-    xmap <leader>a  <Plug>(coc-codeaction-selected)
-    nmap <leader>a  <Plug>(coc-codeaction-selected)
-
-    " Remap keys for applying codeAction to the current line.
-    nmap <leader>ac  <Plug>(coc-codeaction)
-    " Apply AutoFix to problem on the current line.
-    nmap <leader>gq  <Plug>(coc-fix-current)
-
-    " Introduce function text object
-    " NOTE: Requires 'textDocument.documentSymbol' support from the language server.
-    xmap if <Plug>(coc-funcobj-i)
-    xmap af <Plug>(coc-funcobj-a)
-    omap if <Plug>(coc-funcobj-i)
-    omap af <Plug>(coc-funcobj-a)
-
-    " Add status line support, for integration with other plugin, checkout `:h coc-status`
-    function! CocCurrentFunction()
-        return get(b:, 'coc_current_function', '')
-    endfunction
-    
-endif
+" ========== completion ==========
+lua <<EOF
+local cmp = require'cmp'
+cmp.setup {
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  mapping = {
+    ['<CR>'] = cmp.mapping.confirm {
+      behavior = cmp.ConfirmBehavior.Replace,
+      select = true,
+    },
+    ['<C-c>'] = cmp.mapping.complete(),
+  },
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'buffer' },
+    { name = 'path' },
+  },
+  completion = {
+    completeopt = 'menu,menuone,noinsert',
+  }
+}
+EOF
