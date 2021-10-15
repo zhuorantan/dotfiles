@@ -75,6 +75,8 @@ set sidescrolloff=5
 set exrc " read project sepecific vimrc
 set secure
 
+set updatetime=300
+
 " ========== split ==========
 
 set splitright
