@@ -29,10 +29,10 @@ local function map_leader()
 end
 
 local function load_core()
-  local pack = require('core.pack')
+  -- local pack = require('core.pack')
 
   disable_distribution_plugins()
-  leader_map()
+  map_leader()
 
   -- pack.ensure_plugins()
   require('core.options')

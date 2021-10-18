@@ -53,6 +53,7 @@ Plug 'windwp/nvim-autopairs'
 call plug#end()
 
 " ========== General ==========
+:lua require('core')
 
 set clipboard=unnamed
 
@@ -119,10 +120,6 @@ nnoremap N Nzzzv
 nnoremap * *zzzv
 nnoremap # #zzzv
 
-" leader
-let mapleader = "\<Space>"
-
-nnoremap <Space> <Nop>
 nnoremap <silent><leader><C-h> :bprevious<CR>
 nnoremap <silent><leader><C-l> :bnext<CR>
 nnoremap <silent><leader><Space> zz:nohlsearch<CR>

@@ -5,9 +5,7 @@ all: link vim plugins
 link:
 	ln -snf $(PWD)/zshrc $(HOME)/.zshrc
 	ln -snf $(PWD)/p10k.zsh $(HOME)/.p10k.zsh
-	mkdir -p $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
-	ln -snf $(PWD)/vimrc $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim/init.vim
-	ln -snf $(PWD)/coc-settings.json $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim/coc-settings.json
+	ln -snf $(PWD)/nvim $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
 
@@ -20,11 +18,10 @@ plugins:
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 clean:
-	rm -f $(HOME)/.zsh
+	rm -f $(HOME)/.zshrc
 	rm -f $(HOME)/.p10k.zsh
-	rm -f $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim/init.vim
-	rm -f $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim/coc-settings.json
+	rm -rf $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
 	rm -f $(HOME)/.tmux.conf
+	rm -rf $(HOME)/.hammerspoon
 
 .PHONY: default all link vim plugins clean
-
