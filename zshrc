@@ -80,12 +80,6 @@ if [ "$(uname)" = "Linux" ]; then
 fi
 
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-
 # M1 Mac
 if [ "$(uname)" = "Darwin" ] && [ "$(arch)" = "arm64" ]; then
     export PATH="/opt/homebrew/bin:/opt/homebrew/opt/python/libexec/bin:$PATH"
@@ -96,3 +90,9 @@ if [ "$(uname)" = "Darwin" ] && [ "$(arch)" = "arm64" ]; then
         i /usr/local/bin/brew $@
     }
 fi
+
+
+# nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
