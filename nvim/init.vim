@@ -57,22 +57,6 @@ call plug#end()
 
 set clipboard=unnamed
 
-set undofile
-set autowrite
-set inccommand=nosplit
-
-set mouse=nvi
-
-set foldmethod=indent
-set foldlevelstart=99 " start file with all folds opened
-
-set cursorline
-
-set hidden
-
-set scrolloff=1
-set sidescrolloff=5
-
 set exrc " read project sepecific vimrc
 set secure
 
