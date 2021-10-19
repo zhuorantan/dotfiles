@@ -22,17 +22,10 @@ local function disable_distribution_plugins()
   vim.g.loaded_netrwFileHandlers = 1
 end
 
-local function map_leader()
-  vim.g.mapleader = ' '
-  vim.api.nvim_set_keymap('n', ' ', '', { noremap = true })
-  vim.api.nvim_set_keymap('x', ' ', '', { noremap = true })
-end
-
 local function load_core()
   -- local pack = require('core.pack')
 
   disable_distribution_plugins()
-  map_leader()
 
   -- pack.ensure_plugins()
   require('options')

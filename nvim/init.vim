@@ -55,29 +55,10 @@ call plug#end()
 " ========== General ==========
 :lua require('entry')
 
-
 " ========== keymaps ==========
 
-" allow saving of files as sudo
-cmap w!! w !sudo tee > /dev/null %
-
-" fix
-nnoremap Y y$
-
-" center
-nnoremap n nzzzv
-nnoremap N Nzzzv
-nnoremap * *zzzv
-nnoremap # #zzzv
-
-nnoremap <silent><leader><C-h> :bprevious<CR>
-nnoremap <silent><leader><C-l> :bnext<CR>
-nnoremap <silent><leader><Space> zz:nohlsearch<CR>
-nnoremap <silent><leader>w :w<CR>
 nnoremap <silent><leader>q :Sayonara<CR>
 nnoremap <silent><leader>Q :Sayonara!<CR>
-nnoremap <silent><leader>N :enew<CR>
-nnoremap <leader><Tab> <C-^>
 
 " ========== nerdtree ==========
 

@@ -1,7 +1,5 @@
 local vim = vim
 
-local global = require('global')
-
 local function apply_settings()
   --------------------------------
   -- general
