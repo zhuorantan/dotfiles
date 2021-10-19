@@ -15,4 +15,4 @@ local function packer_sync()
   plugins.sync()
 end
 
-packer_sync()
+return packer_sync
