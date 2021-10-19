@@ -82,50 +82,6 @@ nnoremap <silent><Leader>n :call <SID>nerdtreeToggle()<CR>
 " close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" ========== auto ==========
-
-" remember last cursor position
-autocmd! BufReadPost *
-            \ if line("'\"") > 1 && line("'\"") <= line("$") |
-            \     exe "normal! g`\"" |
-            \ endif
-
-" open help vertically
-autocmd BufEnter * if &filetype ==# 'help' | wincmd L | endif
-
-" spell check for git commits
-autocmd! FileType gitcommit setlocal spell
-
-" resize panes when window resizes
-autocmd! VimResized * :wincmd =
-
-" prevent unintended write
-autocmd BufReadPost fugitive:///*//0/* setlocal nomodifiable readonly
-
-" only show cursor line in active window
-augroup cusorlineToggle
-    autocmd!
-    autocmd InsertLeave,WinEnter * set cursorline
-    autocmd InsertEnter,WinLeave * set nocursorline
-augroup END
-
- " refresh changed content of file
-autocmd CursorHold * if getcmdwintype() == '' | checktime | endif
-autocmd FileChangedShellPost * echohl WarningMsg | echom "Warning: File changed on disk. Buffer reloaded." | echohl None
-
-augroup terminal
-    autocmd!
-
-    " termianl mode Esc map
-    autocmd TermOpen * tnoremap <buffer> <Esc> <C-\><C-n>
-
-    " enter insert mode when enter terminal emulator
-    autocmd TermOpen,BufEnter,BufNew *
-                \ if &buftype == 'terminal' |
-                \     startinsert |
-                \ endif
-augroup END
-
 " ========== fugitive ==========
 
 nnoremap <leader>gs :Git<CR>

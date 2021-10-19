@@ -30,7 +30,7 @@ local function load_core()
   -- pack.ensure_plugins()
   require('options')
   require('keybindings')
-  -- require('events')
+  require('events')
   -- pack.load_compile()
 end
 
