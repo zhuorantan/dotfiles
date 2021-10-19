@@ -17,6 +17,6 @@ end
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 packer.init({
   disable_commands = true,
-  compile_path = vim.fn.stdpath('data') .. '/site/packer_compiled.vim'
+  compile_path = vim.fn.stdpath('data') .. '/site/autoload/packer_compiled.lua'
 })
 return packer.startup(define_plugins)
