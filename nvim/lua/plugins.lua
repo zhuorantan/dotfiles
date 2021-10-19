@@ -5,9 +5,13 @@ local function define_plugins(use)
   use('wbthomason/packer.nvim')
 
   --------------------------------
-  -- buffer management
+  -- vim enhancements
   --------------------------------
-  use({ 'mhinz/vim-sayonara', opt = true, cmd = 'Sayonara' })
+  use({ 'mbbill/undotree', cmd = 'UndotreeToggle' })
+  use({ 'mhinz/vim-sayonara', cmd = 'Sayonara' })
+
+  -- Async building & commands
+  use({ 'tpope/vim-dispatch', cmd = { 'Dispatch', 'Make', 'Focus', 'Start' } })
 end
 
 packer.init({ disable_commands = true })

@@ -2,11 +2,8 @@
 call plug#begin('~/.local/share/nvim/site/plugged')
 
 " Vim enhancements
-Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'thalesmello/tabfold'
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeFind' }
-
-Plug 'tpope/vim-dispatch'
 
 Plug 'sheerun/vim-polyglot'
 Plug 'ap/vim-buftabline'
