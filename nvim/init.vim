@@ -25,7 +25,6 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 Plug 'altercation/vim-colors-solarized'
 Plug 'itchyny/lightline.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'machakann/vim-highlightedyank'
 
 " FZF
 Plug 'junegunn/fzf'
@@ -180,110 +179,6 @@ sign define LspDiagnosticsSignError text=>> linehl= texthl=LspErrorSign numhl=Ls
 sign define LspDiagnosticsSignWarning text=⚠  linehl= texthl=LspWarningSign numhl=LspWarningSign
 sign define LspDiagnosticsSignInformation text=>> linehl= texthl=LspInfoSign numhl=LspInfoSign
 sign define LspDiagnosticsSignHint text=>> linehl= texthl=LspHintSign numhl=LspHintSign
-
-lua << EOF
-local lsp_status = require('lsp-status')
--- completion_customize_lsp_label as used in completion-nvim
--- Optional: customize the kind labels used in identifying the current function.
--- g:completion_customize_lsp_label is a dict mapping from LSP symbol kind 
--- to the string you want to display as a label
--- lsp_status.config { kind_labels = vim.g.completion_customize_lsp_label }
-
--- Register the progress handler
-lsp_status.register_progress()
--- Set default client capabilities plus window/workDoneProgress
--- config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
-
-local nvim_lsp = require('lspconfig')
-
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
-
-  -- Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gD', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
-  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', 'K', '<cmd>lua vim.lsp.buf.hover()<CR>', opts)
-  buf_set_keymap('n', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
---  buf_set_keymap('n', '<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
---  buf_set_keymap('n', '<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
---  buf_set_keymap('n', '<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
-  buf_set_keymap('n', '<leader>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
-  buf_set_keymap('n', '<leader>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
-  buf_set_keymap('n', '<leader>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<leader>d', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
-  buf_set_keymap('v', '<leader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
-  buf_set_keymap('n', '<leader>f', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
-  buf_set_keymap('n', '<leader>F', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-
-  -- Register client for messages and set up buffer autocommands to update 
-  -- the statusline and the current function.
-  -- NOTE: on_attach is called with the client object, which is the "client" parameter below
-  lsp_status.on_attach(client)
-end
-
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
-local servers = { 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jsonls', 'solargraph', 'sourcekit', 'pyright', 'tsserver' }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
-
-nvim_lsp.diagnosticls.setup {
-  filetypes = {"javascript", "typescript"},
-  init_options = {
-    linters = {
-      eslint = {
-        command = "./node_modules/.bin/eslint",
-        rootPatterns = {".git"},
-        debounce = 100,
-        args = { 
-          "--stdin",
-          "--stdin-filename",
-          "%filepath",
-          "--format",
-          "json"
-        },
-        sourceName = "eslint",
-        parseJson = {
-          errorsRoot = "[0].messages",
-          line = "line",
-          column = "column",
-          endLine = "endLine",
-          endColumn = "endColumn",
-          message = "${message} [${ruleId}]",
-          security = "severity"
-        },
-        securities = {
-          [2] = "error",
-          [1] = "warning"
-        }
-      }
-    },
-    filetypes = {
-      javascript = "eslint",
-      typescript = "eslint"
-    },
-  }
-}
-EOF
 
 function! LspStatus() abort
   if luaeval('#vim.lsp.buf_get_clients() > 0')

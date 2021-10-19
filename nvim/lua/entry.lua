@@ -22,7 +22,7 @@ local function disable_distribution_plugins()
   vim.g.loaded_netrwFileHandlers = 1
 end
 
-local function load_core()
+local function load()
   -- local pack = require('core.pack')
 
   disable_distribution_plugins()
@@ -31,7 +31,8 @@ local function load_core()
   require('options')
   require('keybindings')
   require('events')
+  require('languages')
   -- pack.load_compile()
 end
 
-load_core()
+load()

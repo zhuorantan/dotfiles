@@ -27,8 +27,11 @@ local groups = {
   },
   visual = {
     -- only show cursor line in active window
-    [[InsertLeave,WinEnter * set cursorline]],
-    [[InsertEnter,WinLeave * set nocursorline]],
+    [[InsertLeave,BufEnter,WinEnter * set cursorline]],
+    [[InsertEnter,BufLeave,WinLeave * set nocursorline]],
+
+    -- highlight yank
+    [[TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "IncSearch", timeout = 500 })]],
   },
   terminal = {
     -- termianl mode Esc map
