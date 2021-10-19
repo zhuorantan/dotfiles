@@ -53,42 +53,8 @@ Plug 'windwp/nvim-autopairs'
 call plug#end()
 
 " ========== General ==========
-:lua require('core')
+:lua require('entry')
 
-set clipboard=unnamed
-
-set exrc " read project sepecific vimrc
-set secure
-
-set updatetime=300
-
-" ========== split ==========
-
-set splitright
-set splitbelow
-
-highlight VertSplit cterm=NONE
-
-" ========== search ==========
-
-set incsearch
-set hlsearch
-
-set ignorecase
-set smartcase
-
-" ========== status line ==========
-
-set ruler
-set laststatus=2
-
-" ========== indent and tab ==========
-
-set autoindent
-set smarttab
-
-set expandtab
-set shiftround
 
 " ========== keymaps ==========
 

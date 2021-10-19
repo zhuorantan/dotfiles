@@ -1,4 +1,4 @@
-local global = require('core.global')
+local global = require('global')
 local vim = vim
 
 local function disable_distribution_plugins()
@@ -23,7 +23,7 @@ local function disable_distribution_plugins()
 end
 
 local function map_leader()
-  vim.g.mapleader = " "
+  vim.g.mapleader = ' '
   vim.api.nvim_set_keymap('n', ' ', '', { noremap = true })
   vim.api.nvim_set_keymap('x', ' ', '', { noremap = true })
 end
@@ -35,9 +35,8 @@ local function load_core()
   map_leader()
 
   -- pack.ensure_plugins()
-  require('core.options')
-  -- require('core.mapping')
-  -- require('keymap')
+  require('options')
+  require('keymap')
   -- require('core.event')
   -- pack.load_compile()
 end
