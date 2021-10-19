@@ -5,9 +5,7 @@ all: link vim plugins
 link:
 	ln -snf $(PWD)/zshrc $(HOME)/.zshrc
 	ln -snf $(PWD)/p10k.zsh $(HOME)/.p10k.zsh
-	mkdir -p $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
-	ln -snf $(PWD)/nvim/lua $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim/lua
-	ln -snf $(PWD)/nvim/init.lua $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim/init.lua
+	ln -snf $(PWD)/nvim $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
 
@@ -22,8 +20,7 @@ plugins:
 clean:
 	rm -f $(HOME)/.zshrc
 	rm -f $(HOME)/.p10k.zsh
-	rm -rf $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim/lua
-	rm -rf $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim/init.lua
+	rm -rf $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
 	rm -f $(HOME)/.tmux.conf
 	rm -rf $(HOME)/.hammerspoon
 
