@@ -31,7 +31,7 @@ local groups = {
     [[InsertEnter,BufLeave,WinLeave * set nocursorline]],
 
     -- highlight yank
-    [[TextYankPost * silent! lua vim.highlight.on_yank({ higroup = "IncSearch", timeout = 500 })]],
+    [[TextYankPost * silent! lua vim.highlight.on_yank({ timeout = 500 })]],
   },
   terminal = {
     -- termianl mode Esc map

@@ -2,7 +2,6 @@
 call plug#begin('~/.local/share/nvim/site/plugged')
 
 " Vim enhancements
-Plug 'mhinz/vim-sayonara', { 'on': 'Sayonara' }
 Plug 'mbbill/undotree', {'on': 'UndotreeToggle'}
 Plug 'thalesmello/tabfold'
 Plug 'preservim/nerdtree', { 'on': 'NERDTreeFind' }
@@ -163,7 +162,7 @@ let g:dispatch_no_tmux_make = 1
 " ========== markdown preview ==========
 
 let g:mkdp_auto_close = 0
-nmap <leader>p <Plug>MarkdownPreviewToggle
+" nmap <leader>p <Plug>MarkdownPreviewToggle
 
 " ========== gitgutter ==========
 nmap [c <Plug>(GitGutterNextHunk)

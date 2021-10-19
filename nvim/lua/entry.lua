@@ -1,4 +1,3 @@
-local global = require('global')
 local vim = vim
 
 local function disable_distribution_plugins()
@@ -23,16 +22,13 @@ local function disable_distribution_plugins()
 end
 
 local function load()
-  -- local pack = require('core.pack')
-
   disable_distribution_plugins()
 
-  -- pack.ensure_plugins()
   require('options')
   require('keybindings')
+  require('commands')
   require('events')
-  require('languages')
-  -- pack.load_compile()
+  require('config.lsp')
 end
 
 load()

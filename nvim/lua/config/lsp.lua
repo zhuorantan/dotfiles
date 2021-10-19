@@ -34,12 +34,16 @@ local function on_attach(client, bufnr)
   -- Register client for messages and set up buffer autocommands to update 
   -- the statusline and the current function.
   -- NOTE: on_attach is called with the client object, which is the "client" parameter below
-  lsp_status.on_attach(client)
+  if lsp_status then
+    lsp_status.on_attach(client)
+  end
 end
 
 local function load(servers)
   -- Register the progress handler
-  lsp_status.register_progress()
+  if lsp_status then
+    lsp_status.register_progress()
+  end
   -- Set default client capabilities plus window/workDoneProgress
   -- config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
 
