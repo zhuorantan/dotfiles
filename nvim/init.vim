@@ -84,9 +84,6 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " ========== auto ==========
 
-" save file on focus lost
-autocmd! FocusLost * silent! :wa
-
 " remember last cursor position
 autocmd! BufReadPost *
             \ if line("'\"") > 1 && line("'\"") <= line("$") |

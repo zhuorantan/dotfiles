@@ -1,5 +1,5 @@
 local vim = vim
-local bind = require('keymap.bind')
+local bind = require('utils.bind')
 
 local function map_leader()
   vim.g.mapleader = ' '

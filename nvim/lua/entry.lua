@@ -29,8 +29,8 @@ local function load_core()
 
   -- pack.ensure_plugins()
   require('options')
-  require('keymap')
-  -- require('core.event')
+  require('keybindings')
+  -- require('events')
   -- pack.load_compile()
 end
 
