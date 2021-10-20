@@ -3,13 +3,9 @@ call plug#begin('~/.local/share/nvim/site/plugged')
 
 " Vim enhancements
 Plug 'sheerun/vim-polyglot'
-Plug 'ap/vim-buftabline'
 
 " Edit enchancements
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-sleuth' " auto change shiftwidth
 Plug 'raimondi/delimitmate'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
@@ -110,16 +106,6 @@ let g:lightline = {
 autocmd FocusGained * call setwinvar(winnr(), '&statusline', lightline#statusline(0))
 autocmd FocusLost * call setwinvar(winnr(), '&statusline', lightline#statusline(1))
 
-" ========== buftabline ==========
-
-let g:buftabline_show = 1
-let g:buftabline_numbers = 2
-let g:buftabline_indicators = 1
-
-for s:n in range(10)
-    let s:b = s:n == 0 ? -1 : s:n
-    execute printf("nmap <leader>%d <Plug>BufTabLine.Go(%d)", s:n, s:b)
-endfor
 
 " ========== undotree ==========
 

@@ -10,25 +10,51 @@ local function define_plugins(use)
   use({
     'kyazdani42/nvim-tree.lua',
     requires = 'kyazdani42/nvim-web-devicons',
-    setup = [[require('config.nvim_tree').before()]],
-    config = [[require('config.nvim_tree').after()]],
+    setup = [[require('config.tree').before()]],
+    config = [[require('config.tree').after()]],
     cmd = 'NvimTreeToggle',
   })
 
-  use({ 'mbbill/undotree', cmd = 'UndotreeToggle' })
+  use {
+    'akinsho/nvim-bufferline.lua',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = [[require('config.bufferline').after()]],
+  }
+
+  use({
+    'mbbill/undotree',
+    cmd = 'UndotreeToggle',
+  })
 
   --------------------------------
   -- general enhancements
   --------------------------------
-  use({ 'mhinz/vim-sayonara', cmd = 'Sayonara' })
+  use({
+    'mhinz/vim-sayonara',
+    cmd = 'Sayonara',
+  })
 
   -- Async building & commands
-  use({ 'tpope/vim-dispatch', cmd = { 'Dispatch', 'Make', 'Focus', 'Start' } })
+  use({
+    'tpope/vim-dispatch',
+    cmd = { 'Dispatch', 'Make', 'Focus', 'Start' },
+  })
+
+  --------------------------------
+  -- editing enhancements
+  --------------------------------
+  use('tpope/vim-repeat')
+  use('tpope/vim-surround')
+  use('tpope/vim-unimpaired')
+  use('tpope/vim-commentary')
 
   --------------------------------
   -- patches
   --------------------------------
-  use({ 'thalesmello/tabfold', keys = '<tab>' })
+  use({
+    'thalesmello/tabfold',
+    keys = '<tab>',
+  })
 end
 
 -- put compiled packer in this path to autoload
