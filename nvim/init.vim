@@ -5,18 +5,11 @@ call plug#begin('~/.local/share/nvim/site/plugged')
 Plug 'sheerun/vim-polyglot'
 
 " Edit enchancements
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-sleuth' " auto change shiftwidth
-Plug 'raimondi/delimitmate'
-Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+" Plug 'tpope/vim-sleuth' " auto change shiftwidth
+" Plug 'raimondi/delimitmate'
 
 " UI
 Plug 'altercation/vim-colors-solarized'
-Plug 'itchyny/lightline.vim'
-
-" FZF
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -65,20 +58,6 @@ nnoremap <leader>gp :Git push<CR>
 nnoremap <leader>gv :GV --all<CR>
 nnoremap <leader>gV :GV<CR>
 
-" ========== FZF ==========
-
-let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-
-nnoremap <C-p> :Files<CR>
-nnoremap <leader>b :Buffers<CR>
-nnoremap <leader>c :Commands<CR>
-nnoremap <leader>M :Maps<CR>
-nnoremap <leader>l :Lines<CR>
-nnoremap <leader>L :BLines<CR>
-nnoremap <leader>t :Filetypes<CR>
-nnoremap <leader>/ :Rg<CR>
-
-autocmd! FileType fzf tunmap <buffer> <Esc>
 
 " ========== solarized ==========
 
@@ -86,26 +65,6 @@ let g:solarized_termcolors=256
 colorscheme solarized
 highlight CursorLineNr ctermbg=235
 highlight SignColumn ctermbg=235
-
-" ========== lightline ==========
-
-set noshowmode
-
-let g:lightline = {
-            \   'active': {
-            \     'left': [ [ 'mode', 'paste' ],
-            \               [ 'readonly', 'filename', 'modified', 'gitbranch', 'cocstatus' ] ]
-            \   },
-            \   'component_function': {
-            \     'gitbranch': 'FugitiveHead',
-            \     'cocstatus': 'LspStatus',
-            \   },
-            \ }
-
-" hide when lost focus
-autocmd FocusGained * call setwinvar(winnr(), '&statusline', lightline#statusline(0))
-autocmd FocusLost * call setwinvar(winnr(), '&statusline', lightline#statusline(1))
-
 
 " ========== undotree ==========
 
@@ -115,11 +74,6 @@ nnoremap <silent><leader>u :UndotreeToggle<CR>
 
 let g:dispatch_no_maps = 1
 let g:dispatch_no_tmux_make = 1
-
-" ========== markdown preview ==========
-
-let g:mkdp_auto_close = 0
-" nmap <leader>p <Plug>MarkdownPreviewToggle
 
 " ========== gitgutter ==========
 nmap [c <Plug>(GitGutterNextHunk)
@@ -135,14 +89,6 @@ sign define LspDiagnosticsSignError text=>> linehl= texthl=LspErrorSign numhl=Ls
 sign define LspDiagnosticsSignWarning text=⚠  linehl= texthl=LspWarningSign numhl=LspWarningSign
 sign define LspDiagnosticsSignInformation text=>> linehl= texthl=LspInfoSign numhl=LspInfoSign
 sign define LspDiagnosticsSignHint text=>> linehl= texthl=LspHintSign numhl=LspHintSign
-
-function! LspStatus() abort
-  if luaeval('#vim.lsp.buf_get_clients() > 0')
-    return luaeval("require('lsp-status').status()")
-  endif
-
-  return ''
-endfunction
 
 " ========== completion ==========
 lua <<EOF

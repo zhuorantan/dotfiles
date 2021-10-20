@@ -48,6 +48,37 @@ local function define_plugins(use)
   use('tpope/vim-unimpaired')
   use('tpope/vim-commentary')
 
+  use({
+    'iamcco/markdown-preview.nvim',
+    run = [[require('config.markdown_preview').run()]],
+    config = [[require('config.markdown_preview').after()]],
+    ft = { 'markdown' },
+  })
+
+  --------------------------------
+  -- search
+  --------------------------------
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
+      { 'nvim-telescope/telescope-frecency.nvim', requires = 'tami5/sql.nvim' },
+    },
+    setup = [[require('config.telescope').before()]],
+    config = [[require('config.telescope').after()]],
+    cmd = 'Telescope',
+  }
+
+  --------------------------------
+  -- interface
+  --------------------------------
+  use({
+    'hoob3rt/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/lsp-status.nvim' },
+    config = [[require('config.lualine').after()]],
+  })
+
   --------------------------------
   -- patches
   --------------------------------
