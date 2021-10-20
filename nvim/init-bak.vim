@@ -1,22 +1,3 @@
-" ========== plugins ==========
-call plug#begin('~/.local/share/nvim/site/plugged')
-
-" Edit enchancements
-" Plug 'tpope/vim-sleuth' " auto change shiftwidth
-" Plug 'raimondi/delimitmate'
-
-" UI
-Plug 'altercation/vim-colors-solarized'
-
-call plug#end()
-
-" ========== solarized ==========
-
-let g:solarized_termcolors=256
-colorscheme solarized
-highlight CursorLineNr ctermbg=235
-highlight SignColumn ctermbg=235
-
 " ========== LSP ==========
 hi default LspErrorSign     ctermfg=Red     guifg=#ff0000 guibg=NONE
 hi default LspWarningSign   ctermfg=Brown   guifg=#ff922b guibg=NONE

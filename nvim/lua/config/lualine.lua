@@ -15,6 +15,9 @@ function config.after()
 
   vim.o.showmode = false
   lualine.setup({
+    options = {
+      theme = 'onedark',
+    },
     sections = {
       lualine_b = { 'branch', 'b:gitsigns_status' },
       lualine_c = { lsp_status, 'filename' }

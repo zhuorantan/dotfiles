@@ -149,6 +149,11 @@ local function define_plugins(use)
     config = [[require('config.lualine').after()]],
   })
 
+  use({
+    'joshdick/onedark.vim',
+    config = [[require('config.theme').after()]],
+  })
+
   --------------------------------
   -- patches
   --------------------------------
