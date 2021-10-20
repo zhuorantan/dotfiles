@@ -10,9 +10,6 @@ Plug 'altercation/vim-colors-solarized'
 
 call plug#end()
 
-" ========== General ==========
-:lua require('entry')
-
 " ========== solarized ==========
 
 let g:solarized_termcolors=256
