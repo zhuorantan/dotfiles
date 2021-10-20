@@ -10,7 +10,7 @@ function config.after()
   treesitter.setup({
     ensure_installed = languages,
     highlight = { enable = true },
-    indent = { enable = true },
+    -- indent = { enable = true },
     textobjects = {
       select = {
         enable = true,

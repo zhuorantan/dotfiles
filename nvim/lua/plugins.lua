@@ -60,6 +60,38 @@ local function define_plugins(use)
   })
 
   --------------------------------
+  -- lsp
+  --------------------------------
+  use({
+    'neovim/nvim-lspconfig',
+    requires = { 'nvim-lua/lsp-status.nvim' },
+    after = { 'nvim-cmp' },
+    config = [[require('config.lspconfig').after()]],
+  })
+
+  --------------------------------
+  -- completion
+  --------------------------------
+  use({
+    'hrsh7th/nvim-cmp',
+    requires = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-vsnip',
+      'hrsh7th/vim-vsnip',
+      'hrsh7th/cmp-nvim-lua',
+      'ray-x/cmp-treesitter',
+    },
+    config = [[require('config.cmp').after()]],
+  })
+
+  use({
+    'windwp/nvim-autopairs',
+    config = [[require('config.autopairs').after()]],
+  })
+
+  --------------------------------
   -- search
   --------------------------------
   use({
