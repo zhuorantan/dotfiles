@@ -16,7 +16,8 @@ function config.after()
   vim.o.showmode = false
   lualine.setup({
     sections = {
-      lualine_b = { 'branch', lsp_status },
+      lualine_b = { 'branch', 'b:gitsigns_status' },
+      lualine_c = { lsp_status, 'filename' }
     },
     extensions = { 'fugitive', 'nvim-tree', 'quickfix' },
   })

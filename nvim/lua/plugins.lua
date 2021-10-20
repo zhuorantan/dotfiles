@@ -23,6 +23,7 @@ local function define_plugins(use)
 
   use({
     'mbbill/undotree',
+    setup = [[require('config.undotree').before()]],
     cmd = 'UndotreeToggle',
   })
 
@@ -31,12 +32,14 @@ local function define_plugins(use)
   --------------------------------
   use({
     'mhinz/vim-sayonara',
+    setup = [[require('config.sayonara').before()]],
     cmd = 'Sayonara',
   })
 
   -- Async building & commands
   use({
     'tpope/vim-dispatch',
+    config = [[require('config.dispatch').before()]],
     cmd = { 'Dispatch', 'Make', 'Focus', 'Start' },
   })
 
@@ -58,7 +61,7 @@ local function define_plugins(use)
   --------------------------------
   -- search
   --------------------------------
-  use {
+  use({
     'nvim-telescope/telescope.nvim',
     requires = {
       'nvim-lua/plenary.nvim',
@@ -68,7 +71,24 @@ local function define_plugins(use)
     setup = [[require('config.telescope').before()]],
     config = [[require('config.telescope').after()]],
     cmd = 'Telescope',
-  }
+  })
+
+  --------------------------------
+  -- git
+  --------------------------------
+  use({
+    'tpope/vim-fugitive',
+    setup = [[require('config.fugitive').before()]],
+    cmd = { 'Git', 'Gdiffsplit' },
+  })
+
+  use('tpope/vim-rhubarb')
+
+  use({
+    'lewis6991/gitsigns.nvim',
+    requires = { 'nvim-lua/plenary.nvim' },
+    config = [[require('config.gitsigns').after()]],
+  })
 
   --------------------------------
   -- interface

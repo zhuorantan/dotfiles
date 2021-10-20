@@ -45,4 +45,8 @@ function bind.nmap_cmd(lhs, cmd, options)
   map_cmd('n', lhs, cmd, options)
 end
 
+function bind.vmap_cmd(lhs, cmd, options)
+  map_cmd('v', lhs, cmd, options)
+end
+
 return bind

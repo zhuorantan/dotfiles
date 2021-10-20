@@ -12,10 +12,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'altercation/vim-colors-solarized'
 
 " Git
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
 Plug 'junegunn/gv.vim'
-Plug 'airblade/vim-gitgutter'
 
 " LSP
 Plug 'neovim/nvim-lspconfig'
@@ -35,25 +32,7 @@ call plug#end()
 " ========== General ==========
 :lua require('entry')
 
-" ========== keymaps ==========
-
-nnoremap <silent><leader>q :Sayonara<CR>
-nnoremap <silent><leader>Q :Sayonara!<CR>
-
 " ========== fugitive ==========
-
-nnoremap <leader>gs :Git<CR>
-nnoremap <leader>gg :Git log<CR>
-nnoremap <leader>gb :Git blame<CR>
-vnoremap <leader>gb :Git blame<CR>
-nnoremap <leader>gd :Gdiffsplit<CR>
-
-nnoremap <leader>ga :Git add %:p<CR>
-nnoremap <leader>gc :Git commit -q<CR>
-nnoremap <leader>gm :Git merge<CR>
-nnoremap <leader>gf :Git fetch<CR>
-nnoremap <leader>gl :Git pull<CR>
-nnoremap <leader>gp :Git push<CR>
 
 nnoremap <leader>gv :GV --all<CR>
 nnoremap <leader>gV :GV<CR>
@@ -65,19 +44,6 @@ let g:solarized_termcolors=256
 colorscheme solarized
 highlight CursorLineNr ctermbg=235
 highlight SignColumn ctermbg=235
-
-" ========== undotree ==========
-
-nnoremap <silent><leader>u :UndotreeToggle<CR>
-
-" ========== dispatch ==========
-
-let g:dispatch_no_maps = 1
-let g:dispatch_no_tmux_make = 1
-
-" ========== gitgutter ==========
-nmap [c <Plug>(GitGutterNextHunk)
-nmap ]c <Plug>(GitGutterPrevHunk)
 
 " ========== LSP ==========
 hi default LspErrorSign     ctermfg=Red     guifg=#ff0000 guibg=NONE
