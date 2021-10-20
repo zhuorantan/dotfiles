@@ -10,8 +10,7 @@ link:
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
 
 vim:
-	sh -c 'curl -fLo $(or ${XDG_DATA_HOME}, ${HOME}/.local/share)/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-	nvim --headless +PlugInstall +qall!
+	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
 plugins:
 	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"

@@ -14,9 +14,10 @@ local function define_plugins(use)
   use({ 'tpope/vim-dispatch', cmd = { 'Dispatch', 'Make', 'Focus', 'Start' } })
 end
 
-local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
+-- put compiled packer in this path to autoload
+local compile_path = vim.fn.stdpath('data') .. '/site/pack/loader/start/packer/plugin/packer_compiled.lua'
 packer.init({
   disable_commands = true,
-  compile_path = vim.fn.stdpath('data') .. '/site/pack/loader/start/packer/plugin/packer_compiled.lua'
+  compile_path = compile_path,
 })
 return packer.startup(define_plugins)
