@@ -9,6 +9,8 @@ local function apply_settings()
   vim.o.secure = true
   vim.o.inccommand = 'nosplit'
   vim.o.updatetime = 100
+  vim.o.foldmethod = 'indent'
+  vim.o.foldlevelstart = 99 -- start file with all folds opened
 
   --------------------------------
   -- visual

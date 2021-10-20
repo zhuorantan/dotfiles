@@ -2,9 +2,6 @@
 call plug#begin('~/.local/share/nvim/site/plugged')
 
 " Vim enhancements
-Plug 'thalesmello/tabfold'
-Plug 'preservim/nerdtree', { 'on': 'NERDTreeFind' }
-
 Plug 'sheerun/vim-polyglot'
 Plug 'ap/vim-buftabline'
 
@@ -20,7 +17,6 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': 
 " UI
 Plug 'altercation/vim-colors-solarized'
 Plug 'itchyny/lightline.vim'
-Plug 'ryanoasis/vim-devicons'
 
 " FZF
 Plug 'junegunn/fzf'
@@ -54,28 +50,6 @@ call plug#end()
 
 nnoremap <silent><leader>q :Sayonara<CR>
 nnoremap <silent><leader>Q :Sayonara!<CR>
-
-" ========== nerdtree ==========
-
-function! s:nerdtreeToggle()
-    if &filetype == 'nerdtree'
-        :NERDTreeToggle
-    else
-        :NERDTreeFind
-    endif
-endfunction
-
-" disable netrw
-let loaded_netrwPlugin = 1
-let NERDTreeMinimalUI = 1
-let NERDTreeShowHidden = 1
-let NERDTreeQuitOnOpen = 1
-let NERDTreeAutoDeleteBuffer = 1
-let NERDTreeIgnore=['\.vim$', '\~$', '\.git$', '.DS_Store']
-nnoremap <silent><Leader>n :call <SID>nerdtreeToggle()<CR>
-
-" close vim if the only window left open is a NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 " ========== fugitive ==========
 

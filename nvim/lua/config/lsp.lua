@@ -13,7 +13,8 @@ local function on_attach(client, bufnr)
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
   buf_map_cmd('n', 'gd', 'vim.lsp.buf.definition()')
-  buf_map_cmd('n', 'gD', 'vim.lsp.buf.type_definition()')
+  buf_map_cmd('n', 'gD', 'vim.lsp.buf.declaration()')
+  buf_map_cmd('n', 'gt', 'vim.lsp.buf.type_definition()')
   buf_map_cmd('n', 'gi', 'vim.lsp.buf.implementation()')
   buf_map_cmd('n', 'gr', 'vim.lsp.buf.references()')
   buf_map_cmd('n', 'K', 'vim.lsp.buf.hover()')
