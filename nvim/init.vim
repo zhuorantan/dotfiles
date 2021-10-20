@@ -1,18 +1,12 @@
 " ========== plugins ==========
 call plug#begin('~/.local/share/nvim/site/plugged')
 
-" Vim enhancements
-Plug 'sheerun/vim-polyglot'
-
 " Edit enchancements
 " Plug 'tpope/vim-sleuth' " auto change shiftwidth
 " Plug 'raimondi/delimitmate'
 
 " UI
 Plug 'altercation/vim-colors-solarized'
-
-" Git
-Plug 'junegunn/gv.vim'
 
 " LSP
 Plug 'neovim/nvim-lspconfig'
@@ -31,12 +25,6 @@ call plug#end()
 
 " ========== General ==========
 :lua require('entry')
-
-" ========== fugitive ==========
-
-nnoremap <leader>gv :GV --all<CR>
-nnoremap <leader>gV :GV<CR>
-
 
 " ========== solarized ==========
 

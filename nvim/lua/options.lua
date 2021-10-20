@@ -30,8 +30,7 @@ local function apply_settings()
   --------------------------------
   -- indentation
   --------------------------------
-  vim.o.autoindent = true
-  vim.o.smarttab = true
+  vim.o.smartindent = true
   vim.o.expandtab = true
   vim.o.shiftround = true
 

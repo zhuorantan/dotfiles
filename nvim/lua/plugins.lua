@@ -50,6 +50,7 @@ local function define_plugins(use)
   use('tpope/vim-surround')
   use('tpope/vim-unimpaired')
   use('tpope/vim-commentary')
+  use('tpope/vim-sleuth')
 
   use({
     'iamcco/markdown-preview.nvim',
@@ -85,9 +86,26 @@ local function define_plugins(use)
   use('tpope/vim-rhubarb')
 
   use({
+    'junegunn/gv.vim',
+    wants = 'vim-fugitive',
+    setup = [[require('config.gv').before()]],
+    cmd = 'GV',
+  })
+
+  use({
     'lewis6991/gitsigns.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
     config = [[require('config.gitsigns').after()]],
+  })
+
+  --------------------------------
+  -- syntax highlighting
+  --------------------------------
+  use({
+    'nvim-treesitter/nvim-treesitter',
+    requires = { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    config = [[require('config.treesitter').after()]],
+    run = ':TSUpdate',
   })
 
   --------------------------------
