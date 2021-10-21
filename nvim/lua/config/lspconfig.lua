@@ -52,7 +52,7 @@ function config.after()
   -- Set default client capabilities plus window/workDoneProgress
   -- config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
 
-  local servers = { 'clangd', 'cmake', 'cssls', 'dockerls', 'html', 'jsonls', 'solargraph', 'sourcekit', 'pyright', 'tsserver' }
+  local servers = { 'clangd', 'cmake', 'cssls', 'dockerls', 'eslint', 'html', 'jsonls', 'solargraph', 'sourcekit', 'pyright', 'tsserver' }
 
   local capabilities = cmp_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
