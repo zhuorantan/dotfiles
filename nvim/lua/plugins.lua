@@ -64,10 +64,17 @@ local function define_plugins(use)
   --------------------------------
   use({
     'neovim/nvim-lspconfig',
-    requires = { 'nvim-lua/lsp-status.nvim' },
-    after = { 'nvim-cmp' },
-    config = [[require('config.lspconfig').after()]],
+    after = { 'nvim-cmp', 'lsp-status.nvim' },
+    config = [[require('config.lsp.lspconfig').after()]],
   })
+
+  use({
+    'williamboman/nvim-lsp-installer',
+    after = { 'nvim-lspconfig' },
+    config = [[require('config.lsp.installer').after()]],
+  })
+
+  use('nvim-lua/lsp-status.nvim')
 
   --------------------------------
   -- completion

@@ -6,6 +6,7 @@ function config.after()
   local lsp_status = require('lsp-status')
   local nvim_lsp = require('lspconfig')
   local cmp_lsp = require('cmp_nvim_lsp')
+  local servers = require('config.lsp.servers')
 
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
@@ -51,8 +52,6 @@ function config.after()
   end
   -- Set default client capabilities plus window/workDoneProgress
   -- config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
-
-  local servers = { 'clangd', 'cmake', 'cssls', 'dockerls', 'eslint', 'html', 'jsonls', 'solargraph', 'sourcekit', 'pyright', 'tsserver' }
 
   local capabilities = cmp_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
