@@ -12,9 +12,10 @@ function config.before()
   bind.nmap_cmd('<leader>ga', 'Git add %:p')
   bind.nmap_cmd('<leader>gc', 'Git commit -q')
   bind.nmap_cmd('<leader>gm', 'Git merge')
-  bind.nmap_cmd('<leader>gf', 'Git fetch')
-  bind.nmap_cmd('<leader>gl', 'Git pull')
-  bind.nmap_cmd('<leader>gp', 'Git push')
+  bind.nmap_cmd('<leader>gf', 'Dispatch Git fetch')
+  bind.nmap_cmd('<leader>gl', 'Dispatch Git pull')
+  bind.nmap_cmd('<leader>gp', 'Dispatch Git push')
+  bind.nmap_cmd('<leader>gP', 'Dispatch Git push --force')
 end
 
 return config

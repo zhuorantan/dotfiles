@@ -3,8 +3,8 @@ local config = {}
 function config.before()
   local bind = require('utils.bind')
 
-  bind.nmap_cmd('<leader>ff', 'Telescope find_files')
-  bind.nmap_cmd('<leader>fg', 'Telescope live_grep')
+  bind.nmap_cmd('<C-p>', 'Telescope find_files')
+  bind.nmap_cmd('<leader>/', 'Telescope live_grep')
   bind.nmap_cmd('<leader>fb', 'Telescope buffers')
   bind.nmap_cmd('<leader>fc', 'Telescope commands')
   bind.nmap_cmd('<leader>fq', 'Telescope quickfix')

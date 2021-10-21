@@ -33,6 +33,7 @@ local function apply_settings()
   vim.o.smartindent = true
   vim.o.expandtab = true
   vim.o.shiftround = true
+  vim.o.shiftwidth = 2
 
   --------------------------------
   -- search
