@@ -65,7 +65,6 @@ local function define_plugins(use)
   use({
     'neovim/nvim-lspconfig',
     after = { 'nvim-cmp', 'lsp-status.nvim' },
-    config = [[require('config.lsp.lspconfig').after()]],
   })
 
   use({
