@@ -63,13 +63,9 @@ local function define_plugins(use)
   -- lsp
   --------------------------------
   use({
-    'neovim/nvim-lspconfig',
-    after = { 'nvim-cmp', 'lsp-status.nvim' },
-  })
-
-  use({
     'williamboman/nvim-lsp-installer',
-    after = { 'nvim-lspconfig' },
+    requires = { 'neovim/nvim-lspconfig' },
+    after = { 'lsp-status.nvim', 'cmp-nvim-lsp' },
     config = [[require('config.lsp.installer').after()]],
   })
 
@@ -120,7 +116,7 @@ local function define_plugins(use)
   })
 
   use({
-    "AckslD/nvim-neoclip.lua",
+    'AckslD/nvim-neoclip.lua',
     config = [[require('config.neoclip').after()]],
   })
 
@@ -179,6 +175,8 @@ local function define_plugins(use)
     'thalesmello/tabfold',
     keys = '<tab>',
   })
+
+  use('nathom/filetype.nvim')
 end
 
 -- put compiled packer in this path to autoload
