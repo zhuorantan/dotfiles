@@ -52,13 +52,15 @@ function config.after()
     buf_map_cmd('n', '<leader>f', 'vim.lsp.buf.range_formatting()')
     buf_map_cmd('n', '<leader>F', 'vim.lsp.buf.formatting()')
 
-    -- Register client for messages and set up buffer autocommands to update 
+    -- Register client for messages and set up buffer autocommands to update
     -- the statusline and the current function.
     -- NOTE: on_attach is called with the client object, which is the "client" parameter below
     if lsp_status then
       lsp_status.on_attach(client)
     end
   end
+
+  ensure_servers_installed()
 
   -- Register the progress handler
   if lsp_status then
