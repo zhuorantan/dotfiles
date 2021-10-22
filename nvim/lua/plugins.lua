@@ -88,12 +88,15 @@ local function define_plugins(use)
       'hrsh7th/vim-vsnip',
       'hrsh7th/cmp-nvim-lua',
       'ray-x/cmp-treesitter',
+      'onsails/lspkind-nvim',
+      'rafamadriz/friendly-snippets',
     },
     config = [[require('config.cmp').after()]],
   })
 
   use({
     'windwp/nvim-autopairs',
+    after = { 'nvim-cmp' },
     config = [[require('config.autopairs').after()]],
   })
 
@@ -107,6 +110,7 @@ local function define_plugins(use)
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
       { 'nvim-telescope/telescope-frecency.nvim', requires = 'tami5/sql.nvim' },
     },
+    after = { 'neoclip' },
     setup = [[require('config.telescope').before()]],
     config = [[require('config.telescope').after()]],
     cmd = 'Telescope',
@@ -115,7 +119,6 @@ local function define_plugins(use)
   use({
     "AckslD/nvim-neoclip.lua",
     config = [[require('config.neoclip').after()]],
-    event = { 'TextYankPost' },
   })
 
   --------------------------------

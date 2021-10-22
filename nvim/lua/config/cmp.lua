@@ -4,6 +4,7 @@ local config = {}
 
 function config.after()
   local cmp = require('cmp')
+  local lspkind = require('lspkind')
 
   cmp.setup {
     snippet = {
@@ -20,13 +21,27 @@ function config.after()
     },
     sources = {
       { name = 'nvim_lsp' },
+      { name = 'vsnip' },
       { name = 'path' },
-      { name = 'buffer' },
       { name = 'treesitter' },
+      { name = 'buffer' },
       { name = 'nvim_lua' },
     },
     completion = {
       completeopt = 'menu,menuone,noinsert',
+    },
+    formatting = {
+      format = lspkind.cmp_format({
+        with_text = true,
+        menu = ({
+          nvim_lsp = '[LSP]',
+          vsnip = '[VSnip]',
+          path = '[Path]',
+          treesitter = '[TreeSitter]',
+          buffer = '[Buffer]',
+          nvim_lua = '[Lua]',
+        }),
+      }),
     },
   }
 end

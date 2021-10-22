@@ -33,6 +33,9 @@ local groups = {
     -- highlight yank
     [[TextYankPost * silent! lua vim.highlight.on_yank({ timeout = 500 })]],
   },
+  filetypedetect = {
+    [[BufRead,BufNewFile Podfile setfiletype ruby]],
+  },
   terminal = {
     -- termianl mode Esc map
     [[TermOpen * tnoremap <buffer> <Esc> <C-\><C-n>]],
