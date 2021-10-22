@@ -1,8 +1,0 @@
-{
-    "coc.preferences.useQuickfixForLocations": true,
-    "python.jediEnabled": false,
-    "python.linting.pylintEnabled": true,
-    "python.linting.pylintUseMinimalCheckers": true,
-    "python.linting.mypyEnabled": true,
-    "yank.enableCompletion": false
-}
