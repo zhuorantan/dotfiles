@@ -112,6 +112,12 @@ local function define_plugins(use)
     cmd = 'Telescope',
   })
 
+  use({
+    "AckslD/nvim-neoclip.lua",
+    config = [[require('config.neoclip').after()]],
+    event = { 'TextYankPost' },
+  })
+
   --------------------------------
   -- git
   --------------------------------

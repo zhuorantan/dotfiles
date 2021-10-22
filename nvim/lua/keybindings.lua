@@ -44,6 +44,8 @@ local function apply_key_bindings()
   bind.nmap('<leader>P', '"+P')
   bind.vmap('<leader>p', '"+p')
   bind.vmap('<leader>P', '"+P')
+
+  bind.nmap_cmd('<leader>s', 'let @+=@"') -- sync to system clipboard
 end
 
 map_leader()

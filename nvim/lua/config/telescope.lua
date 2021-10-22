@@ -9,6 +9,7 @@ function config.before()
   bind.nmap_cmd('<leader>fc', 'Telescope commands')
   bind.nmap_cmd('<leader>fq', 'Telescope quickfix')
   bind.nmap_cmd('<leader>ft', 'Telescope filetypes')
+  bind.nmap_cmd('<leader>fy', 'Telescope neoclip')
   bind.nmap_cmd('<leader>fo', 'Telescope treesitter')
   bind.nmap_cmd('<leader>fr', 'Telescope frecency')
   bind.nmap_cmd('<leader>fh', 'Telescope help_tags')
@@ -33,6 +34,7 @@ function config.after()
   })
   telescope.load_extension('fzf')
   telescope.load_extension('frecency')
+  telescope.load_extension('neoclip')
 end
 
 return config
