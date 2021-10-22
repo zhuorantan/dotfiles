@@ -110,7 +110,7 @@ local function define_plugins(use)
       { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
       { 'nvim-telescope/telescope-frecency.nvim', requires = 'tami5/sql.nvim' },
     },
-    after = { 'neoclip' },
+    after = { 'nvim-neoclip.lua' },
     setup = [[require('config.telescope').before()]],
     config = [[require('config.telescope').after()]],
     cmd = 'Telescope',
