@@ -6,8 +6,7 @@ local function lsp_status()
     return
   end
 
-  local lsp_status = require('lsp-status')
-  return lsp_status.status()
+  return require('lsp-status').status()
 end
 
 function config.after()

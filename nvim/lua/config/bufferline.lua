@@ -7,7 +7,6 @@ function config.after()
   bufferline.setup({
     options = {
       numbers = 'ordinal',
-      diagnostics = 'nvim_lsp',
       always_show_bufferline = false,
     },
   })

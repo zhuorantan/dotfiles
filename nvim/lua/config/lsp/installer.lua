@@ -55,21 +55,18 @@ function config.after()
     -- Register client for messages and set up buffer autocommands to update
     -- the statusline and the current function.
     -- NOTE: on_attach is called with the client object, which is the "client" parameter below
-    if lsp_status then
-      lsp_status.on_attach(client)
-    end
+    lsp_status.on_attach(client)
   end
 
   ensure_servers_installed()
 
   -- Register the progress handler
-  if lsp_status then
-    lsp_status.register_progress()
-  end
+  lsp_status.register_progress()
   -- Set default client capabilities plus window/workDoneProgress
   -- config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
 
   local capabilities = cmp_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
   lsp_installer.on_server_ready(function(server)
     server:setup({

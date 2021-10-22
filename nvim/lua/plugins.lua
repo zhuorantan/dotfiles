@@ -73,7 +73,10 @@ local function define_plugins(use)
     config = [[require('config.lsp.installer').after()]],
   })
 
-  use('nvim-lua/lsp-status.nvim')
+  use({
+    'nvim-lua/lsp-status.nvim',
+    config = [[require('config.lsp.status').after()]],
+  })
 
   --------------------------------
   -- completion
