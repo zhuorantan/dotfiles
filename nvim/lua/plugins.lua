@@ -12,7 +12,6 @@ local function define_plugins(use)
     requires = 'kyazdani42/nvim-web-devicons',
     setup = [[require('config.tree').before()]],
     config = [[require('config.tree').after()]],
-    cmd = 'NvimTreeToggle',
   })
 
   use {
