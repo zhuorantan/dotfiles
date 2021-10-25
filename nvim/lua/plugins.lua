@@ -144,6 +144,11 @@ local function define_plugins(use)
     config = [[require('config.gitsigns').after()]],
   })
 
+  use({
+    'APZelos/blamer.nvim',
+    config = [[require('config.blamer').after()]],
+  })
+
   --------------------------------
   -- syntax highlighting
   --------------------------------

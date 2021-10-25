@@ -50,7 +50,8 @@ local function apply_key_bindings()
   --------------------------------
   -- terminal
   --------------------------------
-  bind.nmap_cmd('<C-w>t', 'split | terminal')
+  bind.nmap_cmd('<leader>t', 'terminal')
+  bind.nmap_cmd('<C-w>t', '16split | terminal')
   bind.nmap_cmd('<C-w>T', 'vsplit | terminal')
 
   --------------------------------

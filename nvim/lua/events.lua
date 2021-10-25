@@ -36,9 +36,6 @@ local groups = {
   terminal = {
     -- termianl mode Esc map
     [[TermOpen * tnoremap <buffer> <Esc> <C-\><C-n>]],
-
-    -- enter insert mode when enter terminal emulator
-    [[TermOpen,BufEnter,BufNew * if &buftype == 'terminal' | startinsert | endif]],
   },
 }
 

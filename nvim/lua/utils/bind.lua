@@ -10,7 +10,11 @@ local function map(mode, lhs, rhs, options)
     options.noremap = true
   end
 
-  vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+  if options.buffer ~= nil then
+    vim.api.nvim_buf_set_keymap(options.buffer, lhs, rhs, options)
+  else
+    vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+  end
 end
 
 local function map_cmd(mode, lhs, cmd, options)
