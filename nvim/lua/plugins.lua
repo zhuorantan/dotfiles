@@ -90,13 +90,13 @@ local function define_plugins(use)
       'onsails/lspkind-nvim',
       'rafamadriz/friendly-snippets',
     },
-    config = [[require('config.cmp').after()]],
+    config = [[require('config.completion.cmp').after()]],
   })
 
   use({
     'windwp/nvim-autopairs',
     after = { 'nvim-cmp' },
-    config = [[require('config.autopairs').after()]],
+    config = [[require('config.completion.autopairs').after()]],
   })
 
   --------------------------------
