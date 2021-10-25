@@ -110,14 +110,14 @@ local function define_plugins(use)
       { 'nvim-telescope/telescope-frecency.nvim', requires = 'tami5/sql.nvim' },
     },
     after = { 'nvim-neoclip.lua' },
-    setup = [[require('config.telescope').before()]],
-    config = [[require('config.telescope').after()]],
+    setup = [[require('config.telescope.telescope').before()]],
+    config = [[require('config.telescope.telescope').after()]],
     cmd = 'Telescope',
   })
 
   use({
     'AckslD/nvim-neoclip.lua',
-    config = [[require('config.neoclip').after()]],
+    config = [[require('config.telescope.neoclip').after()]],
   })
 
   --------------------------------
@@ -125,7 +125,7 @@ local function define_plugins(use)
   --------------------------------
   use({
     'tpope/vim-fugitive',
-    setup = [[require('config.fugitive').before()]],
+    setup = [[require('config.git.fugitive').before()]],
     cmd = { 'Git', 'Gdiffsplit' },
   })
 
@@ -134,19 +134,19 @@ local function define_plugins(use)
   use({
     'junegunn/gv.vim',
     wants = 'vim-fugitive',
-    setup = [[require('config.gv').before()]],
+    setup = [[require('config.git.gv').before()]],
     cmd = 'GV',
   })
 
   use({
     'lewis6991/gitsigns.nvim',
     requires = { 'nvim-lua/plenary.nvim' },
-    config = [[require('config.gitsigns').after()]],
+    config = [[require('config.git.gitsigns').after()]],
   })
 
   use({
     'APZelos/blamer.nvim',
-    config = [[require('config.blamer').after()]],
+    config = [[require('config.git.blamer').after()]],
   })
 
   --------------------------------
