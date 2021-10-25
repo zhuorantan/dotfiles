@@ -46,6 +46,20 @@ local function apply_key_bindings()
   bind.vmap('<leader>P', '"+P')
 
   bind.nmap_cmd('<leader>s', 'let @+=@"') -- sync to system clipboard
+
+  --------------------------------
+  -- terminal
+  --------------------------------
+  bind.nmap_cmd('<C-w>t', 'split | terminal')
+  bind.nmap_cmd('<C-w>T', 'vsplit | terminal')
+
+  --------------------------------
+  -- editing
+  --------------------------------
+  -- Press * to search for the term under the cursor or a visual selection and
+  -- then press a key below to replace all instances of it in the current file.
+  bind.nmap('<leader>r', ':%s///g<left><left>')
+  bind.xmap('<leader>r', ':%s///g<left><left>')
 end
 
 map_leader()

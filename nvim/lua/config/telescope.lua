@@ -4,6 +4,7 @@ function config.before()
   local bind = require('utils.bind')
 
   bind.nmap_cmd('<C-p>', 'Telescope find_files')
+  bind.nmap_cmd('<leader><C-p>', 'Telescope find_files hidden=true no_ignore=true')
   bind.nmap_cmd('<leader>/', 'Telescope live_grep')
   bind.nmap_cmd('<leader>fb', 'Telescope buffers')
   bind.nmap_cmd('<leader>fc', 'Telescope commands')
@@ -29,6 +30,9 @@ function config.after()
         vertical = {
           prompt_position = 'top',
         },
+      },
+      file_ignore_patterns = {
+        '.git/',
       },
     },
   })

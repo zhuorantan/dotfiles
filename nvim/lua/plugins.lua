@@ -176,7 +176,10 @@ local function define_plugins(use)
     keys = '<tab>',
   })
 
-  use('nathom/filetype.nvim')
+  use({
+    'nathom/filetype.nvim',
+    config = [[require('config.filetype').after()]],
+  })
 end
 
 -- put compiled packer in this path to autoload
