@@ -9,8 +9,9 @@ end
 
 local function packer_sync()
   ensure_packer_installed()
-  vim.api.nvim_command('packadd packer.nvim')
+  vim.cmd('packadd packer.nvim')
 
+  package.loaded['plugins'] = nil
   local plugins = require('plugins')
   plugins.sync()
 end

@@ -48,6 +48,11 @@ local function apply_key_bindings()
   bind.nmap_cmd('<leader>s', 'let @+=@"') -- sync to system clipboard
 
   --------------------------------
+  -- window
+  --------------------------------
+  bind.nmap_cmd('<C-w>z', [[lua require('utils.zoom').toggle()]])
+
+  --------------------------------
   -- terminal
   --------------------------------
   bind.nmap_cmd('<leader>t', 'terminal')
@@ -59,8 +64,8 @@ local function apply_key_bindings()
   --------------------------------
   -- Press * to search for the term under the cursor or a visual selection and
   -- then press a key below to replace all instances of it in the current file.
-  bind.nmap('<leader>r', ':%s///g<left><left>')
-  bind.xmap('<leader>r', ':%s///g<left><left>')
+  bind.nmap('<leader>R', ':%s///g<left><left>')
+  bind.xmap('<leader>R', ':%s///g<left><left>')
 end
 
 map_leader()
