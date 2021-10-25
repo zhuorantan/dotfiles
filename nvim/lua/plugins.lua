@@ -53,8 +53,8 @@ local function define_plugins(use)
 
   use({
     'iamcco/markdown-preview.nvim',
-    run = [[require('config.markdown_preview').run()]],
-    config = [[require('config.markdown_preview').after()]],
+    run = [[require('config.markdown-preview').run()]],
+    config = [[require('config.markdown-preview').after()]],
     ft = { 'markdown' },
   })
 
@@ -170,6 +170,11 @@ local function define_plugins(use)
   use({
     'joshdick/onedark.vim',
     config = [[require('config.theme').after()]],
+  })
+
+  use({
+    'lukas-reineke/indent-blankline.nvim',
+    config = [[require('config.indent-blankline').after()]],
   })
 
   --------------------------------
