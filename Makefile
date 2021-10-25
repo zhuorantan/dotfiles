@@ -12,9 +12,8 @@ link:
 vim:
 	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 
-plugins:
-	sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+term:
+	tic -x tmux-256color.terminfo
 
 clean:
 	rm -f $(HOME)/.zshrc
@@ -23,4 +22,4 @@ clean:
 	rm -f $(HOME)/.tmux.conf
 	rm -rf $(HOME)/.hammerspoon
 
-.PHONY: default all link vim plugins clean
+.PHONY: default all link vim term clean
