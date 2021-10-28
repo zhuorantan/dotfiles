@@ -98,6 +98,8 @@ local function define_plugins(use)
     config = [[require('config.completion.autopairs').after()]],
   })
 
+  use('github/copilot.vim')
+
   --------------------------------
   -- search
   --------------------------------
