@@ -5,7 +5,7 @@ local config = {}
 function config.before()
   local bind = require('utils.bind')
 
-  bind.nmap_cmd('<leader>n', 'NvimTreeToggle')
+  bind.nmap_cmd('<leader>n', 'NvimTreeFindFileToggle')
 
   vim.g.nvim_tree_ignore = { '.git' }
   vim.g.nvim_tree_quit_on_open = 1

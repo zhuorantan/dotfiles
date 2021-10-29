@@ -104,21 +104,11 @@ local function define_plugins(use)
   -- search
   --------------------------------
   use({
-    'nvim-telescope/telescope.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-      { 'nvim-telescope/telescope-frecency.nvim', requires = 'tami5/sql.nvim' },
-    },
-    after = { 'nvim-neoclip.lua' },
-    setup = [[require('config.telescope.telescope').before()]],
-    config = [[require('config.telescope.telescope').after()]],
-    cmd = 'Telescope',
-  })
-
-  use({
-    'AckslD/nvim-neoclip.lua',
-    config = [[require('config.telescope.neoclip').after()]],
+    'ibhagwan/fzf-lua',
+    requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' },
+    setup = [[require('config.fzf').before()]],
+    config = [[require('config.fzf').after()]],
+    module = 'fzf-lua',
   })
 
   --------------------------------

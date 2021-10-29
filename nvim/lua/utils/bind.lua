@@ -53,4 +53,8 @@ function bind.vmap_cmd(lhs, cmd, options)
   map_cmd('v', lhs, cmd, options)
 end
 
+function bind.xmap_cmd(lhs, cmd, options)
+  map_cmd('x', lhs, cmd, options)
+end
+
 return bind
