@@ -14,8 +14,8 @@ local groups = {
     -- open help vertically
     [[BufEnter * if &filetype ==# 'help' | wincmd L | endif]],
 
-    -- spell check for git commits
-    [[FileType gitcommit setlocal spell]],
+    -- spell check for git commits and texts
+    [[FileType gitcommit,txt,markdown setlocal spell]],
 
     -- refresh changed content of file
     [[CursorHold * if getcmdwintype() == '' | checktime | endif]],
