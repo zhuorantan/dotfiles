@@ -40,6 +40,11 @@ local function apply_key_bindings()
   bind.nmap('<leader>Y', '"+y$')
   bind.nmap('<leader>yy', '"+yy')
 
+  bind.vmap('<leader>d', '"+d')
+  bind.nmap('<leader>d', '"+d')
+  bind.nmap('<leader>D', '"+D')
+  bind.nmap('<leader>dd', '"+dd')
+
   bind.nmap('<leader>p', '"+p')
   bind.nmap('<leader>P', '"+P')
   bind.vmap('<leader>p', '"+p')
