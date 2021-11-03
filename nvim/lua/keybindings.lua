@@ -71,6 +71,11 @@ local function apply_key_bindings()
   -- then press a key below to replace all instances of it in the current file.
   bind.nmap('<leader>R', ':%s///g<left><left>')
   bind.xmap('<leader>R', ':%s///g<left><left>')
+
+  --------------------------------
+  -- miscellaneous
+  --------------------------------
+  bind.nmap_cmd('<leader>U', 'PackerSync')
 end
 
 map_leader()
