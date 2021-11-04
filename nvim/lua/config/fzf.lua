@@ -14,9 +14,11 @@ function M.before()
   bind.nmap_cmd('<leader>fc', [[lua require('fzf-lua').commands()]])
   bind.nmap_cmd('<leader>fq', [[lua require('fzf-lua').quickfix()]])
   bind.nmap_cmd('<leader>ft', [[lua require('fzf-lua').filetypes()]])
-  bind.nmap_cmd('<leader>fg', [[lua require('fzf-lua').git_status()]])
   bind.nmap_cmd('<leader>fr', [[lua require('fzf-lua').registers()]])
   bind.nmap_cmd('<leader>fh', [[lua require('fzf-lua').help_tags()]])
+
+  bind.nmap_cmd('<leader>fs', [[lua require('fzf-lua').git_status()]])
+  bind.nmap_cmd('<leader>fg', [[lua require('fzf-lua').git_branches()]])
 
   autocmd.create_augroup('fzf', {
     [[FileType fzf tunmap <buffer> <esc>]],
