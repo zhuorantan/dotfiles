@@ -145,7 +145,10 @@ local function define_plugins(use)
   --------------------------------
   use({
     'nvim-treesitter/nvim-treesitter',
-    requires = { 'nvim-treesitter/nvim-treesitter-textobjects' },
+    requires = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      'nvim-treesitter/nvim-tree-docs',
+    },
     config = [[require('config.treesitter').after()]],
     run = ':TSUpdate',
   })

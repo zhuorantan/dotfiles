@@ -14,14 +14,21 @@ function config.after()
     textobjects = {
       select = {
         enable = true,
-        -- Automatically jump forward to textobj, similar to targets.vim 
+        -- Automatically jump forward to textobj, similar to targets.vim
         lookahead = true,
         keymaps = {
-          ["af"] = "@function.outer",
-          ["if"] = "@function.inner",
-          ["ac"] = "@class.outer",
-          ["ic"] = "@class.inner",
+          ["af"] = '@function.outer',
+          ["if"] = '@function.inner',
+          ["ac"] = '@class.outer',
+          ["ic"] = '@class.inner',
         },
+      },
+    },
+    tree_docs = {
+      enable = true,
+      keymaps = {
+        doc_node_at_cursor = '<leader>dg',
+        doc_all_in_range = '<leader>dg',
       },
     },
   })
