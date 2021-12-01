@@ -27,8 +27,8 @@ function config.after()
     tree_docs = {
       enable = true,
       keymaps = {
-        doc_node_at_cursor = '<leader>dg',
-        doc_all_in_range = '<leader>dg',
+        doc_node_at_cursor = '<leader>da',
+        doc_all_in_range = '<leader>da',
       },
     },
   })
