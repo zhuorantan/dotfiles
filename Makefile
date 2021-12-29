@@ -3,6 +3,7 @@ default: all
 all: link vim plugins
 
 link:
+	mkdir -p $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)
 	ln -snf $(PWD)/zshrc $(HOME)/.zshrc
 	ln -snf $(PWD)/p10k.zsh $(HOME)/.p10k.zsh
 	ln -snf $(PWD)/nvim $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
