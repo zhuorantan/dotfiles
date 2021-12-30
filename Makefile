@@ -8,7 +8,10 @@ link:
 	ln -snf $(PWD)/p10k.zsh $(HOME)/.p10k.zsh
 	ln -snf $(PWD)/nvim $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf
+
+ifeq ($(shell uname), Darwin)
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
+endif
 
 vim:
 	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
