@@ -39,6 +39,8 @@ local function apply_settings()
   vim.o.expandtab = true
   vim.o.shiftround = true
   vim.o.shiftwidth = 2
+  vim.o.smarttab = true
+  vim.o.softtabstop = 2
 
   --------------------------------
   -- search
