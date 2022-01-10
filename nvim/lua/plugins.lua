@@ -9,14 +9,14 @@ local function define_plugins(use)
   --------------------------------
   use({
     'kyazdani42/nvim-tree.lua',
-    requires = 'kyazdani42/nvim-web-devicons',
+    after = { 'nvim-web-devicons' },
     setup = [[require('config.tree').before()]],
     config = [[require('config.tree').after()]],
   })
 
   use {
     'akinsho/nvim-bufferline.lua',
-    requires = 'kyazdani42/nvim-web-devicons',
+    after = { 'nvim-web-devicons' },
     config = [[require('config.bufferline').after()]],
   }
 
@@ -100,7 +100,8 @@ local function define_plugins(use)
   --------------------------------
   use({
     'ibhagwan/fzf-lua',
-    requires = { 'vijaymarupudi/nvim-fzf', 'kyazdani42/nvim-web-devicons' },
+    requires = { 'vijaymarupudi/nvim-fzf' },
+    after = { 'nvim-web-devicons' },
     setup = [[require('config.fzf').before()]],
     config = [[require('config.fzf').after()]],
     module = 'fzf-lua',
@@ -152,8 +153,13 @@ local function define_plugins(use)
   -- interface
   --------------------------------
   use({
+    'kyazdani42/nvim-web-devicons',
+    config = [[require('config.web-devicons').after()]],
+  })
+
+  use({
     'hoob3rt/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons' },
+    after = { 'nvim-web-devicons' },
     config = [[require('config.lualine').after()]],
   })
 
