@@ -10,6 +10,10 @@ function config.after()
   end
 
   vim.cmd('colorscheme onedark')
+
+  vim.cmd('hi LspReferenceText cterm=underline gui=underline')
+  vim.cmd('hi LspReferenceRead cterm=underline gui=underline')
+  vim.cmd('hi LspReferenceWrite cterm=underline gui=underline')
 end
 
 return config
