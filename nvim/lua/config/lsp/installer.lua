@@ -4,7 +4,6 @@ local config = {}
 
 function config.after()
   local lsp_installer = require('nvim-lsp-installer')
-  local lsp_status = require('lsp-status')
   local cmp_lsp = require('cmp_nvim_lsp')
   local servers = require('config.lsp.servers')
 
@@ -50,22 +49,11 @@ function config.after()
     buf_map_cmd('v', '<leader>f', 'vim.lsp.buf.range_formatting()')
     buf_map_cmd('n', '<leader>f', 'vim.lsp.buf.range_formatting()')
     buf_map_cmd('n', '<leader>F', 'vim.lsp.buf.formatting()')
-
-    -- Register client for messages and set up buffer autocommands to update
-    -- the statusline and the current function.
-    -- NOTE: on_attach is called with the client object, which is the "client" parameter below
-    lsp_status.on_attach(client)
   end
 
   ensure_servers_installed()
 
-  -- Register the progress handler
-  lsp_status.register_progress()
-  -- Set default client capabilities plus window/workDoneProgress
-  -- config.capabilities = vim.tbl_extend('keep', config.capabilities or {}, lsp_status.capabilities)
-
   local capabilities = cmp_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
   lsp_installer.on_server_ready(function(server)
     server:setup({

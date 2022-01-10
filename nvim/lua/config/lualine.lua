@@ -1,13 +1,10 @@
 local vim = vim
 local config = {}
 
-local function lsp_status()
-  if vim.lsp.buf_get_clients() == 0 then
-    return
-  end
-
-  return require('lsp-status').status()
-end
+local lsp_status = {
+  'diagnostics',
+  sources = { 'nvim_diagnostic' },
+}
 
 function config.after()
   local lualine = require('lualine')

@@ -64,13 +64,8 @@ local function define_plugins(use)
   use({
     'williamboman/nvim-lsp-installer',
     requires = { 'neovim/nvim-lspconfig' },
-    after = { 'lsp-status.nvim', 'cmp-nvim-lsp' },
+    after = { 'cmp-nvim-lsp' },
     config = [[require('config.lsp.installer').after()]],
-  })
-
-  use({
-    'nvim-lua/lsp-status.nvim',
-    config = [[require('config.lsp.status').after()]],
   })
 
   --------------------------------
@@ -158,7 +153,7 @@ local function define_plugins(use)
   --------------------------------
   use({
     'hoob3rt/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', 'nvim-lua/lsp-status.nvim' },
+    requires = { 'kyazdani42/nvim-web-devicons' },
     config = [[require('config.lualine').after()]],
   })
 
