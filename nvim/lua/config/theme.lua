@@ -3,17 +3,16 @@ local vim = vim
 local config = {}
 
 function config.after()
+  local onedark = require('onedark')
+
   if os.getenv('TMUX') and vim.fn.has('termguicolors') then
     vim.o.termguicolors = true
-
-    vim.g.onedark_terminal_italics = 1
   end
 
-  vim.cmd('colorscheme onedark')
-
-  vim.cmd('hi LspReferenceText cterm=underline gui=underline')
-  vim.cmd('hi LspReferenceRead cterm=underline gui=underline')
-  vim.cmd('hi LspReferenceWrite cterm=underline gui=underline')
+  onedark.setup({
+    toggle_style_key = '<leader>on',
+  })
+  onedark.load()
 end
 
 return config

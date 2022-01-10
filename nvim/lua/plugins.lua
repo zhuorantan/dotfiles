@@ -163,13 +163,8 @@ local function define_plugins(use)
   })
 
   use({
-    'joshdick/onedark.vim',
+    'navarasu/onedark.nvim',
     config = [[require('config.theme').after()]],
-  })
-
-  use({
-    'lukas-reineke/indent-blankline.nvim',
-    config = [[require('config.indent-blankline').after()]],
   })
 
   --------------------------------
