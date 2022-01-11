@@ -20,9 +20,6 @@ local groups = {
     -- refresh changed content of file
     [[CursorHold * if getcmdwintype() == '' | checktime | endif]],
     [[FileChangedShellPost * echohl WarningMsg | echom "Warning: File changed on disk. Buffer reloaded." | echohl None]],
-
-    [[CursorHold,CursorHoldI * lua vim.lsp.buf.document_highlight()]],
-    [[CursorMoved * lua vim.lsp.buf.clear_references()]],
   },
   wins = {
     -- resize panes when window resizes

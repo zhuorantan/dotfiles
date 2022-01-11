@@ -49,6 +49,15 @@ function config.after()
     buf_map_cmd('v', '<leader>f', 'vim.lsp.buf.range_formatting()')
     buf_map_cmd('n', '<leader>f', 'vim.lsp.buf.range_formatting()')
     buf_map_cmd('n', '<leader>F', 'vim.lsp.buf.formatting()')
+
+    local autocmd = require('utils.autocmd')
+
+    if client.resolved_capabilities.document_highlight then
+      autocmd.create_augroup('lsp-highlight', {
+        [[CursorHold,CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()]],
+        [[CursorMoved <buffer> lua vim.lsp.buf.clear_references()]],
+      })
+    end
   end
 
   ensure_servers_installed()
