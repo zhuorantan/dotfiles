@@ -2,10 +2,6 @@ local vim = vim
 
 local config = {}
 
-function config.run()
-  vim.fn['mkdp#util#install']()
-end
-
 function config.after()
   local autocmd = require('utils.autocmd')
 

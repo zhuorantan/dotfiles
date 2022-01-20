@@ -53,7 +53,7 @@ local function define_plugins(use)
 
   use({
     'iamcco/markdown-preview.nvim',
-    run = [[require('config.markdown-preview').run()]],
+    run = [[cd app && yarn install]],
     config = [[require('config.markdown-preview').after()]],
     ft = { 'markdown' },
   })
