@@ -68,6 +68,12 @@ local function define_plugins(use)
     config = [[require('config.lsp.installer').after()]],
   })
 
+  use({
+    'creativenull/diagnosticls-configs-nvim',
+    requires = { 'neovim/nvim-lspconfig' },
+    config = [[require('config.lsp.diagnosticls-configs').after()]],
+  })
+
   --------------------------------
   -- completion
   --------------------------------
