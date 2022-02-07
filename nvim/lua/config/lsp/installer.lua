@@ -5,12 +5,12 @@ local config = {}
 function config.after()
   local lsp_installer = require('nvim-lsp-installer')
   local cmp_lsp = require('cmp_nvim_lsp')
-  local servers = require('config.lsp.servers')
+  local server_config = require('config.lsp.servers')
 
   local function ensure_servers_installed()
     local lsp_installer_servers = require('nvim-lsp-installer.servers')
 
-    for _, server_name in ipairs(servers) do
+    for _, server_name in ipairs(server_config.servers) do
       local ok, server = lsp_installer_servers.get_server(server_name)
 
       if ok then
@@ -71,6 +71,7 @@ function config.after()
       flags = {
         debounce_text_changes = 150,
       },
+      unpack(server_config.configs[server.name] or {}),
     })
 
     vim.cmd([[do User LspAttachBuffers]])
