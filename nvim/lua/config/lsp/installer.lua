@@ -1,8 +1,8 @@
 local vim = vim
 
-local config = {}
+local M = {}
 
-function config.after()
+function M.after()
   local lsp_installer = require('nvim-lsp-installer')
   local cmp_lsp = require('cmp_nvim_lsp')
   local server_config = require('config.lsp.servers')
@@ -65,17 +65,21 @@ function config.after()
   local capabilities = cmp_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
   lsp_installer.on_server_ready(function(server)
-    server:setup({
+    local config = {
       on_attach = on_attach,
       capabilities = capabilities,
       flags = {
         debounce_text_changes = 150,
       },
-      unpack(server_config.configs[server.name] or {}),
-    })
+    }
+    for k, v in pairs(server_config.configs[server.name] or {}) do
+      config[k] = v
+    end
+
+    server:setup(config)
 
     vim.cmd([[do User LspAttachBuffers]])
   end)
 end
 
-return config
+return M
