@@ -6,8 +6,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # M1 Mac
-if [ "$(uname)" = "Darwin" ] && [ "$(arch)" = "arm64" ]; then
-    export FZF_BASE=/opt/homebrew/opt/fzf
+if [ "$(uname)" = "Darwin" ]; then
+  export FZF_BASE=/opt/homebrew/opt/fzf
 fi
 
 
@@ -49,11 +49,12 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
 
 if [ "$(uname)" = "Darwin" ]; then
+    export PATH="/opt/homebrew/bin:$PATH"
     # python
-    export PATH="/usr/local/opt/python/libexec/bin:$PATH"
+    export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
     # ruby
-    export GEM_HOME="/usr/local/lib/ruby/gems"
-    export PATH="/usr/local/opt/ruby/bin:$GEM_HOME/bin:$PATH"
+    export GEM_HOME="/opt/homebrew/lib/ruby/gems"
+    export PATH="$GEM_HOME/bin:/opt/homebrew/opt/ruby/bin:$PATH"
 else
     export PATH="$HOME/.local/bin:$PATH"
 fi
@@ -88,13 +89,9 @@ fi
 
 
 # M1 Mac
-if [ "$(uname)" = "Darwin" ] && [ "$(arch)" = "arm64" ]; then
-    export PATH="/opt/homebrew/bin:/opt/homebrew/opt/python/libexec/bin:$PATH"
+if [ "$(uname)" = "Darwin" ]; then
     i() {
         arch -x86_64 $@
-    }
-    ibrew() {
-        i /usr/local/bin/brew $@
     }
 fi
 
