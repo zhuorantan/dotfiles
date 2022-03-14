@@ -5,10 +5,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# M1 Mac
-if [ "$(uname)" = "Darwin" ]; then
-  export FZF_BASE=/opt/homebrew/opt/fzf
-fi
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
+export FZF_BASE=/opt/homebrew/opt/fzf
 
 
 # Oh My ZSH
@@ -23,15 +22,15 @@ source $ZSH/oh-my-zsh.sh
 
 # custom plugins
 if [ "$(uname)" = "Darwin" ]; then
-    source /usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-    source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 else
     source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-source /usr/local/opt/powerlevel10k/powerlevel10k.zsh-theme
+source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
@@ -49,7 +48,6 @@ export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
 
 if [ "$(uname)" = "Darwin" ]; then
-    export PATH="/opt/homebrew/bin:$PATH"
     # python
     export PATH="/opt/homebrew/opt/python/libexec/bin:$PATH"
     # ruby
@@ -88,7 +86,6 @@ if [ "$(uname)" = "Linux" ]; then
 fi
 
 
-# M1 Mac
 if [ "$(uname)" = "Darwin" ]; then
     i() {
         arch -x86_64 $@
@@ -98,5 +95,5 @@ fi
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
-[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-[ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && . "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && . "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && . "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
