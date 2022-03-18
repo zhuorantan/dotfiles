@@ -35,7 +35,11 @@ source /opt/homebrew/opt/powerlevel10k/powerlevel10k.zsh-theme
 
 
 # environment variables
-export EDITOR="nvim"
+if [ -z "$NVIM_LISTEN_ADDRESS" ]; then
+    export VISUAL="nvim"
+else
+    export VISUAL="nvr -cc split --remote-wait +'setlocal bufhidden=wipe'"
+fi
 
 if [ "$(uname)" = "Darwin" ]; then
     export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git"
