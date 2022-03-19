@@ -41,6 +41,8 @@ else
     export VISUAL="nvr -cc split --remote-wait +'setlocal bufhidden=wipe'"
 fi
 
+export HOMEBREW_BUNDLE_FILE="$HOME/.config/brew/Brewfile"
+
 if [ "$(uname)" = "Darwin" ]; then
     export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git"
     export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"

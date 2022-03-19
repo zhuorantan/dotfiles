@@ -8,6 +8,8 @@ link:
 	ln -snf $(PWD)/p10k.zsh $(HOME)/.p10k.zsh
 	ln -snf $(PWD)/nvim $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf
+	mkdir -p $(HOME)/.config/brew
+	ln -snf $(PWD)/Brewfile $(HOME)/.config/brew/Brewfile
 
 ifeq ($(shell uname), Darwin)
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
