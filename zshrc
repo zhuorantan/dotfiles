@@ -7,13 +7,10 @@ fi
 
 
 # brew
+BREWPREFIX="/opt/homebrew"
 if [ "$(uname)" = "Darwin" ]; then
     export HOMEBREW_BUNDLE_FILE="${HOME}/.config/brew/Brewfile"
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-
-    BREWPREFIX=$(brew --prefix)
-else
-    BREWPREFIX="/usr/local"
+    eval "$(${BREWPREFIX}/bin/brew shellenv)"
 fi
 
 if [ "$(uname)" = "Darwin" ]; then
@@ -24,8 +21,6 @@ if [ "$(uname)" = "Darwin" ]; then
     export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
 fi
 typeset -U PATH # remove duplicated entries in $PATH
-
-export FZF_BASE="${BREWPREFIX}/opt/fzf"
 
 
 # ohmyzsh
