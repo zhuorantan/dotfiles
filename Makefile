@@ -1,17 +1,15 @@
-default: all
-
-all: link vim plugins
+default: link vim term
 
 link:
-	mkdir -p $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)
+	mkdir -p $(HOME)/.config
 	ln -snf $(PWD)/zshrc $(HOME)/.zshrc
 	ln -snf $(PWD)/p10k.zsh $(HOME)/.p10k.zsh
-	ln -snf $(PWD)/nvim $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
+	ln -snf $(PWD)/nvim $(HOME)/.config/nvim
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf
-	mkdir -p $(HOME)/.config/brew
-	ln -snf $(PWD)/Brewfile $(HOME)/.config/brew/Brewfile
 
 ifeq ($(shell uname), Darwin)
+	mkdir $(HOME)/.config/brew
+	ln -snf $(PWD)/Brewfile $(HOME)/.config/brew/Brewfile
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
 endif
 
@@ -24,8 +22,9 @@ term:
 clean:
 	rm -f $(HOME)/.zshrc
 	rm -f $(HOME)/.p10k.zsh
-	rm -rf $(or ${XDG_CONFIG_HOME}, ${HOME}/.config)/nvim
+	rm -rf $(HOME)/.config/nvim
 	rm -f $(HOME)/.tmux.conf
+	rm -rf $(HOME)/.config/brew
 	rm -rf $(HOME)/.hammerspoon
 
-.PHONY: default all link vim term clean
+.PHONY: default link vim term clean
