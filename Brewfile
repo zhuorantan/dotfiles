@@ -8,6 +8,7 @@ brew "fd"
 brew "fzf"
 brew "gh"
 brew "lua"
+brew "mas"
 brew "neovim"
 brew "neovim-remote"
 brew "nmap"
@@ -40,3 +41,19 @@ cask "iterm2"
 cask "notion"
 cask "plex"
 cask "sf-symbols"
+
+mas "Developer", id: 640199958
+mas "GarageBand", id: 682658836
+mas "iMovie", id: 408981434
+mas "Keynote", id: 409183694
+mas "Microsoft Excel", id: 462058435
+mas "Microsoft PowerPoint", id: 462062816
+mas "Microsoft Word", id: 462054704
+mas "Numbers", id: 409203825
+mas "Pages", id: 409201541
+mas "Telegram", id: 747648890
+mas "TestFlight", id: 899247664
+mas "The Unarchiver", id: 425424353
+mas "Vimari", id: 1480933944
+mas "WeChat", id: 836500024
+mas "Xcode", id: 497799835
