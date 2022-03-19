@@ -1,7 +1,8 @@
+tap "homebrew/bundle"
 tap "homebrew/cask"
 tap "homebrew/cask-fonts"
+tap "homebrew/core"
 tap "romkatv/powerlevel10k"
-
 brew "cloc"
 brew "fastlane"
 brew "fd"
@@ -26,7 +27,6 @@ brew "youtube-dl"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 brew "romkatv/powerlevel10k/powerlevel10k"
-
 cask "alfred"
 cask "bartender"
 cask "charles"
@@ -41,7 +41,6 @@ cask "iterm2"
 cask "notion"
 cask "plex"
 cask "sf-symbols"
-
 mas "Developer", id: 640199958
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
