@@ -8,18 +8,14 @@ fi
 
 # brew
 BREWPREFIX="/opt/homebrew"
-if [ "$(uname)" = "Darwin" ]; then
-    export HOMEBREW_BUNDLE_FILE="${HOME}/.config/brew/Brewfile"
-    eval "$(${BREWPREFIX}/bin/brew shellenv)"
-fi
+export HOMEBREW_BUNDLE_FILE="${HOME}/.config/brew/Brewfile"
+eval "$(${BREWPREFIX}/bin/brew shellenv)"
 
-if [ "$(uname)" = "Darwin" ]; then
-    # python
-    export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
-    # ruby
-    export GEM_HOME="${BREWPREFIX}/lib/ruby/gems"
-    export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
-fi
+# python
+export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
+# ruby
+export GEM_HOME="${BREWPREFIX}/lib/ruby/gems"
+export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
 typeset -U PATH # remove duplicated entries in $PATH
 
 
@@ -46,16 +42,10 @@ fi
 
 
 # fzf
-if [ "$(uname)" = "Darwin" ]; then
-    FD_BIN="fd"
-else
-    FD_BIN="fdfind"
-fi
-export FZF_DEFAULT_COMMAND="${FD_BIN} --hidden --follow --exclude .git"
-export FZF_ALT_C_COMMAND="${FD_BIN} --type d --hidden --follow --exclude .git"
+export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git"
+export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
 export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
 export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
-unset FD_BIN
 
 
 # proxy
@@ -70,12 +60,6 @@ alias gfw='http_proxy= https_proxy='
 alias v='nvim'
 alias tm='tmux attach || tmux new'
 alias del='trash'
-
-if [ "$(uname)" = "Linux" ]; then
-    alias python='python3'
-    alias pip='pip3'
-    alias fd='fdfind'
-fi
 
 
 if [ "$(uname)" = "Darwin" ]; then
