@@ -37,7 +37,7 @@ source ${BREWPREFIX}/opt/powerlevel10k/powerlevel10k.zsh-theme
 if [ -z "${NVIM_LISTEN_ADDRESS}" ]; then
     export VISUAL="nvim"
 else
-    export VISUAL="nvr -cc split --remote-wait +'setlocal bufhidden=wipe'"
+    export VISUAL="nvr --remote-wait +'setlocal bufhidden=wipe'"
 fi
 
 
@@ -57,7 +57,7 @@ fi
 
 # aliases
 alias gfw='http_proxy= https_proxy='
-alias v='nvim'
+alias v=${VISUAL}
 alias tm='tmux attach || tmux new'
 alias del='trash'
 
