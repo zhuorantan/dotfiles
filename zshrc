@@ -11,13 +11,6 @@ BREWPREFIX="/opt/homebrew"
 export HOMEBREW_BUNDLE_FILE="${HOME}/.config/brew/Brewfile"
 eval "$(${BREWPREFIX}/bin/brew shellenv)"
 
-# python
-export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
-# ruby
-export GEM_HOME="${BREWPREFIX}/lib/ruby/gems"
-export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
-typeset -U PATH # remove duplicated entries in $PATH
-
 
 # ohmyzsh
 export ZSH="${HOME}/.oh-my-zsh"
@@ -69,9 +62,20 @@ if [ "$(uname)" = "Darwin" ]; then
 fi
 
 
+# python
+export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
+# ruby
+export GEM_HOME="${BREWPREFIX}/lib/ruby/gems"
+export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
+
 # nvm
 export NVM_DIR="${HOME}/.nvm"
-[ -s "${BREWPREFIX}/opt/nvm/nvm.sh" ] && . "${BREWPREFIX}/opt/nvm/nvm.sh"  # This loads nvm
+export PATH="${NVM_DIR}/versions/node/v16.13.1/bin/node:${PATH}"
+
+[ -s "${BREWPREFIX}/opt/nvm/nvm.sh" ] && . "${BREWPREFIX}/opt/nvm/nvm.sh" --no-use
 [ -s "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+typeset -U PATH # remove duplicated entries in $PATH
+
 
 unset BREWPREFIX
