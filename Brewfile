@@ -56,4 +56,3 @@ mas "TestFlight", id: 899247664
 mas "The Unarchiver", id: 425424353
 mas "Vimari", id: 1480933944
 mas "WeChat", id: 836500024
-mas "Xcode", id: 497799835
