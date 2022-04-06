@@ -175,6 +175,15 @@ local function define_plugins(use)
   })
 
   --------------------------------
+  -- org mode
+  --------------------------------
+  use({
+    'nvim-orgmode/orgmode',
+    after = { 'nvim-treesitter' },
+    config = [[require('config.orgmode').after()]],
+  })
+
+  --------------------------------
   -- patches
   --------------------------------
   use({

@@ -26,6 +26,7 @@ function config.after()
       { name = 'treesitter' },
       { name = 'buffer' },
       { name = 'nvim_lua' },
+      { name = 'orgmode' },
     },
     completion = {
       completeopt = 'menu,menuone,noinsert',
