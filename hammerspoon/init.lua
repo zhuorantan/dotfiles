@@ -64,13 +64,6 @@ local function newEmacsNaviBind(key, target)
     end)
 end
 
-local msftEmacsNaviKeys = {
-    newEmacsNaviBind("b", "left"),
-    newEmacsNaviBind("f", "right"),
-    newEmacsNaviBind("p", "up"),
-    newEmacsNaviBind("n", "down")
-}
-
 local weChatNaviKeys = {
     hs.hotkey.new({"ctrl", "shift"}, "tab", function()
         hs.eventtap.keyStroke({}, "up")
@@ -82,16 +75,6 @@ local weChatNaviKeys = {
 
 local function toggleEmacsNaviKeys(name, event, app)
     if event == hs.application.watcher.activated then
-        if name:sub(1, #"Microsoft") == "Microsoft" then -- MS apps suck
-            for _,v in pairs(msftEmacsNaviKeys) do
-                v:enable()
-            end
-        else
-            for _,v in pairs(msftEmacsNaviKeys) do
-                v:disable()
-            end
-        end
-
         if name == "WeChat" then
             for _,v in pairs(weChatNaviKeys) do
                 v:enable()
