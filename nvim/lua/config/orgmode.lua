@@ -18,7 +18,7 @@ function M.after()
 
   orgmode.setup({
     org_agenda_files = {'~/Documents/org/*'},
-    org_default_notes_file = '~/Documents/org/inbox.org',
+    org_default_notes_file = '~/Documents/org/refile.org',
   })
 end
 
