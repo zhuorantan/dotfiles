@@ -15,7 +15,7 @@ local function define_plugins(use)
   })
 
   use {
-    'akinsho/nvim-bufferline.lua',
+    'akinsho/bufferline.nvim',
     after = { 'nvim-web-devicons' },
     config = [[require('config.bufferline').after()]],
   }
