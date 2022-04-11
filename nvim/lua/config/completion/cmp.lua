@@ -21,12 +21,12 @@ function config.after()
     },
     sources = {
       { name = 'nvim_lsp' },
+      { name = 'orgmode' },
       { name = 'vsnip' },
       { name = 'path' },
       { name = 'treesitter' },
       { name = 'buffer' },
       { name = 'nvim_lua' },
-      { name = 'orgmode' },
     },
     completion = {
       completeopt = 'menu,menuone,noinsert',
@@ -36,6 +36,7 @@ function config.after()
         with_text = true,
         menu = ({
           nvim_lsp = '[LSP]',
+          orgmode = '[Org]',
           vsnip = '[VSnip]',
           path = '[Path]',
           treesitter = '[TreeSitter]',
