@@ -1,6 +1,10 @@
+local vim = vim
+
 local config = {}
 
 function config.before()
+  vim.g.fugitive_azure_devops_baseurl = 'office.visualstudio.com'
+
   local bind = require('utils.bind')
 
   bind.nmap_cmd('<leader>gs', 'Git')

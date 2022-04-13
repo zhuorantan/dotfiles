@@ -118,8 +118,9 @@ local function define_plugins(use)
   --------------------------------
   use({
     'tpope/vim-fugitive',
+    requires = { 'cedarbaum/fugitive-azure-devops.vim' },
     setup = [[require('config.git.fugitive').before()]],
-    cmd = { 'Git', 'Gdiffsplit' },
+    cmd = { 'Git', 'Gdiffsplit', 'GBrowse' },
   })
 
   use('tpope/vim-rhubarb')
