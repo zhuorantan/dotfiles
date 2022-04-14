@@ -12,22 +12,19 @@ function config.after()
         vim.fn["vsnip#anonymous"](args.body)
       end,
     },
-    mapping = {
-      ['<CR>'] = cmp.mapping.confirm {
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = true,
-      },
+    mapping = cmp.mapping.preset.insert({
+      ['<CR>'] = cmp.mapping.confirm { select = true },
       ['<C-c>'] = cmp.mapping.complete(),
-    },
-    sources = {
+    }),
+    sources = cmp.config.sources({
       { name = 'nvim_lsp' },
-      { name = 'orgmode' },
       { name = 'vsnip' },
       { name = 'path' },
       { name = 'treesitter' },
-      { name = 'buffer' },
       { name = 'nvim_lua' },
-    },
+    }, {
+      { name = 'buffer' },
+    }),
     completion = {
       completeopt = 'menu,menuone,noinsert',
     },
@@ -46,6 +43,32 @@ function config.after()
       }),
     },
   }
+
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
+
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+
+  cmp.setup.filetype('org', {
+    sources = cmp.config.sources({
+      { name = 'orgmode' },
+      { name = 'path' },
+      { name = 'treesitter' },
+    }, {
+      { name = 'buffer' },
+    })
+  })
 end
 
 return config
