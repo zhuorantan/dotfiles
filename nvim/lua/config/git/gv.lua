@@ -1,10 +1,10 @@
-local config = {}
+local vim = vim
 
-function config.before()
-  local bind = require('utils.bind')
+local M = {}
 
-  bind.nmap_cmd('<leader>gv', 'GV --all')
-  bind.nmap_cmd('<leader>gV', 'GV')
+function M.before()
+  vim.keymap.set('n', '<leader>gv', '<cmd>GV --all<cr>')
+  vim.keymap.set('n', '<leader>gV', '<cmd>GV<cr>')
 end
 
-return config
+return M

@@ -1,27 +1,23 @@
 local vim = vim
 
-local config = {}
+local M = {}
 
-function config.before()
+function M.before()
   vim.g.fugitive_azure_devops_baseurl = 'office.visualstudio.com'
 
-  local bind = require('utils.bind')
+  vim.keymap.set('n', '<leader>gs', '<cmd>Git<cr>')
+  vim.keymap.set('n', '<leader>gg', '<cmd>Git log<cr>')
+  vim.keymap.set({ 'n', 'v' }, '<leader>gb', '<cmd>Git blame<cr>')
+  vim.keymap.set('n', '<leader>gd', '<cmd>Gdiffsplit<cr>')
+  vim.keymap.set({ 'n', 'v' }, '<leader>gx', '<cmd>GBrowse<cr>')
 
-  bind.nmap_cmd('<leader>gs', 'Git')
-  bind.nmap_cmd('<leader>gg', 'Git log')
-  bind.nmap_cmd('<leader>gb', 'Git blame')
-  bind.vmap_cmd('<leader>gb', 'Git blame')
-  bind.nmap_cmd('<leader>gd', 'Gdiffsplit')
-  bind.nmap_cmd('<leader>gx', 'GBrowse')
-  bind.vmap_cmd('<leader>gx', 'GBrowse')
-
-  bind.nmap_cmd('<leader>ga', 'Git add %:p')
-  bind.nmap_cmd('<leader>gc', 'Git commit -q')
-  bind.nmap_cmd('<leader>gm', 'Git merge')
-  bind.nmap_cmd('<leader>gf', 'Dispatch git fetch')
-  bind.nmap_cmd('<leader>gl', 'Dispatch git pull --quiet')
-  bind.nmap_cmd('<leader>gp', 'Dispatch git push --quiet')
-  bind.nmap_cmd('<leader>gP', 'Dispatch git push --force --quiet')
+  vim.keymap.set('n', '<leader>ga', '<cmd>Git add %:p<cr>')
+  vim.keymap.set('n', '<leader>gc', '<cmd>Git commit -q<cr>')
+  vim.keymap.set('n', '<leader>gm', '<cmd>Git merge<cr>')
+  vim.keymap.set('n', '<leader>gf', '<cmd>Dispatch git fetch<cr>')
+  vim.keymap.set('n', '<leader>gl', '<cmd>Dispatch git pull --quiet<cr>')
+  vim.keymap.set('n', '<leader>gp', '<cmd>Dispatch git push --quiet<cr>')
+  vim.keymap.set('n', '<leader>gP', '<cmd>Dispatch git push --force --quiet<cr>')
 end
 
-return config
+return M

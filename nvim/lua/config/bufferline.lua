@@ -1,8 +1,9 @@
-local config = {}
+local vim = vim
 
-function config.after()
+local M = {}
+
+function M.after()
   local bufferline = require('bufferline')
-  local bind = require('utils.bind')
 
   bufferline.setup({
     options = {
@@ -13,8 +14,8 @@ function config.after()
   })
 
   for i = 1, 9 do
-    bind.nmap_cmd('<leader>' .. i, 'BufferLineGoToBuffer ' .. i)
+    vim.keymap.set('n', string.format('<leader>%d', i), string.format('<cmd>BufferLineGoToBuffer %d<cr>', i))
   end
 end
 
-return config
+return M

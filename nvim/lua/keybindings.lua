@@ -1,10 +1,8 @@
 local vim = vim
-local bind = require('utils.bind')
 
 local function map_leader()
   vim.g.mapleader = ' '
-  bind.nmap(' ', '')
-  bind.xmap(' ', '')
+  vim.keymap.set({ 'n', 'x' }, ' ', '')
 end
 
 local function apply_key_bindings()
@@ -12,70 +10,65 @@ local function apply_key_bindings()
   -- navigation
   --------------------------------
   -- center
-  bind.nmap('n', 'nzzzv')
-  bind.nmap('N', 'Nzzzv')
-  bind.nmap('*', '*zzzv')
-  bind.nmap('#', '#zzzv')
-  bind.nmap('<leader> ', 'zz:nohlsearch<CR>', { silent = true })
+  vim.keymap.set('n', 'n', 'nzzzv')
+  vim.keymap.set('n', 'N', 'Nzzzv')
+  vim.keymap.set('n', '*', '*zzzv')
+  vim.keymap.set('n', '#', '#zzzv')
+  vim.keymap.set('n', '<leader> ', 'zz:nohlsearch<cr>', { silent = true })
 
   -- buffer
-  bind.nmap_cmd('<leader><C-h>', 'bprevious')
-  bind.nmap_cmd('<leader><C-l>', 'bnext')
-  bind.nmap('<leader><tab>', '<C-^>')
+  vim.keymap.set('n', '<leader><C-h>', '<cmd>bprevious<cr>')
+  vim.keymap.set('n', '<leader><C-l>', '<cmd>bnext<cr>')
+  vim.keymap.set('n', '<leader><tab>', '<C-^>')
 
   --------------------------------
   -- buffer management
   --------------------------------
-  bind.nmap_cmd('<leader>N', 'enew')
-  bind.nmap_cmd('<leader>w', 'w')
-  bind.cmap('w!!', 'w !sudo tee > /dev/null %') -- allow saving of files as sudo
+  vim.keymap.set('n', '<leader>N', '<cmd>enew<cr>')
+  vim.keymap.set('n', '<leader>w', '<cmd>w<cr>')
+  vim.keymap.set('c', 'w!!', 'w !sudo tee > /dev/null %') -- allow saving of files as sudo
 
   --------------------------------
   -- clipboard
   --------------------------------
-  bind.nmap('Y', 'y$') -- fix
+  vim.keymap.set('n', 'Y', 'y$') -- fix
 
-  bind.vmap('<leader>y', '"+y')
-  bind.nmap('<leader>y', '"+y')
-  bind.nmap('<leader>Y', '"+y$')
-  bind.nmap('<leader>yy', '"+yy')
+  vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')
+  vim.keymap.set('n', '<leader>Y', '"+y$')
+  vim.keymap.set('n', '<leader>yy', '"+yy')
 
-  bind.vmap('<leader>d', '"+d')
-  bind.nmap('<leader>d', '"+d')
-  bind.nmap('<leader>D', '"+D')
-  bind.nmap('<leader>dd', '"+dd')
+  vim.keymap.set({ 'n', 'v' }, '<leader>d', '"+d')
+  vim.keymap.set('n', '<leader>D', '"+D')
+  vim.keymap.set('n', '<leader>dd', '"+dd')
 
-  bind.nmap('<leader>p', '"+p')
-  bind.nmap('<leader>P', '"+P')
-  bind.vmap('<leader>p', '"+p')
-  bind.vmap('<leader>P', '"+P')
+  vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')
+  vim.keymap.set({ 'n', 'v' }, '<leader>P', '"+P')
 
-  bind.nmap_cmd('<leader>s', 'let @+=@"') -- sync to system clipboard
+  vim.keymap.set('n', '<leader>s', '<cmd>let @+=@"<cr>') -- sync to system clipboard
 
   --------------------------------
   -- window
   --------------------------------
-  bind.nmap_cmd('<C-w>z', [[lua require('utils.zoom').toggle()]])
+  vim.keymap.set('n', '<C-w>z', require('utils.zoom').toggle)
 
   --------------------------------
   -- terminal
   --------------------------------
-  bind.nmap_cmd('<leader>t', 'terminal')
-  bind.nmap_cmd('<C-w>t', '16split | terminal')
-  bind.nmap_cmd('<C-w>T', 'vsplit | terminal')
+  vim.keymap.set('n', '<leader>t', '<cmd>terminal<cr>')
+  vim.keymap.set('n', '<C-w>t', '<cmd>16split | terminal<cr>')
+  vim.keymap.set('n', '<C-w>T', '<cmd>vsplit | terminal<cr>')
 
   --------------------------------
   -- editing
   --------------------------------
   -- Press * to search for the term under the cursor or a visual selection and
   -- then press a key below to replace all instances of it in the current file.
-  bind.nmap('<leader>R', ':%s///g<left><left>')
-  bind.xmap('<leader>R', ':%s///g<left><left>')
+  vim.keymap.set({ 'n', 'x' }, '<leader>R', ':%s///g<left><left>')
 
   --------------------------------
   -- miscellaneous
   --------------------------------
-  bind.nmap_cmd('<leader>U', 'PackerSync')
+  vim.keymap.set('n', '<leader>U', require('utils.packer_sync'))
 end
 
 map_leader()

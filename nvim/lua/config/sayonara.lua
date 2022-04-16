@@ -1,10 +1,10 @@
-local config = {}
+local vim = vim
 
-function config.before()
-  local bind = require('utils.bind')
+local M = {}
 
-  bind.nmap_cmd('<leader>q', 'Sayonara')
-  bind.nmap_cmd('<leader>Q', 'Sayonara!')
+function M.before()
+  vim.keymap.set('n', '<leader>q', '<cmd>Sayonara<cr>')
+  vim.keymap.set('n', '<leader>Q', '<cmd>Sayonara!<cr>')
 end
 
-return config
+return M

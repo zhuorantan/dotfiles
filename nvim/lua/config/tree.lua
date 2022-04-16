@@ -1,14 +1,12 @@
 local vim = vim
 
-local config = {}
+local M = {}
 
-function config.before()
-  local bind = require('utils.bind')
-
-  bind.nmap_cmd('<leader>n', 'NvimTreeFindFileToggle')
+function M.before()
+  vim.keymap.set('n', '<leader>n', '<cmd>NvimTreeFindFileToggle<cr>')
 end
 
-function config.after()
+function M.after()
   local nvim_tree = require('nvim-tree')
   nvim_tree.setup({
     renderer = {
@@ -33,4 +31,4 @@ function config.after()
   })
 end
 
-return config
+return M

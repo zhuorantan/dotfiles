@@ -183,14 +183,6 @@ local function define_plugins(use)
     after = { 'nvim-treesitter' },
     config = [[require('config.orgmode').after()]],
   })
-
-  --------------------------------
-  -- patches
-  --------------------------------
-  use({
-    'thalesmello/tabfold',
-    keys = '<tab>',
-  })
 end
 
 -- put compiled packer in this path to autoload

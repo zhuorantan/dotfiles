@@ -1,9 +1,9 @@
-local config = {}
+local vim = vim
 
-function config.before()
-  local bind = require('utils.bind')
+local M = {}
 
-  bind.nmap_cmd('<leader>u', 'UndotreeToggle')
+function M.before()
+  vim.keymap.set('n', '<leader>u', '<cmd>UndotreeToggle<cr>')
 end
 
-return config
+return M
