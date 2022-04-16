@@ -5,8 +5,6 @@ local M = {}
 function M.before()
   local fzf = require('fzf-lua')
 
-  local autocmd = require('utils.autocmd')
-
   vim.keymap.set('n', '<C-p>', fzf.files)
   vim.keymap.set('n', '<leader><C-p>', function () fzf.files({ fd_opts = '--color never --type f --hidden --follow --no-ignore' }) end)
   vim.keymap.set('n', '<leader>/', fzf.live_grep)
@@ -23,8 +21,13 @@ function M.before()
   vim.keymap.set('n', '<leader>fs', fzf.git_status)
   vim.keymap.set('n', '<leader>fg', fzf.git_branches)
 
-  autocmd.create_augroup('fzf', {
-    [[FileType fzf tunmap <buffer> <esc>]],
+  vim.api.nvim_create_augroup('fzf', {})
+  vim.api.nvim_create_autocmd('FileType', {
+    group = 'fzf',
+    pattern = 'fzf',
+    callback = function ()
+      vim.keymap.del('t', '<esc>', { buffer = true })
+    end
   })
 end
 
