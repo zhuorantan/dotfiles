@@ -191,11 +191,6 @@ local function define_plugins(use)
     'thalesmello/tabfold',
     keys = '<tab>',
   })
-
-  use({
-    'nathom/filetype.nvim',
-    config = [[require('config.filetype').after()]],
-  })
 end
 
 -- put compiled packer in this path to autoload
@@ -203,5 +198,6 @@ local compile_path = vim.fn.stdpath('data') .. '/site/pack/loader/start/packer/p
 packer.init({
   disable_commands = true,
   compile_path = compile_path,
+  autoremove = true,
 })
 return packer.startup(define_plugins)

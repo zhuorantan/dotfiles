@@ -54,6 +54,12 @@ local function apply_settings()
   -- gui
   --------------------------------
   vim.o.mouse = 'nvi'
+
+  --------------------------------
+  -- filetype
+  --------------------------------
+  vim.g.do_filetype_lua = 1
+  vim.g.did_load_filetypes = 0
 end
 
 apply_settings()
