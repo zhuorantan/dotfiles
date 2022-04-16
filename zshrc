@@ -22,7 +22,7 @@ source ${BREWPREFIX}/opt/powerlevel10k/powerlevel10k.zsh-theme
 if [ -z "${NVIM_LISTEN_ADDRESS}" ]; then
     export VISUAL="nvim"
 else
-    export VISUAL="nvr --remote-wait +'setlocal bufhidden=wipe'"
+    export VISUAL="nvim --server ${NVIM_LISTEN_ADDRESS} --remote"
 fi
 
 
