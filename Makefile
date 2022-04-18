@@ -8,6 +8,8 @@ link:
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf
 	mkdir $(HOME)/.config/brew
 	ln -snf $(PWD)/Brewfile $(HOME)/.config/brew/Brewfile
+	mkdir $(HOME)/.config/alacritty
+	ln -snf $(PWD)/alacritty.yml $(HOME)/.config/alacritty/alacritty.yml
 
 ifeq ($(shell uname), Darwin)
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
@@ -25,6 +27,7 @@ clean:
 	rm -rf $(HOME)/.config/nvim
 	rm -f $(HOME)/.tmux.conf
 	rm -rf $(HOME)/.config/brew
+	rm -rf $(HOME)/.config/alacritty
 	rm -rf $(HOME)/.hammerspoon
 
 .PHONY: default link vim term clean

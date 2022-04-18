@@ -41,7 +41,7 @@ local function toggleApp(name)
     end
 end
 
-hs.hotkey.bind(hyper, "i", toggleApp("iTerm"))
+hs.hotkey.bind(hyper, "i", toggleApp("Alacritty"))
 hs.hotkey.bind(hyper, "x", toggleApp(xcodeAppName))
 hs.hotkey.bind(hyper, "s", toggleApp(browserAppName))
 hs.hotkey.bind(hyper, "m", toggleApp("Telegram"))
@@ -98,13 +98,13 @@ local function layoutApps()
 
     if deviceName == Device.mini then
         windowLayout = {
-            {"iTerm2", nil, rightScreen, hs.layout.maximized, nil, nil},
+            {"Alacritty", nil, rightScreen, hs.layout.maximized, nil, nil},
             {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
         }
     elseif deviceName == Device.mbp then
         if rightScreen then
             windowLayout = {
-                {"iTerm2", nil, leftScreen, hs.layout.maximized, nil, nil},
+                {"Alacritty", nil, leftScreen, hs.layout.maximized, nil, nil},
                 {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
                 {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
                 {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},
@@ -117,7 +117,7 @@ local function layoutApps()
             }
         else
             windowLayout = {
-                {"iTerm2", nil, leftScreen, hs.layout.maximized, nil, nil},
+                {"Alacritty", nil, leftScreen, hs.layout.maximized, nil, nil},
                 {"Xcode", nil, leftScreen, hs.layout.maximized, nil, nil},
                 {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
                 {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},
@@ -131,7 +131,7 @@ local function layoutApps()
         end
     elseif deviceName == Device.work then
         windowLayout = {
-            {"iTerm2", nil, leftScreen, hs.layout.maximized, nil, nil},
+            {"Alacritty", nil, leftScreen, hs.layout.maximized, nil, nil},
             {"Xcode", nil, rightScreen, hs.layout.maximized, nil, nil},
             {"Simulator", nil, leftScreen, hs.layout.right25, nil, nil},
             {browserAppName, nil, leftScreen, hs.layout.left75, nil, nil},

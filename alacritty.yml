@@ -1,0 +1,60 @@
+env:
+  TERM: xterm-256color
+
+font:
+  normal:
+    family: FiraCode Nerd Font
+
+  bold:
+    family: FiraCode Nerd Font
+
+  italic:
+    family: Menlo
+
+  bold_italic:
+    family: Menlo
+
+  size: 14.0
+
+# Colors (One Dark)
+colors:
+  # Default colors
+  primary:
+    background: '#282c34'
+    foreground: '#abb2bf'
+
+  # Normal colors
+  normal:
+    black:   '#282c34'
+    red:     '#e06c75'
+    green:   '#98c379'
+    yellow:  '#d19a66'
+    blue:    '#61afef'
+    magenta: '#c678dd'
+    cyan:    '#56b6c2'
+    white:   '#abb2bf'
+
+  # Bright colors
+  bright:
+    black:   '#5c6370'
+    red:     '#e06c75'
+    green:   '#98c379'
+    yellow:  '#d19a66'
+    blue:    '#61afef'
+    magenta: '#c678dd'
+    cyan:    '#56b6c2'
+    white:   '#ffffff'
+
+selection:
+  save_to_clipboard: true
+
+mouse:
+  hide_when_typing: true
+
+key_bindings:
+  - { key: F,     mods: Alt,      chars: "\x1bf" }
+  - { key: B,     mods: Alt,      chars: "\x1bb" }
+  - { key: H,     mods: Alt,      chars: "\x1bh" }
+  - { key: D,     mods: Alt,      chars: "\x1bd" }
+  - { key: C,     mods: Alt,      chars: "\x1bc" }
+  - { key: A,     mods: Alt,      chars: "\x1ba" }
