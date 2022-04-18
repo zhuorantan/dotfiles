@@ -4,18 +4,16 @@ export HOMEBREW_BUNDLE_FILE="${HOME}/.config/brew/Brewfile"
 eval "$(${BREWPREFIX}/bin/brew shellenv)"
 
 
-# ohmyzsh
-export ZSH="${HOME}/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
-plugins=(git z colored-man-pages history docker fzf)
-source ${ZSH}/oh-my-zsh.sh
-source ${BREWPREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ${BREWPREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# tmux
+export ZSH_TMUX_AUTOSTART="true"
+export ZSH_TMUX_DEFAULT_SESSION_NAME="main"
 
 
-# powerlevel10k
-source ${BREWPREFIX}/opt/powerlevel10k/powerlevel10k.zsh-theme
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# fzf
+export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git"
+export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
+export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
+export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
 
 
 # editor
@@ -26,11 +24,34 @@ else
 fi
 
 
-# fzf
-export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git"
-export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
-export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
-export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
+# python
+export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
+# ruby
+export GEM_HOME="${BREWPREFIX}/lib/ruby/gems"
+export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
+
+# nvm
+export NVM_DIR="${HOME}/.nvm"
+export PATH="${NVM_DIR}/versions/node/v16.14.2/bin:${PATH}"
+
+[ -s "${BREWPREFIX}/opt/nvm/nvm.sh" ] && . "${BREWPREFIX}/opt/nvm/nvm.sh" --no-use
+[ -s "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+typeset -U PATH # remove duplicated entries in $PATH
+
+
+# ohmyzsh
+export ZSH="${HOME}/.oh-my-zsh"
+ZSH_THEME="robbyrussell"
+plugins=(git z colored-man-pages history docker fzf tmux)
+source ${ZSH}/oh-my-zsh.sh
+source ${BREWPREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ${BREWPREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+
+# powerlevel10k
+source ${BREWPREFIX}/opt/powerlevel10k/powerlevel10k.zsh-theme
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
 # proxy
@@ -52,22 +73,6 @@ if [ "$(uname)" = "Darwin" ]; then
         arch -x86_64 $@
     }
 fi
-
-
-# python
-export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
-# ruby
-export GEM_HOME="${BREWPREFIX}/lib/ruby/gems"
-export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
-
-# nvm
-export NVM_DIR="${HOME}/.nvm"
-export PATH="${NVM_DIR}/versions/node/v16.14.2/bin:${PATH}"
-
-[ -s "${BREWPREFIX}/opt/nvm/nvm.sh" ] && . "${BREWPREFIX}/opt/nvm/nvm.sh" --no-use
-[ -s "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-
-typeset -U PATH # remove duplicated entries in $PATH
 
 
 unset BREWPREFIX
