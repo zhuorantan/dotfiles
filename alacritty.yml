@@ -3,16 +3,16 @@ env:
 
 font:
   normal:
-    family: FiraCode Nerd Font
+    family: SFMono Nerd Font
 
   bold:
-    family: FiraCode Nerd Font
+    family: SFMono Nerd Font
 
   italic:
-    family: Menlo
+    family: SFMono Nerd Font
 
   bold_italic:
-    family: Menlo
+    family: SFMono Nerd Font
 
   size: 14.0
 
