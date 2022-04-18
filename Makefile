@@ -30,4 +30,7 @@ clean:
 	rm -rf $(HOME)/.config/alacritty
 	rm -rf $(HOME)/.hammerspoon
 
-.PHONY: default link vim term clean
+patch_alacritty:
+	sh patch-alacritty.sh
+
+.PHONY: default link vim term clean patch_alacritty
