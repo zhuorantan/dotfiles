@@ -24,6 +24,8 @@ else
 fi
 
 
+# rust
+source "${HOME}/.cargo/env"
 # python
 export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
 # ruby
