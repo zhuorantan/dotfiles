@@ -42,6 +42,13 @@ export PATH="${NVM_DIR}/versions/node/v16.14.2/bin:${PATH}"
 typeset -U PATH # remove duplicated entries in $PATH
 
 
+# proxy
+if [ -n "$(netstat -anp tcp 2> /dev/null | grep -E '7890(.+)LISTEN')" ]; then
+    export http_proxy=http://127.0.0.1:7890
+    export https_proxy=http://127.0.0.1:7890
+fi
+
+
 # ohmyzsh
 export ZSH="${HOME}/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
@@ -54,13 +61,6 @@ source ${BREWPREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 # powerlevel10k
 source ${BREWPREFIX}/opt/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-
-# proxy
-if [ -n "$(netstat -anp tcp 2> /dev/null | grep -E '7890(.+)LISTEN')" ]; then
-    export http_proxy=http://127.0.0.1:7890
-    export https_proxy=http://127.0.0.1:7890
-fi
 
 
 # aliases
