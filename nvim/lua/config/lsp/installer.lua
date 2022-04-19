@@ -61,7 +61,9 @@ function M.after()
   ensure_servers_installed()
 
   local lsp_signature = require('lsp_signature')
-  lsp_signature.setup({})
+  lsp_signature.setup({
+    hint_enable = false,
+  })
 
   local capabilities = cmp_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
