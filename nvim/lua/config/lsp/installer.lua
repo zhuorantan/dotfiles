@@ -24,31 +24,22 @@ function M.after()
   -- Use an on_attach function to only map the following keys
   -- after the language server attaches to the current buffer
   local function on_attach(client, bufnr)
-    local function buf_map_cmd(mode, lhs, cmd)
-      local rhs = string.format(':lua %s<CR>', cmd)
-      local options = { noremap = true, silent = true }
-      vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, options)
-    end
-
+    local fzf_lua = require('fzf-lua')
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    buf_map_cmd('n', 'gd', [[require('fzf-lua').lsp_definitions({ jump_to_single_result = true })]])
-    buf_map_cmd('n', 'gD', [[require('fzf-lua').lsp_declarations({ jump_to_single_result = true })]])
-    buf_map_cmd('n', 'gt', [[require('fzf-lua').lsp_typedefs({ jump_to_single_result = true })]])
-    buf_map_cmd('n', 'gi', [[require('fzf-lua').lsp_implementations({ jump_to_single_result = true })]])
-    buf_map_cmd('n', 'gr', [[require('fzf-lua').lsp_references({ jump_to_single_result = true })]])
-    buf_map_cmd('n', 'K', 'vim.lsp.buf.hover()')
-    buf_map_cmd('n', '<C-k>', 'vim.lsp.buf.signature_help()')
-    -- buf_map_cmd('n', '<leader>wa', 'vim.lsp.buf.add_workspace_folder()')
-    -- buf_map_cmd('n', '<leader>wr', 'vim.lsp.buf.remove_workspace_folder()')
-    -- buf_map_cmd('n', '<leader>wl', 'print(vim.inspect(vim.lsp.buf.list_workspace_folders()))')
-    buf_map_cmd('n', '<leader>rn', 'vim.lsp.buf.rename()')
-    buf_map_cmd('n', '<leader>ca', [[require('fzf-lua').lsp_code_actions()]])
-    buf_map_cmd('n', '<leader>e', 'vim.lsp.diagnostic.show_line_diagnostics()')
-    buf_map_cmd('n', '[d', 'vim.diagnostic.goto_prev()')
-    buf_map_cmd('n', ']d', 'vim.diagnostic.goto_next()')
-    buf_map_cmd('v', '<leader>f', 'vim.lsp.buf.range_formatting()')
-    buf_map_cmd('n', '<leader>f', 'vim.lsp.buf.range_formatting()')
-    buf_map_cmd('n', '<leader>F', 'vim.lsp.buf.formatting()')
+    vim.keymap.set('n', 'gd', function () fzf_lua.lsp_definitions({ jump_to_single_result = true }) end, { buffer = true })
+    vim.keymap.set('n', 'gD', function () fzf_lua.lsp_declarations({ jump_to_single_result = true }) end, { buffer = true })
+    vim.keymap.set('n', 'gt', function () fzf_lua.lsp_typedefs({ jump_to_single_result = true }) end, { buffer = true })
+    vim.keymap.set('n', 'gi', function () fzf_lua.lsp_implementations({ jump_to_single_result = true }) end, { buffer = true })
+    vim.keymap.set('n', 'gr', function () fzf_lua.lsp_references({ jump_to_single_result = true }) end, { buffer = true })
+    vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = true })
+    vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { buffer = true })
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = true })
+    vim.keymap.set('n', '<leader>ca', fzf_lua.lsp_code_actions, { buffer = true })
+    vim.keymap.set('n', '<leader>e', vim.lsp.diagnostic.show_line_diagnostics, { buffer = true })
+    vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { buffer = true })
+    vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { buffer = true })
+    vim.keymap.set({ 'n', 'v' }, '<leader>f', vim.lsp.buf.range_formatting, { buffer = true })
+    vim.keymap.set('n', '<leader>F', vim.lsp.buf.formatting, { buffer = true })
 
     if client.resolved_capabilities.document_highlight then
       vim.api.nvim_create_augroup('lsp-highlight', {})
@@ -63,6 +54,9 @@ function M.after()
         callback = vim.lsp.buf.clear_references,
       })
     end
+
+    local lsp_signature = require('lsp_signature')
+    lsp_signature.on_attach()
   end
 
   ensure_servers_installed()

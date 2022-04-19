@@ -49,12 +49,12 @@ local function apply_key_bindings()
   --------------------------------
   -- window
   --------------------------------
-  vim.keymap.set('n', '<C-w>z', require('utils.zoom').toggle)
+  vim.keymap.set({ 'n', 'v', 't' }, '<C-w>z', require('utils.zoom').toggle)
 
   --------------------------------
   -- terminal
   --------------------------------
-  vim.keymap.set('n', '<leader>t', '<cmd>terminal<cr>')
+  vim.keymap.set({ 'n', 'v' }, [[<C-\>]], '<cmd>terminal<cr>')
   vim.keymap.set('n', '<C-w>t', '<cmd>16split | terminal<cr>')
   vim.keymap.set('n', '<C-w>T', '<cmd>vsplit | terminal<cr>')
 

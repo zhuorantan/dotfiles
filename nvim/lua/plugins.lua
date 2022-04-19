@@ -26,6 +26,22 @@ local function define_plugins(use)
     cmd = 'UndotreeToggle',
   })
 
+  use({
+    'rcarriga/nvim-notify',
+    config = [[require('config.notify').after()]],
+    fn = 'vim.notify',
+    module = 'notify',
+  })
+
+  use({
+    'michaelb/sniprun',
+    requires = { 'nvim-notify' },
+    run = 'bash ./install.sh',
+    setup = [[require('config.sniprun').before()]],
+    config = [[require('config.sniprun').after()]],
+    module = 'sniprun',
+  })
+
   --------------------------------
   -- general enhancements
   --------------------------------
@@ -63,7 +79,7 @@ local function define_plugins(use)
   --------------------------------
   use({
     'williamboman/nvim-lsp-installer',
-    requires = { 'neovim/nvim-lspconfig' },
+    requires = { 'neovim/nvim-lspconfig', 'ray-x/lsp_signature.nvim' },
     after = { 'cmp-nvim-lsp' },
     config = [[require('config.lsp.installer').after()]],
   })

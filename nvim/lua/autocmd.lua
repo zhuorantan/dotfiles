@@ -30,7 +30,9 @@ local function set_up_autocmd()
     group = 'bufs',
     pattern = '*',
     desc = 'refresh changed content of file',
-    command = [[echohl WarningMsg | echom "Warning: File changed on disk. Buffer reloaded." | echohl None]],
+    callback = function()
+      vim.notify('File changed on disk. Buffer reloaded.', 'warn')
+    end,
   })
 
   vim.api.nvim_create_augroup('wins', {})
