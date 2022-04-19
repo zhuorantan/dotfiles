@@ -49,6 +49,12 @@ local function apply_key_bindings()
   --------------------------------
   -- window
   --------------------------------
+  local window = require('utils.window')
+  vim.keymap.set({ 'n', 'v', 't' }, '<C-w>H', function() window.resize('H', 2) end)
+  vim.keymap.set({ 'n', 'v', 't' }, '<C-w>J', function() window.resize('J', 2) end)
+  vim.keymap.set({ 'n', 'v', 't' }, '<C-w>K', function() window.resize('K', 2) end)
+  vim.keymap.set({ 'n', 'v', 't' }, '<C-w>L', function() window.resize('L', 2) end)
+
   vim.keymap.set({ 'n', 'v', 't' }, '<C-w>z', require('utils.zoom').toggle)
 
   --------------------------------
