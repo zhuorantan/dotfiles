@@ -35,7 +35,6 @@ local function define_plugins(use)
 
   use({
     'michaelb/sniprun',
-    requires = { 'nvim-notify' },
     run = 'bash ./install.sh',
     setup = [[require('config.sniprun').before()]],
     config = [[require('config.sniprun').after()]],

@@ -11,8 +11,7 @@ function M.after()
   local sniprun = require('sniprun')
 
   sniprun.setup({
-    display = { 'NvimNotify' },
-    show_no_output = { 'NvimNotify' },
+    display = { 'TempFloatingWindow' },
   })
 end
 
