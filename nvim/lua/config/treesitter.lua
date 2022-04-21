@@ -5,7 +5,7 @@ local config = {}
 function config.after()
   local treesitter = require('nvim-treesitter.configs')
 
-  local languages = { 'comment', 'dockerfile', 'html', 'javascript', 'json', 'json5', 'lua', 'org', 'python', 'regex', 'ruby', 'tsx', 'typescript', 'yaml' }
+  local languages = { 'comment', 'dockerfile', 'html', 'javascript', 'json', 'json5', 'lua', 'python', 'regex', 'ruby', 'tsx', 'typescript', 'yaml' }
 
   treesitter.setup({
     ensure_installed = languages,
