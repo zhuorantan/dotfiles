@@ -41,11 +41,11 @@ local function toggleApp(name)
     end
 end
 
-hs.hotkey.bind(hyper, "i", toggleApp("Alacritty"))
+hs.hotkey.bind(hyper, "t", toggleApp("Alacritty"))
 hs.hotkey.bind(hyper, "x", toggleApp(xcodeAppName))
 hs.hotkey.bind(hyper, "s", toggleApp(browserAppName))
-hs.hotkey.bind(hyper, "m", toggleApp("Telegram"))
-hs.hotkey.bind(hyper, "u", toggleApp("Messages"))
+hs.hotkey.bind(hyper, "u", toggleApp("Telegram"))
+hs.hotkey.bind(hyper, "m", toggleApp("Messages"))
 hs.hotkey.bind(hyper, "w", toggleApp("WeChat"))
 hs.hotkey.bind(hyper, "0", toggleApp("Music"))
 
