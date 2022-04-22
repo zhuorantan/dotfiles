@@ -22,6 +22,7 @@ if [ -z "${NVIM_LISTEN_ADDRESS}" ]; then
 else
     export VISUAL="nvim --server ${NVIM_LISTEN_ADDRESS} --remote"
 fi
+export MANPAGER="$VISUAL +Man! -"
 
 
 # rust
