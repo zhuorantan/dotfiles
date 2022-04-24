@@ -33,18 +33,10 @@ local function apply_key_bindings()
   --------------------------------
   vim.keymap.set('n', 'Y', 'y$') -- fix
 
-  vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y')
-  vim.keymap.set('n', '<leader>Y', '"+y$')
-  vim.keymap.set('n', '<leader>yy', '"+yy')
-
-  vim.keymap.set({ 'n', 'v' }, '<leader>d', '"+d')
-  vim.keymap.set('n', '<leader>D', '"+D')
-  vim.keymap.set('n', '<leader>dd', '"+dd')
-
   vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')
   vim.keymap.set({ 'n', 'v' }, '<leader>P', '"+P')
 
-  vim.keymap.set('n', '<leader>s', '<cmd>let @+=@"<cr>') -- sync to system clipboard
+  vim.keymap.set('n', '<leader>s', '<cmd>OSCYankReg "<cr>') -- sync to system clipboard
 
   --------------------------------
   -- window
