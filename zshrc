@@ -34,11 +34,13 @@ export GEM_HOME="${BREWPREFIX}/lib/ruby/gems"
 export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
 
 # nvm
-export NVM_DIR="${HOME}/.nvm"
-export PATH="${NVM_DIR}/versions/node/v16.14.2/bin:${PATH}"
+if [ -s "${BREWPREFIX}/opt/nvm/nvm.sh" ]; then
+    export NVM_DIR="${HOME}/.nvm"
+    export PATH="${NVM_DIR}/versions/node/v16.14.2/bin:${PATH}"
 
-[ -s "${BREWPREFIX}/opt/nvm/nvm.sh" ] && . "${BREWPREFIX}/opt/nvm/nvm.sh" --no-use
-[ -s "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+    . "${BREWPREFIX}/opt/nvm/nvm.sh" --no-use
+    [ -s "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+fi
 
 typeset -U PATH # remove duplicated entries in $PATH
 
