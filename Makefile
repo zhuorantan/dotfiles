@@ -1,4 +1,4 @@
-.PHONY: default Darwin Linux brew ohmyzsh rust p10k link vim term clean patch_alacritty
+.PHONY: default Darwin Linux brew ohmyzsh rust link vim term clean patch_alacritty
 
 default: $(shell uname)
 
@@ -14,9 +14,6 @@ ohmyzsh:
 
 rust:
 	curl -fsSf https://sh.rustup.rs | bash -s -- --no-modify-path
-
-p10k:
-	git clone --depth=1 https://github.com/romkatv/powerlevel10k.git /opt/homebrew/opt/powerlevel10k
 
 link:
 	mkdir -p $(HOME)/.config
