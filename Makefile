@@ -21,12 +21,12 @@ link:
 	ln -snf $(PWD)/p10k.zsh $(HOME)/.p10k.zsh
 	ln -snf $(PWD)/nvim $(HOME)/.config/nvim
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf
+	mkdir -p $(HOME)/.config/brew
+	ln -snf $(PWD)/Brewfile $(HOME)/.config/brew/Brewfile
 	mkdir -p $(HOME)/.config/alacritty
 	ln -snf $(PWD)/alacritty.yml $(HOME)/.config/alacritty/alacritty.yml
 
 ifeq ($(shell uname), Darwin)
-	mkdir -p $(HOME)/.config/brew
-	ln -snf $(PWD)/Brewfile $(HOME)/.config/brew/Brewfile
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
 endif
 
