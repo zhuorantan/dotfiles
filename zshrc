@@ -37,8 +37,8 @@ if [ -d "${BREWPREFIX}/lib/ruby/gems" ]; then
     export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
 fi
 # node
-if [ -d "/usr/local/opt/node@16/bin" ]; then
-    export PATH="/usr/local/opt/node@16/bin:${PATH}"
+if [ -d "${BREWPREFIX}/opt/node@16/bin" ]; then
+    export PATH="${BREWPREFIX}/opt/node@16/bin:${PATH}"
 fi
 
 typeset -U PATH # remove duplicated entries in $PATH
@@ -70,13 +70,6 @@ alias gfw='http_proxy= https_proxy='
 alias v=${VISUAL}
 alias tm='tmux attach || tmux new'
 alias del='trash'
-
-
-if [ "$(uname)" = "Darwin" ]; then
-    i() {
-        arch -x86_64 $@
-    }
-fi
 
 
 unset BREWPREFIX
