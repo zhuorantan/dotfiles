@@ -28,18 +28,17 @@ export MANPAGER="$VISUAL +Man! -"
 # rust
 source "${HOME}/.cargo/env"
 # python
-export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
+if [ -d "${BREWPREFIX}/opt/python/libexec/bin" ]; then
+    export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
+fi
 # ruby
-export GEM_HOME="${BREWPREFIX}/lib/ruby/gems"
-export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
-
-# nvm
-if [ -s "${BREWPREFIX}/opt/nvm/nvm.sh" ]; then
-    export NVM_DIR="${HOME}/.nvm"
-    export PATH="${NVM_DIR}/versions/node/v16.14.2/bin:${PATH}"
-
-    . "${BREWPREFIX}/opt/nvm/nvm.sh" --no-use
-    [ -s "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm" ] && . "${BREWPREFIX}/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+if [ -d "${BREWPREFIX}/lib/ruby/gems" ]; then
+    export GEM_HOME="${BREWPREFIX}/lib/ruby/gems"
+    export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
+fi
+# node
+if [ -d "/usr/local/opt/node@16/bin" ]; then
+    export PATH="/usr/local/opt/node@16/bin:${PATH}"
 fi
 
 typeset -U PATH # remove duplicated entries in $PATH
