@@ -2,21 +2,6 @@ local vim = vim
 
 local M = {}
 
-local function ensure_servers_installed()
-  local lsp_installer_servers = require('nvim-lsp-installer.servers')
-
-  local server_config = require('config.lsp.servers')
-  for _, server_name in ipairs(server_config.servers) do
-    local ok, server = lsp_installer_servers.get_server(server_name)
-
-    if ok then
-        if not server:is_installed() then
-            server:install()
-        end
-    end
-  end
-end
-
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local function on_attach(client, bufnr)
@@ -51,6 +36,7 @@ end
 
 function M.after()
   local lsp_installer = require('nvim-lsp-installer')
+  local lspconfig = require('lspconfig')
   local cmp_lsp = require('cmp_nvim_lsp')
   local server_config = require('config.lsp.servers')
 
@@ -58,7 +44,9 @@ function M.after()
   vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 
-  ensure_servers_installed()
+  lsp_installer.setup({
+    automatic_installation = true,
+  })
 
   local lsp_signature = require('lsp_signature')
   lsp_signature.setup({
@@ -67,23 +55,20 @@ function M.after()
 
   local capabilities = cmp_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
-  lsp_installer.on_server_ready(function(server)
+  for _, server_name in pairs(server_config.servers) do
     local config = {
       on_attach = on_attach,
       capabilities = capabilities,
-      flags = {
-        debounce_text_changes = 150,
-      },
     }
 
-    for k, v in pairs(server_config.configs[server.name] or {}) do
+    for k, v in pairs(server_config.configs[server_name] or {}) do
       config[k] = v
     end
 
-    server:setup(config)
+    lspconfig[server_name].setup(config)
 
     vim.cmd([[do User LspAttachBuffers]])
-  end)
+  end
 end
 
 return M
