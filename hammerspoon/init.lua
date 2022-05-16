@@ -48,6 +48,7 @@ hs.hotkey.bind(hyper, "u", toggleApp("Telegram"))
 hs.hotkey.bind(hyper, "m", toggleApp("Messages"))
 hs.hotkey.bind(hyper, "w", toggleApp("WeChat"))
 hs.hotkey.bind(hyper, "0", toggleApp("Music"))
+hs.hotkey.bind(hyper, "d", toggleApp("Discord"))
 
 if deviceName == Device.work then
     hs.hotkey.bind(hyper, "o", toggleApp("Microsoft Outlook"))
@@ -112,6 +113,7 @@ local function layoutApps()
                 {"Telegram", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
                 {"Messages", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
                 {"WeChat", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+                {"Discord", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
 
                 {"Music", nil, leftScreen, {x=0.05, y=0.1, w=0.55, h=0.8}, nil, nil},
             }
@@ -125,6 +127,7 @@ local function layoutApps()
                 {"Telegram", nil, leftScreen, {x=0.15, y=0.0, w=0.7, h=1.0}, nil, nil},
                 {"Messages", nil, leftScreen, {x=0.15, y=0.0, w=0.7, h=1.0}, nil, nil},
                 {"WeChat", nil, leftScreen, {x=0.15, y=0.0, w=0.7, h=1.0}, nil, nil},
+                {"Discord", nil, leftScreen, {x=0.15, y=0.0, w=0.7, h=1.0}, nil, nil},
 
                 {"Music", nil, leftScreen, {x=0.05, y=0.1, w=0.55, h=0.8}, nil, nil},
             }
@@ -139,6 +142,7 @@ local function layoutApps()
             {"Telegram", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
             {"Messages", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
             {"WeChat", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
+            {"Discord", nil, leftScreen, {x=0.5, y=0.15, w=0.45, h=0.7}, nil, nil},
 
             {"Music", nil, leftScreen, {x=0.05, y=0.1, w=0.55, h=0.8}, nil, nil},
 
