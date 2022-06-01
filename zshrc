@@ -1,7 +1,7 @@
 # brew
 BREWPREFIX="/opt/homebrew"
 export HOMEBREW_BUNDLE_FILE="${HOME}/.config/brew/Brewfile"
-eval "$(${BREWPREFIX}/bin/brew shellenv)"
+[[ ! -f "${BREWPREFIX}/bin/brew" ]] || eval "$(${BREWPREFIX}/bin/brew shellenv)"
 
 
 # tmux
@@ -26,7 +26,7 @@ export MANPAGER="$VISUAL +Man! -"
 
 
 # rust
-source "${HOME}/.cargo/env"
+[[ ! -f "${HOME}/.cargo/env" ]] || source "${HOME}/.cargo/env" 
 # python
 if [ -d "${BREWPREFIX}/opt/python/libexec/bin" ]; then
     export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
@@ -56,12 +56,18 @@ export ZSH="${HOME}/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 plugins=(git z colored-man-pages history docker fzf tmux)
 source ${ZSH}/oh-my-zsh.sh
-source ${BREWPREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ${BREWPREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+if [ -d "${BREWPREFIX}" ]; then
+    source ${BREWPREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source ${BREWPREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source ${BREWPREFIX}/opt/powerlevel10k/powerlevel10k.zsh-theme
+else
+    source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+    source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+    source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+fi
 
 # powerlevel10k
-source ${BREWPREFIX}/opt/powerlevel10k/powerlevel10k.zsh-theme
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
