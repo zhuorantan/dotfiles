@@ -2,6 +2,7 @@
 BREWPREFIX="/opt/homebrew"
 export HOMEBREW_BUNDLE_FILE="${HOME}/.config/brew/Brewfile"
 [[ ! -f "${BREWPREFIX}/bin/brew" ]] || eval "$(${BREWPREFIX}/bin/brew shellenv)"
+export FPATH="${BREWPREFIX}/share/zsh/site-functions:${FPATH}"
 
 
 # tmux
