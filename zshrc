@@ -18,10 +18,10 @@ export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
 
 
 # editor
-if [ -z "${NVIM_LISTEN_ADDRESS}" ]; then
+if [ -z "${NVIM}" ]; then
     export VISUAL="nvim"
 else
-    export VISUAL="nvim --server ${NVIM_LISTEN_ADDRESS} --remote"
+    export VISUAL="nvim --server ${NVIM} --remote"
 fi
 export MANPAGER="$VISUAL +Man! -"
 
