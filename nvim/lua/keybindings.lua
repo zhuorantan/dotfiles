@@ -36,7 +36,7 @@ local function apply_key_bindings()
   vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p')
   vim.keymap.set({ 'n', 'v' }, '<leader>P', '"+P')
 
-  vim.keymap.set('n', '<leader>s', '<cmd>OSCYankReg "<cr>') -- sync to system clipboard
+  vim.keymap.set('n', '<leader>s', function() require('utils.osc52_yank')(vim.fn.getreg('"')) end) -- sync to system clipboard
 
   --------------------------------
   -- window

@@ -57,8 +57,6 @@ local function define_plugins(use)
     cmd = { 'Dispatch', 'Make', 'Focus', 'Start' },
   })
 
-  use({ 'ojroques/vim-oscyank' })
-
   --------------------------------
   -- editing enhancements
   --------------------------------
