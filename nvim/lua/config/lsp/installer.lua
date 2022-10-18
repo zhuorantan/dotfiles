@@ -16,10 +16,9 @@ local function on_attach(client, bufnr)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, { buffer = bufnr })
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr })
   vim.keymap.set('n', '<leader>ca', fzf_lua.lsp_code_actions, { buffer = bufnr })
-  vim.keymap.set({ 'n', 'v' }, '<leader>f', vim.lsp.buf.range_formatting, { buffer = bufnr })
-  vim.keymap.set('n', '<leader>F', vim.lsp.buf.formatting, { buffer = bufnr })
+  vim.keymap.set('n', '<leader>F', function () vim.lsp.buf.format({ async = true }) end, { buffer = bufnr })
 
-  if client.resolved_capabilities.document_highlight then
+  if client.server_capabilities.document_highlight then
     vim.api.nvim_create_augroup('lsp-highlight', {})
     vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
       group = 'lsp-highlight',
@@ -53,7 +52,7 @@ function M.after()
     hint_enable = false,
   })
 
-  local capabilities = cmp_lsp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+  local capabilities = cmp_lsp.default_capabilities()
 
   for _, server_name in pairs(server_config.servers) do
     local config = {
