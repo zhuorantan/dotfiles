@@ -5,7 +5,7 @@ local M = {}
 M.Device = {
   mini = "Zhuoran’s Mac mini",
   mbp = "Zhuoran’s MacBook Pro",
-  work = "Zhuoran’s MacBook Pro for Work",
+  work = "Zhuoran’s Virtual Machine",
 }
 
 M.current = hs.network.configuration.open():computerName()
