@@ -70,7 +70,6 @@ function M.set_up()
   hs.hotkey.bind(M.hyper, "m", toggleApp("Messages"))
   hs.hotkey.bind(M.hyper, "w", toggleApp("WeChat"))
   hs.hotkey.bind(M.hyper, "0", toggleApp("Music"))
-  hs.hotkey.bind(M.hyper, "e", toggleApp("VirtualBuddy"))
 
   if devices.current == devices.Device.work then
     hs.hotkey.bind(M.hyper, "o", toggleApp("Microsoft Outlook"))

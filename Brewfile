@@ -43,6 +43,7 @@ cask "iina"
 cask "istat-menus"
 cask "plex"
 cask "sf-symbols"
+cask "virtualbuddy"
 mas "Developer", id: 640199958
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
