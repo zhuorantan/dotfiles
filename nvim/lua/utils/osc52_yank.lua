@@ -18,7 +18,18 @@ local function osc52_yank(text)
   local osc52 = '\x1b]52;c;' .. b64_encode(text) .. '\x07'
   vim.api.nvim_chan_send(vim.v.stderr, osc52)
 
-  vim.notify('[osc52] Yanked to clipboard')
+  local success = false
+  if vim.fn.filewritable('/dev/fd/2') == 1 then
+    success = vim.fn.writefile({ osc52 }, '/dev/fd/2', 'b') == 0
+  else
+    success = vim.fn.chansend(vim.v.stderr, osc52) > 0
+  end
+
+  if success then
+    vim.notify('[osc52] Yanked to clipboard')
+  else
+    vim.notify('[osc52] Failed to yank to clipboard', 'error')
+  end
 end
 
 return osc52_yank
