@@ -73,6 +73,11 @@ local function define_plugins(use)
     ft = { 'markdown' },
   })
 
+  use({
+    'jbyuki/venn.nvim',
+    config = [[require('config.venn').after()]],
+  })
+
   --------------------------------
   -- lsp
   --------------------------------
