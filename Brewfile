@@ -43,12 +43,13 @@ cask "google-chrome"
 cask "hammerspoon"
 cask "iina"
 cask "istat-menus"
-cask "plex"
+cask "jellyfin-media-player"
 cask "sf-symbols"
 cask "virtualbuddy"
 mas "Developer", id: 640199958
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
+mas "Infuse", id: 1136220934
 mas "Keynote", id: 409183694
 mas "Microsoft Excel", id: 462058435
 mas "Microsoft PowerPoint", id: 462062816
