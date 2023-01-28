@@ -19,7 +19,7 @@ brew "neovim"
 brew "nmap"
 brew "node@16"
 brew "pwgen"
-brew "python@3.9"
+brew "python"
 brew "ripgrep"
 brew "swiftlint"
 brew "tldr"
@@ -44,6 +44,7 @@ cask "hammerspoon"
 cask "iina"
 cask "istat-menus"
 cask "jellyfin-media-player"
+cask "raycast"
 cask "sf-symbols"
 cask "virtualbuddy"
 mas "Developer", id: 640199958
@@ -59,5 +60,5 @@ mas "Pages", id: 409201541
 mas "Telegram", id: 747648890
 mas "TestFlight", id: 899247664
 mas "The Unarchiver", id: 425424353
-mas "Vimari", id: 1480933944
 mas "WeChat", id: 836500024
+mas "WireGuard", id: 1451685025
