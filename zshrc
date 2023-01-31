@@ -49,7 +49,7 @@ typeset -U PATH # remove duplicated entries in $PATH
 if [ -n "$(nmap -p 7890 localhost | grep open)" ]; then
     export http_proxy=http://127.0.0.1:7890
     export https_proxy=http://127.0.0.1:7890
-    export no_proxy="localhost,127.0.0.1"
+    export no_proxy="localhost,127.0.0.1,.lan"
 fi
 
 
