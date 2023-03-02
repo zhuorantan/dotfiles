@@ -45,14 +45,6 @@ fi
 typeset -U PATH # remove duplicated entries in $PATH
 
 
-# proxy
-if [ -n "$(nmap -p 7890 localhost | grep open)" ]; then
-    export http_proxy=http://127.0.0.1:7890
-    export https_proxy=http://127.0.0.1:7890
-    export no_proxy="localhost,127.0.0.1,.lan"
-fi
-
-
 # ohmyzsh
 export ZSH="${HOME}/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
@@ -71,6 +63,14 @@ fi
 
 # powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+
+# proxy
+if [ -n "$(nmap -p 7890 localhost | grep open)" ]; then
+    export http_proxy=http://127.0.0.1:7890
+    export https_proxy=http://127.0.0.1:7890
+    export no_proxy="localhost,127.0.0.1,.lan"
+fi
 
 
 # aliases
