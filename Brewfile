@@ -1,7 +1,5 @@
 tap "epk/epk"
 tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/core"
 tap "robotsandpencils/made"
 tap "romkatv/powerlevel10k"
 brew "bat"
@@ -43,10 +41,10 @@ cask "google-chrome"
 cask "hammerspoon"
 cask "iina"
 cask "istat-menus"
-cask "jellyfin-media-player"
 cask "raycast"
 cask "sf-symbols"
 cask "virtualbuddy"
+mas "Apple Configurator", id: 1037126344
 mas "Developer", id: 640199958
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
