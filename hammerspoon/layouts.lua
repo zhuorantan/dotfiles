@@ -11,8 +11,8 @@ local function layoutApps()
 
   if devices.current == devices.Device.mini then
     windowLayout = {
-      { "Alacritty", nil, secondaryScreen, hs.layout.maximized, nil, nil },
-      { "Xcode", nil, secondaryScreen, hs.layout.maximized, nil, nil },
+      { "Alacritty", nil, primaryScreen, hs.layout.maximized, nil, nil },
+      { "Xcode", nil, primaryScreen, hs.layout.maximized, nil, nil },
     }
   elseif devices.current == devices.Device.mbp then
     if secondaryScreen then

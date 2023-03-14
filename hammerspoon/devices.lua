@@ -8,6 +8,6 @@ M.Device = {
   work = "Zhuoran’s Virtual Machine",
 }
 
-M.current = hs.network.configuration.open():computerName()
+M.current = hs.host.localizedName()
 
 return M
