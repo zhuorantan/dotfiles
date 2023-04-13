@@ -80,4 +80,9 @@ alias tm='tmux attach || tmux new'
 alias del='trash'
 
 
+
+# GitHub Copilot CLI
+eval "$(github-copilot-cli alias -- "$0")"
+
+
 unset BREWPREFIX
