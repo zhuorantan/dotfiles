@@ -82,7 +82,9 @@ alias del='trash'
 
 
 # GitHub Copilot CLI
-eval "$(github-copilot-cli alias -- "$0")"
+if command -v github-copilot-cli > /dev/null; then
+    eval "$(github-copilot-cli alias -- "$0")"
+fi
 
 
 unset BREWPREFIX
