@@ -71,11 +71,12 @@ if [ -n "$(nmap -p 7890 localhost | grep open)" ]; then
     export https_proxy=http://127.0.0.1:7890
     export no_proxy="localhost,127.0.0.1,.lan"
     export GIT_SSH_COMMAND='ssh -o "ProxyCommand=nc -X 5 -x localhost:7890 %h %p"'
+
+    alias gfw='http_proxy= https_proxy= GIT_SSH_COMMAND='
 fi
 
 
 # aliases
-alias gfw='http_proxy= https_proxy= GIT_SSH_COMMAND='
 alias v=${VISUAL}
 alias tm='tmux attach || tmux new'
 alias del='trash'
