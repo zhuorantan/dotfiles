@@ -9,7 +9,7 @@ local function layoutApps()
 
   local windowLayout
 
-  if devices.current == devices.Device.mini then
+  if devices.current == devices.Device.studio then
     windowLayout = {
       { "Alacritty", nil, primaryScreen, hs.layout.maximized, nil, nil },
       { "Xcode", nil, primaryScreen, hs.layout.maximized, nil, nil },
