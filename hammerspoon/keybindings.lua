@@ -16,29 +16,6 @@ local function toggleApp(name)
   end
 end
 
-local function toggleEmacsNaviKeys(name, event)
-  if event == hs.application.watcher.activated then
-    local weChatNaviKeys = {
-      hs.hotkey.new({"ctrl", "shift"}, "tab", function()
-        hs.eventtap.keyStroke({}, "up")
-      end),
-      hs.hotkey.new({"ctrl"}, "tab", function()
-        hs.eventtap.keyStroke({}, "down")
-      end)
-    }
-
-    if name == "WeChat" then
-      for _,v in pairs(weChatNaviKeys) do
-        v:enable()
-      end
-    else
-      for _,v in pairs(weChatNaviKeys) do
-        v:disable()
-      end
-    end
-  end
-end
-
 local function bind_window_management(hyper)
   local window = require('window.window')
 
@@ -58,7 +35,6 @@ local function bind_window_management(hyper)
 end
 
 function M.set_up()
-  local devices = require('devices')
   local apps = require('apps')
   local layoutApps = require('layouts')
 
@@ -66,15 +42,16 @@ function M.set_up()
   hs.hotkey.bind(M.hyper, "t", toggleApp("Alacritty"))
   hs.hotkey.bind(M.hyper, "x", toggleApp(apps.xcodeAppName))
   hs.hotkey.bind(M.hyper, "s", toggleApp(apps.browserAppName))
+  hs.hotkey.bind(M.hyper, "r", toggleApp("Finder"))
+  hs.hotkey.bind(M.hyper, "e", toggleApp("Mail"))
   hs.hotkey.bind(M.hyper, "u", toggleApp("Telegram"))
   hs.hotkey.bind(M.hyper, "m", toggleApp("Messages"))
   hs.hotkey.bind(M.hyper, "w", toggleApp("WeChat"))
   hs.hotkey.bind(M.hyper, "0", toggleApp("Music"))
+  hs.hotkey.bind(M.hyper, "2", toggleApp("Simulator"))
 
-  if devices.current == devices.Device.work then
-    hs.hotkey.bind(M.hyper, "o", toggleApp("Microsoft Outlook"))
-    hs.hotkey.bind(M.hyper, "3", toggleApp("Microsoft Teams"))
-  end
+  hs.hotkey.bind(M.hyper, "o", toggleApp("Microsoft Outlook"))
+  hs.hotkey.bind(M.hyper, "3", toggleApp("Microsoft Teams"))
 
   -- Enter ScreenSaver
   hs.hotkey.bind(M.hyper, "8", hs.caffeinate.startScreensaver)
@@ -100,8 +77,6 @@ function M.set_up()
   hs.hotkey.bind(M.hyper, ";", require('utils.click_top_notification'))
 
   bind_window_management(M.hyper)
-
-  AppWatcher = hs.application.watcher.new(toggleEmacsNaviKeys):start()
 end
 
 return M
