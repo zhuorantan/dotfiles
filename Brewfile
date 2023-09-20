@@ -16,9 +16,11 @@ brew "mas"
 brew "neovim"
 brew "nmap"
 brew "node@18"
+brew "powerlevel10k"
 brew "pwgen"
 brew "python"
 brew "ripgrep"
+brew "ruby"
 brew "tldr"
 brew "tmux"
 brew "trash"
@@ -27,7 +29,6 @@ brew "youtube-dl"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 brew "robotsandpencils/made/xcodes"
-brew "romkatv/powerlevel10k/powerlevel10k"
 cask "alacritty"
 cask "bartender"
 cask "charles"
@@ -57,4 +58,3 @@ mas "Telegram", id: 747648890
 mas "TestFlight", id: 899247664
 mas "The Unarchiver", id: 425424353
 mas "WeChat", id: 836500024
-mas "WireGuard", id: 1451685025
