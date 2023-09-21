@@ -16,3 +16,9 @@ end
 
 ConfigWatcher = hs.pathwatcher.new(os.getenv("HOME") .. "/Documents/dotfiles/hammerspoon", reloadConfig):start()
 hs.alert.show("Config loaded")
+
+hs.caffeinate.set("displayIdle", require('utils.is_at_office')(), false)
+
+ScreenWatcher = hs.screen.watcher.new(function()
+  hs.reload()
+end):start()

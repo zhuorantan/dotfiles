@@ -54,7 +54,9 @@ function M.set_up()
   hs.hotkey.bind(M.hyper, "3", toggleApp("Microsoft Teams"))
 
   -- Enter ScreenSaver
-  hs.hotkey.bind(M.hyper, "8", hs.caffeinate.startScreensaver)
+  if require('utils.is_at_office')() then
+    hs.hotkey.bind(M.hyper, "q", hs.caffeinate.startScreensaver)
+  end
 
   -- Show desktop
   hs.hotkey.bind(M.hyper, "1", function ()
