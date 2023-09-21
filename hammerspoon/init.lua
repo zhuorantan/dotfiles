@@ -4,5 +4,6 @@ local hs = hs
 hs.window.animationDuration = 0
 
 require('config_auto_load')
+require('config_display_sleep')
 require('keybindings').set_up()
 require('layouts')()

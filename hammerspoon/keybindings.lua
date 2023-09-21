@@ -53,11 +53,6 @@ function M.set_up()
   hs.hotkey.bind(M.hyper, "o", toggleApp("Microsoft Outlook"))
   hs.hotkey.bind(M.hyper, "3", toggleApp("Microsoft Teams"))
 
-  -- Enter ScreenSaver
-  if require('utils.is_at_office')() then
-    hs.hotkey.bind(M.hyper, "q", hs.caffeinate.startScreensaver)
-  end
-
   -- Show desktop
   hs.hotkey.bind(M.hyper, "1", function ()
       hs.eventtap.keyStroke({"fn"}, "f11")

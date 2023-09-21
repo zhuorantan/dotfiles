@@ -26,4 +26,4 @@ local function is_at_office()
   return true
 end
 
-return is_at_office
+hs.caffeinate.set("displayIdle", is_at_office(), false)

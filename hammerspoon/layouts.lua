@@ -24,7 +24,7 @@ local function layoutApps()
     table.insert(layout, { "WeChat", nil, screens[1], { x = 0.5, y = 0.15, w = 0.45, h = 0.7 }, nil, nil })
   end
 
-  table.insert(layout, { "Microsoft Outlook", nil, screens[1], { x = 0.15, y = 0.05, w = 0.7, h = 0.9 }, nil, nil })
+  table.insert(layout, { "Microsoft Outlook", nil, screens[2], hs.layout.maximized, nil, nil })
   table.insert(layout, { "Microsoft Teams", nil, screens[1], { x = 0.15, y = 0.05, w = 0.7, h = 0.9 }, nil, nil })
 
   hs.layout.apply(layout)
