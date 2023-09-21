@@ -2,7 +2,7 @@ local hs = hs
 
 local function is_at_office()
   -- Desktop cannot be at office
-  if hs.battery.batteryType() == nil then
+  if not pcall(hs.battery.batteryType) or hs.battery.batteryType() == nil then
     return false
   end
 
