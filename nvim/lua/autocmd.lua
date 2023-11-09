@@ -44,13 +44,13 @@ local function set_up_autocmd()
   })
 
   vim.api.nvim_create_augroup('visual', {})
-  vim.api.nvim_create_autocmd('InsertLeave,BufEnter,WinEnter', {
+  vim.api.nvim_create_autocmd({'InsertLeave', 'BufEnter', 'WinEnter'}, {
     group = 'visual',
     pattern = '*',
     desc = 'only show cursor line in active window',
     command = [[set cursorline]],
   })
-  vim.api.nvim_create_autocmd('InsertEnter,BufLeave,WinLeave', {
+  vim.api.nvim_create_autocmd({'InsertEnter', 'BufLeave', 'WinLeave'}, {
     group = 'visual',
     pattern = '*',
     desc = 'only show cursor line in active window',
