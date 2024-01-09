@@ -24,7 +24,7 @@ link:
 	mkdir -p $(HOME)/.config/brew
 	ln -snf $(PWD)/Brewfile $(HOME)/.config/brew/Brewfile
 	mkdir -p $(HOME)/.config/alacritty
-	ln -snf $(PWD)/alacritty.yml $(HOME)/.config/alacritty/alacritty.yml
+	ln -snf $(PWD)/alacritty.toml $(HOME)/.config/alacritty/alacritty.toml
 
 ifeq ($(shell uname), Darwin)
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
