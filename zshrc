@@ -61,7 +61,7 @@ source ${ZSH}/oh-my-zsh.sh
 if [ -d "${BREWPREFIX}" ]; then
     source ${BREWPREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     source ${BREWPREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-    source ${BREWPREFIX}/opt/powerlevel10k/powerlevel10k.zsh-theme
+    source ${BREWPREFIX}/share/powerlevel10k/powerlevel10k.zsh-theme
 else
     source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
     source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
