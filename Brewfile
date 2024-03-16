@@ -1,7 +1,6 @@
 tap "epk/epk"
 tap "homebrew/bundle"
-tap "robotsandpencils/made"
-tap "romkatv/powerlevel10k"
+tap "xcodesorg/made"
 brew "bat"
 brew "cloc"
 brew "deno"
@@ -30,11 +29,10 @@ brew "wget"
 brew "youtube-dl"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
-brew "robotsandpencils/made/xcodes"
+brew "xcodesorg/made/xcodes"
 cask "alacritty"
 cask "bartender"
 cask "charles"
-cask "clashx"
 cask "db-browser-for-sqlite"
 cask "figma"
 cask "font-sf-mono-nerd-font"
@@ -56,6 +54,7 @@ mas "Microsoft Word", id: 462054704
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "PastePilot", id: 1658252808
+mas "Tailscale", id: 1475387142
 mas "Telegram", id: 747648890
 mas "TestFlight", id: 899247664
 mas "The Unarchiver", id: 425424353
