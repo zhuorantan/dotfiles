@@ -42,7 +42,6 @@ cask "iina"
 cask "istat-menus"
 cask "raycast"
 cask "sf-symbols"
-mas "Apple Configurator", id: 1037126344
 mas "Developer", id: 640199958
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434

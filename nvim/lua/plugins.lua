@@ -194,15 +194,6 @@ local function define_plugins(use)
     'navarasu/onedark.nvim',
     config = [[require('config.theme').after()]],
   })
-
-  --------------------------------
-  -- org mode
-  --------------------------------
-  use({
-    'nvim-orgmode/orgmode',
-    after = { 'nvim-treesitter' },
-    config = [[require('config.orgmode').after()]],
-  })
 end
 
 -- put compiled packer in this path to autoload
