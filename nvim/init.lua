@@ -1,7 +1,5 @@
-local disable_builtin_plugins = require('utils.disable_builtin_plugins')
+if vim.loader then
+  vim.loader.enable()
+end
 
-disable_builtin_plugins()
-require('options')
-require('keybindings')
-require('commands')
-require('autocmd')
+require("config.lazy")
