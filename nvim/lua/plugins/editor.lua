@@ -10,6 +10,7 @@ return {
   },
   {
     "junegunn/gv.vim",
+    dependencies = { "tpope/vim-fugitive" },
     cmd = "GV",
     keys = {
       { "<leader>gv", "<cmd>GV --all<cr>", desc = "GV" },

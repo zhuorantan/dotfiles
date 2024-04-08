@@ -5,9 +5,6 @@ keymap.set("c", "w!!", "w !sudo tee > /dev/null %") -- allow saving of files as 
 --------------------------------
 -- clipboard
 --------------------------------
-keymap.set({ "n", "v" }, "<leader>pp", '"+p', { desc = "Paste below" })
-keymap.set({ "n", "v" }, "<leader>pP", '"+P', { desc = "Paste above" })
-
 keymap.set("n", "<leader>ps", function()
   require("util.osc52_yank")(vim.fn.getreg('""'))
 end, { desc = "Sync" })
@@ -33,3 +30,7 @@ for i = 1, 9 do
     { desc = "which_key_ignore" }
   )
 end
+
+keymap.set({ "n", "v", "t" }, "<C-w>z", function()
+  require("util.zoom").toggle()
+end, { desc = "Toggle Window Zoom" })
