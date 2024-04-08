@@ -1,7 +1,6 @@
 return {
   {
     "akinsho/toggleterm.nvim",
-    config = true,
     keys = {
       {
         "<C-_>",
@@ -21,6 +20,7 @@ return {
       { "<leader>ta", "<cmd>ToggleTermToggleAll<cr>", desc = "Toggle All" },
       { "<leader>ts", "<cmd>TermSelect<cr>", desc = "Select" },
     },
+    opts = {},
   },
   {
     "mbbill/undotree",

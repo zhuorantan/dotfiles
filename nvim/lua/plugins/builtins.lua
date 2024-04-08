@@ -30,7 +30,7 @@ return {
         mappings = {
           i = {
             ["<esc>"] = "close",
-            ["<C-e>"] = { "<esc>", type = "command" },
+            ["<C-c>"] = { "<esc>", type = "command" },
           },
         },
       },
