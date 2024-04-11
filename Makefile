@@ -12,9 +12,6 @@ brew:
 ohmyzsh:
 	curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
 
-rust:
-	curl -fsSf https://sh.rustup.rs | bash -s -- --no-modify-path
-
 link:
 	mkdir -p $(HOME)/.config
 	ln -snf $(PWD)/zshrc $(HOME)/.zshrc

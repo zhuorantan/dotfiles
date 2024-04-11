@@ -28,13 +28,11 @@ export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
 if [ -z "${NVIM}" ]; then
     export VISUAL="nvim"
 else
-    export VISUAL="nvim --server ${NVIM} --remote"
+    export VISUAL="nvim --server ${NVIM} --remote-tab"
 fi
 export MANPAGER="$VISUAL +Man! -"
 
 
-# rust
-[[ ! -f "${HOME}/.cargo/env" ]] || source "${HOME}/.cargo/env" 
 # python
 if [ -d "${BREWPREFIX}/opt/python/libexec/bin" ]; then
     export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
