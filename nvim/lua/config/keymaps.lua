@@ -16,6 +16,11 @@ keymap.del("n", "<C-/>")
 keymap.del("n", "<leader>ft")
 keymap.del("n", "<leader>fT")
 
+keymap.del("t", "<C-h>")
+keymap.del("t", "<C-j>")
+keymap.del("t", "<C-k>")
+keymap.del("t", "<C-l>")
+
 keymap.del("t", "<Esc><Esc>")
 keymap.set("t", "<Esc>", [[<C-\><C-n>]])
 
