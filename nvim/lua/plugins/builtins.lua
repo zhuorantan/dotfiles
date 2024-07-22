@@ -39,9 +39,9 @@ return {
   {
     "folke/which-key.nvim",
     opts = {
-      defaults = {
-        ["<leader>p"] = { name = "+clipboard" },
-        ["<leader>t"] = { name = "+terminal" },
+      spec = {
+        { "<leader>p", group = "clipboard" },
+        { "<leader>t", group = "terminal" },
       },
     },
   },
