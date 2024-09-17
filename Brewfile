@@ -34,14 +34,15 @@ brew "zsh-syntax-highlighting"
 cask "alacritty"
 cask "bartender"
 cask "charles"
+cask "cursor"
 cask "db-browser-for-sqlite"
 cask "figma"
 cask "font-sf-mono-nerd-font"
 cask "google-chrome"
 cask "iina"
-cask "istat-menus"
 cask "raycast"
 cask "sf-symbols"
+cask "stats"
 mas "Developer", id: 640199958
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
