@@ -12,14 +12,6 @@ export HOMEBREW_BUNDLE_FILE="${HOME}/.config/brew/Brewfile"
 export FPATH="${BREWPREFIX}/share/zsh/site-functions:${FPATH}"
 
 
-# tmux
-if [ "$TERM_PROGRAM" = "alacritty" ]; then
-  export ZSH_TMUX_AUTOSTART="true"
-  export ZSH_TMUX_DEFAULT_SESSION_NAME="main"
-  export ZSH_TMUX_AUTOCONNECT="true"
-fi
-
-
 # fzf
 export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git"
 export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
