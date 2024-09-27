@@ -13,8 +13,11 @@ export FPATH="${BREWPREFIX}/share/zsh/site-functions:${FPATH}"
 
 
 # tmux
-export ZSH_TMUX_AUTOSTART="true"
-export ZSH_TMUX_DEFAULT_SESSION_NAME="main"
+if [ "$TERM_PROGRAM" = "alacritty" ]; then
+  export ZSH_TMUX_AUTOSTART="true"
+  export ZSH_TMUX_DEFAULT_SESSION_NAME="main"
+  export ZSH_TMUX_AUTOCONNECT="true"
+fi
 
 
 # fzf
