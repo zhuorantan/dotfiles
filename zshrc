@@ -86,7 +86,7 @@ fi
 
 # aliases
 alias v=${VISUAL}
-alias tm='tmux attach || tmux new'
+alias tm='tmux attach -t main || tmux new -s main'
 alias del='trash'
 
 
