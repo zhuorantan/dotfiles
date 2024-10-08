@@ -32,5 +32,8 @@ return {
         ft = { "markdown", "Avante" },
       },
     },
+    keys = {
+      { "<leader>a", "", desc = "+avante" },
+    },
   },
 }

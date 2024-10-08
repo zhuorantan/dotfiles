@@ -40,16 +40,14 @@ return {
     "folke/which-key.nvim",
     opts = {
       spec = {
-        { "<leader>p", group = "clipboard" },
         { "<leader>t", group = "terminal" },
-        { "<leader>a", group = "avante" },
       },
     },
   },
   {
     "gbprod/yanky.nvim",
     keys = {
-      { "<leader>p", false },
+      { "<leader>p", "", desc = "+clipboard" },
       {
         "<leader>ph",
         function()
