@@ -45,8 +45,6 @@ return {
       { "<leader>if", "<cmd>XcodebuildProjectManager<cr>", ft = "swift", desc = "Show Project Manager Actions" },
       { "<leader>ib", "<cmd>XcodebuildBuild<cr>", ft = "swift", desc = "Build Project" },
       { "<leader>iB", "<cmd>XcodebuildBuildForTesting<cr>", ft = "swift", desc = "Build For Testing" },
-      { "<leader>ir", "<cmd>XcodebuildBuildRun<cr>", ft = "swift", desc = "Build & Run Project" },
-      { "<leader>iR", "<cmd>XcodebuildRun<cr>", ft = "swift", desc = "Run Project" },
       { "<leader>it", "<cmd>XcodebuildTest<cr>", ft = "swift", desc = "Run Tests" },
       { "<leader>it", "<cmd>XcodebuildTestSelected<cr>", ft = "swift", desc = "Run Selected Tests", mode = "v" },
       { "<leader>iT", "<cmd>XcodebuildTestClass<cr>", ft = "swift", desc = "Run Current Test Class" },
@@ -99,5 +97,51 @@ return {
         color = { fg = "#f9e2af", bg = "#161622" },
       })
     end,
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = { ensure_installed = { "codelldb" } },
+  },
+  {
+    "mfussenegger/nvim-dap",
+    ft = { "swift" },
+    opts = function()
+      local xcodebuild = require("xcodebuild.integrations.dap")
+      xcodebuild.setup("codelldb")
+    end,
+    keys = {
+      {
+        "<leader>ir",
+        function()
+          require("xcodebuild.integrations.dap").build_and_debug()
+        end,
+        ft = "swift",
+        desc = "Build & Debug",
+      },
+      {
+        "<leader>iR",
+        function()
+          require("xcodebuild.integrations.dap").debug_without_build()
+        end,
+        ft = "swift",
+        desc = "Debug Without Build",
+      },
+      {
+        "<leader>db",
+        function()
+          require("xcodebuild.integrations.dap").toggle_breakpoint()
+        end,
+        ft = "swift",
+        desc = "Toggle Breakpoint",
+      },
+      {
+        "<leader>dt",
+        function()
+          require("xcodebuild.integrations.dap").terminate_session()
+        end,
+        ft = "swift",
+        desc = "Terminate",
+      },
+    },
   },
 }
