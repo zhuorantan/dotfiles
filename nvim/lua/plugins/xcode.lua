@@ -45,6 +45,8 @@ return {
       { "<leader>if", "<cmd>XcodebuildProjectManager<cr>", ft = "swift", desc = "Show Project Manager Actions" },
       { "<leader>ib", "<cmd>XcodebuildBuild<cr>", ft = "swift", desc = "Build Project" },
       { "<leader>iB", "<cmd>XcodebuildBuildForTesting<cr>", ft = "swift", desc = "Build For Testing" },
+      { "<leader>ir", "<cmd>XcodebuildBuildRun<cr>", ft = "swift", desc = "Build & Run Project" },
+      { "<leader>iR", "<cmd>XcodebuildRun<cr>", ft = "swift", desc = "Run Project" },
       { "<leader>it", "<cmd>XcodebuildTest<cr>", ft = "swift", desc = "Run Tests" },
       { "<leader>it", "<cmd>XcodebuildTestSelected<cr>", ft = "swift", desc = "Run Selected Tests", mode = "v" },
       { "<leader>iT", "<cmd>XcodebuildTestClass<cr>", ft = "swift", desc = "Run Current Test Class" },
@@ -111,7 +113,7 @@ return {
     end,
     keys = {
       {
-        "<leader>ir",
+        "<leader>dd",
         function()
           require("xcodebuild.integrations.dap").build_and_debug()
         end,
@@ -119,7 +121,7 @@ return {
         desc = "Build & Debug",
       },
       {
-        "<leader>iR",
+        "<leader>dD",
         function()
           require("xcodebuild.integrations.dap").debug_without_build()
         end,
