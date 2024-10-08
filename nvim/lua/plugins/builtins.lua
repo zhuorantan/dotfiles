@@ -42,6 +42,7 @@ return {
       spec = {
         { "<leader>p", group = "clipboard" },
         { "<leader>t", group = "terminal" },
+        { "<leader>a", group = "avante" },
       },
     },
   },
