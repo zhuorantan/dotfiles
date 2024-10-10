@@ -27,13 +27,13 @@ brew "tldr"
 brew "tmux"
 brew "trash"
 brew "wget"
-brew "xcodes"
 brew "xcode-build-server"
+brew "xcodes"
 brew "youtube-dl"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 cask "alacritty"
-cask "bartender"
+cask "bartender" if system 'system_profiler SPPowerDataType | grep -q "Battery Information"'
 cask "charles"
 cask "cursor"
 cask "db-browser-for-sqlite"
@@ -55,7 +55,7 @@ mas "Microsoft Word", id: 462054704
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "PastePilot", id: 1658252808
-mas "Tailscale", id: 1475387142
+mas "Tailscale", id: 1475387142 if system 'system_profiler SPPowerDataType | grep -q "Battery Information"'
 mas "Telegram", id: 747648890
 mas "TestFlight", id: 899247664
 mas "The Unarchiver", id: 425424353
