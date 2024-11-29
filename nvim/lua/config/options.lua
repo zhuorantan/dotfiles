@@ -13,3 +13,6 @@ opt.relativenumber = false
 
 opt.list = false
 opt.mouse = "nvi"
+
+-- remove root detection based on lsp since it keeps jumping into workspaces
+vim.g.root_spec = { { ".git", "lua" }, "cwd" }
