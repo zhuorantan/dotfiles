@@ -40,6 +40,7 @@ return {
     "mhinz/vim-sayonara",
     keys = {
       { "<C-q>", "<cmd>Sayonara<cr>", desc = "Sayonara" },
+      { "<leader><C-q>", "<cmd>Sayonara!<cr>", desc = "Sayonara" },
     },
     init = function()
       vim.g.sayonara_confirm_quit = 1
