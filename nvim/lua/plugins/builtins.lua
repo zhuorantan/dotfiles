@@ -57,22 +57,4 @@ return {
       },
     },
   },
-  {
-    "hrsh7th/nvim-cmp",
-    opts = {
-      enabled = function()
-        return not vim.g.cmp_disabled
-      end,
-    },
-    keys = {
-      {
-        "<leader>ck",
-        function()
-          vim.g.cmp_disabled = not vim.g.cmp_disabled
-          vim.notify("Completion " .. (vim.g.cmp_disabled and "disabled" or "enabled"))
-        end,
-        desc = "Toggle completion",
-      },
-    },
-  },
 }
