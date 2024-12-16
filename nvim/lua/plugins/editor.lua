@@ -22,10 +22,8 @@ return {
     dependencies = { "tpope/vim-rhubarb" },
     cmd = { "Git", "Gdiffsplit", "GBrowse" },
     keys = {
-      { "<leader>gs", "<cmd>Git<cr>", desc = "Status" },
-      { "<leader>gg", "<cmd>Git log<cr>", desc = "Log" },
+      { "<leader>gg", "<cmd>Git<cr>", desc = "Fugitive" },
       { "<leader>gb", "<cmd>Git blame<cr>", { "n", "v" }, desc = "Blame" },
-      { "<leader>gx", "<cmd>GBrowse<cr>", { "n", "v" }, desc = "Browse" },
       { "<leader>gf", "<cmd>Dispatch git fetch<cr>", desc = "Fetch" },
       { "<leader>gl", "<cmd>Dispatch git pull --quiet<cr>", desc = "Pull" },
       { "<leader>gp", "<cmd>Dispatch git push --quiet<cr>", desc = "Push" },
