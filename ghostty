@@ -1,0 +1,9 @@
+font-family = SF Mono
+font-size = 14
+
+macos-option-as-alt = left
+
+confirm-close-surface = false
+
+term = "xterm-256color"
+

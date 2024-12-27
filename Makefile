@@ -1,8 +1,8 @@
-.PHONY: default Darwin Linux brew ohmyzsh rust link vim term clean patch_alacritty
+.PHONY: default Darwin Linux brew ohmyzsh rust link vim term clean
 
 default: $(shell uname)
 
-Darwin: link vim term patch_alacritty
+Darwin: link vim term
 
 Linux: link vim
 
@@ -20,8 +20,8 @@ link:
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf
 	mkdir -p $(HOME)/.config/brew
 	ln -snf $(PWD)/Brewfile $(HOME)/.config/brew/Brewfile
-	mkdir -p $(HOME)/.config/alacritty
-	ln -snf $(PWD)/alacritty.toml $(HOME)/.config/alacritty/alacritty.toml
+	mkdir -p $(HOME)/.config/ghostty
+	ln -snf $(PWD)/ghostty $(HOME)/.config/ghostty/config
 
 ifeq ($(shell uname), Darwin)
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
@@ -33,14 +33,11 @@ vim:
 term:
 	tic -x tmux-256color.terminfo
 
-patch_alacritty:
-	sh patch-alacritty.sh
-
 clean:
 	rm -f $(HOME)/.zshrc
 	rm -f $(HOME)/.p10k.zsh
 	rm -rf $(HOME)/.config/nvim
 	rm -f $(HOME)/.tmux.conf
 	rm -rf $(HOME)/.config/brew
-	rm -rf $(HOME)/.config/alacritty
+	rm -rf $(HOME)/.config/ghostty
 	rm -rf $(HOME)/.hammerspoon
