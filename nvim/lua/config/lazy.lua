@@ -14,15 +14,18 @@ vim.opt.rtp:prepend(vim.env.LAZY or lazypath)
 require("lazy").setup({
   spec = {
     {
-      "navarasu/onedark.nvim",
-      opts = { style = "darker" },
+      "catppuccin/nvim",
+      name = "catppuccin",
+      opts = {
+        transparent_background = true,
+      },
     },
     -- add LazyVim and import its plugins
     {
       "LazyVim/LazyVim",
       import = "lazyvim.plugins",
       opts = {
-        colorscheme = "onedark",
+        colorscheme = "catppuccin-macchiato",
         news = {
           lazyvim = true,
           neovim = true,

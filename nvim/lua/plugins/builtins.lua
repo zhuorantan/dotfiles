@@ -57,4 +57,20 @@ return {
       },
     },
   },
+  {
+    "echasnovski/mini.animate",
+    opts = {
+      -- disable open and close animations for transparent background
+      open = { enable = false },
+      close = { enable = false },
+    },
+  },
+  {
+    "nvim-lualine/lualine.nvim",
+    opts = {
+      options = {
+        section_separators = { left = "", right = "" },
+      },
+    },
+  },
 }

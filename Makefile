@@ -1,10 +1,6 @@
-.PHONY: default Darwin Linux brew ohmyzsh rust link vim term clean
+.PHONY: default brew ohmyzsh link tmux clean
 
-default: $(shell uname)
-
-Darwin: link vim term
-
-Linux: link vim
+default: link tmux
 
 brew:
 	curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
@@ -23,15 +19,9 @@ link:
 	mkdir -p $(HOME)/.config/ghostty
 	ln -snf $(PWD)/ghostty $(HOME)/.config/ghostty/config
 
-ifeq ($(shell uname), Darwin)
-	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
-endif
-
-vim:
-	nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
-
-term:
-	tic -x tmux-256color.terminfo
+tmux:
+	mkdir -p $(HOME)/.config/tmux/plugins/catppuccin
+	git clone -b v2.1.2 https://github.com/catppuccin/tmux.git $(HOME)/.config/tmux/plugins/catppuccin/tmux
 
 clean:
 	rm -f $(HOME)/.zshrc
@@ -40,4 +30,4 @@ clean:
 	rm -f $(HOME)/.tmux.conf
 	rm -rf $(HOME)/.config/brew
 	rm -rf $(HOME)/.config/ghostty
-	rm -rf $(HOME)/.hammerspoon
+	rm -rf $(HOME)/.config/tmux
