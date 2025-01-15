@@ -46,6 +46,7 @@ cask "orbstack"
 cask "raycast"
 cask "sf-symbols"
 cask "stats"
+cask "zoom"
 mas "Developer", id: 640199958
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
@@ -57,8 +58,10 @@ mas "Microsoft Word", id: 462054704
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "PastePilot", id: 1658252808
+mas "Slack", id: 803453959
 mas "Tailscale", id: 1475387142 if system 'system_profiler SPPowerDataType | grep -q "Battery Information"'
 mas "Telegram", id: 747648890
 mas "TestFlight", id: 899247664
 mas "The Unarchiver", id: 425424353
 mas "WeChat", id: 836500024
+mas "Windows App", id: 1295203466

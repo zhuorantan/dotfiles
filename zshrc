@@ -38,8 +38,8 @@ if [ -d "${BREWPREFIX}/lib/ruby/gems" ]; then
     export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
 fi
 # node
-if [ -d "${BREWPREFIX}/opt/node@18/bin" ]; then
-    export PATH="${BREWPREFIX}/opt/node@18/bin:${PATH}"
+if [ -d "/usr/share/nvm" ]; then
+    source /usr/share/nvm/init-nvm.sh
 fi
 
 typeset -U PATH # remove duplicated entries in $PATH
