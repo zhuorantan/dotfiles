@@ -37,14 +37,6 @@ return {
     },
   },
   {
-    "folke/which-key.nvim",
-    opts = {
-      spec = {
-        { "<leader>t", group = "terminal" },
-      },
-    },
-  },
-  {
     "gbprod/yanky.nvim",
     keys = {
       { "<leader>p", "", desc = "+clipboard" },

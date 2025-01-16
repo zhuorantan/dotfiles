@@ -13,10 +13,14 @@ end, { desc = "Sync" })
 -- terminal
 --------------------------------
 keymap.del("n", "<C-/>")
-keymap.del("n", "<leader>ft")
-keymap.del("n", "<leader>fT")
+keymap.del("n", "<C-_>")
+keymap.del("t", "<C-/>")
+keymap.del("t", "<C-_>")
 
-keymap.set("t", "<Esc>", [[<C-\><C-n>]])
+keymap.set("n", "<c-\\>", function()
+  Snacks.terminal()
+end, { desc = "Terminal (cwd)" })
+keymap.set("t", "<c-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
 --------------------------------
 -- bufferline
