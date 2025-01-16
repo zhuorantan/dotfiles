@@ -65,4 +65,35 @@ return {
       },
     },
   },
+  {
+    "folke/snacks.nvim",
+    opts = {
+      terminal = {
+        win = {
+          keys = {
+            nav_l = {
+              "<c-l>",
+              function(self)
+                self.esc_timer = self.esc_timer or (vim.uv or vim.loop).new_timer()
+                if self.esc_timer:is_active() then
+                  self.esc_timer:stop()
+                  return "<c-l>"
+                else
+                  self.esc_timer:start(200, 0, function()
+                    vim.schedule(function()
+                      vim.cmd.stopinsert()
+                      vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<c-w>" .. "l", true, false, true))
+                    end)
+                  end)
+                end
+              end,
+              mode = "t",
+              expr = true,
+              desc = "Use <c-l> to navigate to the right window",
+            },
+          },
+        },
+      },
+    },
+  },
 }
