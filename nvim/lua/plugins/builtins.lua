@@ -76,15 +76,15 @@ return {
               function(self)
                 self.esc_timer = self.esc_timer or (vim.uv or vim.loop).new_timer()
                 if self.esc_timer:is_active() then
-                  self.esc_timer:stop()
-                  return "<c-l>"
-                else
                   self.esc_timer:start(200, 0, function()
                     vim.schedule(function()
                       vim.cmd.stopinsert()
                       vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<c-w>" .. "l", true, false, true))
                     end)
                   end)
+                else
+                  self.esc_timer:stop()
+                  return "<c-l>"
                 end
               end,
               mode = "t",
