@@ -1,5 +1,5 @@
 return {
-  {
+  vim.env.ZT_WORK and {
     "yetone/avante.nvim",
     event = "VeryLazy",
     build = "make",
@@ -35,5 +35,5 @@ return {
     keys = {
       { "<leader>a", "", desc = "+avante" },
     },
-  },
+  } or {},
 }
