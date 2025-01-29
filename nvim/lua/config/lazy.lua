@@ -32,8 +32,7 @@ require("lazy").setup({
         },
       },
     },
-    -- import any extras modules here
-    { import = "lazyvim.plugins.extras.ai.codeium" },
+      -- import any extras modules here
     not vim.env.ZT_WORK and { import = "lazyvim.plugins.extras.ai.codeium" } or {},
     vim.env.ZT_WORK and { import = "lazyvim.plugins.extras.ai.copilot" } or {},
     vim.env.ZT_WORK and { import = "lazyvim.plugins.extras.ai.copilot-chat" } or {},

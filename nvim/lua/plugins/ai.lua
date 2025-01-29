@@ -1,5 +1,5 @@
 return {
-  vim.env.ZT_WORK and {
+  not vim.env.ZT_WORK and {
     "yetone/avante.nvim",
     event = "VeryLazy",
     build = "make",
