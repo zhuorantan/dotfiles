@@ -93,8 +93,5 @@ if command -v github-copilot-cli > /dev/null; then
 fi
 
 
-# direnv
-eval "$(direnv hook zsh)"
-
 
 unset BREWPREFIX
