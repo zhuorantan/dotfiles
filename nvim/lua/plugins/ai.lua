@@ -3,7 +3,11 @@ return {
     "yetone/avante.nvim",
     event = "VeryLazy",
     build = "make",
-    opts = {},
+    opts = {
+      claude = {
+        model = "claude-3-7-sonnet-latest",
+      },
+    },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",
