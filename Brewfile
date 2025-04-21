@@ -56,7 +56,7 @@ mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "PastePilot", id: 1658252808
 mas "Slack", id: 803453959
-mas "Tailscale", id: 1475387142 if system 'system_profiler SPPowerDataType | grep -q "Battery Information"'
+mas "Tailscale", id: 1475387142
 mas "Telegram", id: 747648890
 mas "TestFlight", id: 899247664
 mas "The Unarchiver", id: 425424353
