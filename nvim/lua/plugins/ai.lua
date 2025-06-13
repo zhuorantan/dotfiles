@@ -4,8 +4,10 @@ return {
     event = "VeryLazy",
     build = "make",
     opts = {
-      claude = {
-        model = "claude-3-7-sonnet-latest",
+      providers = {
+        claude = {
+          model = "claude-3-7-sonnet-latest",
+        },
       },
     },
     dependencies = {
