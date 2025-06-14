@@ -38,6 +38,9 @@ if [ -d "${BREWPREFIX}/lib/ruby/gems" ]; then
     export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
 fi
 # node
+if [ -d "${HOME}/.bun/bin" ]; then
+    export PATH="${HOME}/.bun/bin:${PATH}"
+fi
 if [ -d "/usr/share/nvm" ]; then
     source /usr/share/nvm/init-nvm.sh
 fi
