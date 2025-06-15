@@ -1,45 +1,25 @@
 return {
-  not vim.env.ZT_WORK and {
-    "yetone/avante.nvim",
-    event = "VeryLazy",
-    build = "make",
-    opts = {
-      providers = {
-        claude = {
-          model = "claude-3-7-sonnet-latest",
+  not vim.env.ZT_WORK
+      and {
+        "greggh/claude-code.nvim",
+        dependencies = {
+          "nvim-lua/plenary.nvim", -- Required for git operations
         },
-      },
-    },
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "nvim-tree/nvim-web-devicons",
-      {
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
+        config = function()
+          require("claude-code").setup({
+            window = { position = "vertical" },
+            keymaps = {
+              toggle = {
+                normal = false,
+                terminal = false,
+              },
+              scrolling = false,
             },
-            use_absolute_path = true,
-          },
+          })
+        end,
+        keys = {
+          { "<leader><C-\\>", "<cmd>ClaudeCode<cr>", desc = "Claude Code" },
         },
-      },
-      {
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
-    },
-    keys = {
-      { "<leader>a", "", desc = "+avante" },
-    },
-  } or {},
+      }
+    or {},
 }
