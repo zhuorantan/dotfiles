@@ -23,7 +23,6 @@ return {
     cmd = { "Git", "Gdiffsplit", "GBrowse" },
     keys = {
       { "<leader>gg", "<cmd>Git<cr>", desc = "Fugitive" },
-      { "<leader>gb", "<cmd>Git blame<cr>", { "n", "v" }, desc = "Blame" },
       { "<leader>gf", "<cmd>Dispatch git fetch<cr>", desc = "Fetch" },
       { "<leader>gl", "<cmd>Dispatch git pull --quiet<cr>", desc = "Pull" },
       { "<leader>gp", "<cmd>Dispatch git push --quiet<cr>", desc = "Push" },
@@ -35,21 +34,7 @@ return {
     event = "VeryLazy",
   },
   {
-    "mhinz/vim-sayonara",
-    keys = {
-      { "<C-q>", "<cmd>Sayonara<cr>", desc = "Sayonara" },
-      { "<leader><C-q>", "<cmd>Sayonara!<cr>", desc = "Sayonara" },
-    },
-    init = function()
-      vim.g.sayonara_confirm_quit = 1
-    end,
-  },
-  {
     "tpope/vim-sleuth",
-    event = "VeryLazy",
-  },
-  {
-    "tpope/vim-unimpaired",
     event = "VeryLazy",
   },
 }

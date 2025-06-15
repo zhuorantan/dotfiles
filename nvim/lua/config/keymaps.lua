@@ -37,6 +37,14 @@ for i = 1, 9 do
   )
 end
 
+--------------------------------
+-- buffer delete
+--------------------------------
+keymap.set("n", "<C-q>", "<cmd>bd<cr>", { desc = "Close Buffer" })
+keymap.set("n", "<leader><C-q>", function()
+  Snacks.bufdelete()
+end, { desc = "Delete Buffer" })
+
 keymap.set({ "n", "v", "t" }, "<C-w>z", function()
   require("util.zoom").toggle()
 end, { desc = "Toggle Window Zoom" })

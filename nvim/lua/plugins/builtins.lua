@@ -1,38 +1,9 @@
 return {
   {
-    "nvim-neo-tree/neo-tree.nvim",
-    opts = {
-      event_handlers = {
-        {
-          event = "file_opened",
-          handler = function()
-            require("neo-tree.command").execute({ action = "close" })
-          end,
-        },
-      },
-    },
-  },
-  {
     "akinsho/bufferline.nvim",
     opts = {
       options = {
         numbers = "ordinal",
-      },
-    },
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    keys = {
-      { "<leader>gs", false },
-    },
-    opts = {
-      defaults = {
-        mappings = {
-          i = {
-            ["<esc>"] = "close",
-            ["<C-c>"] = { "<esc>", type = "command" },
-          },
-        },
       },
     },
   },
@@ -50,14 +21,6 @@ return {
     },
   },
   {
-    "echasnovski/mini.animate",
-    opts = {
-      -- disable open and close animations for transparent background
-      open = { enable = false },
-      close = { enable = false },
-    },
-  },
-  {
     "nvim-lualine/lualine.nvim",
     opts = {
       options = {
@@ -68,6 +31,13 @@ return {
   {
     "folke/snacks.nvim",
     opts = {
+      picker = {
+        sources = {
+          explorer = {
+            auto_close = true,
+          },
+        },
+      },
       terminal = {
         win = {
           keys = {
@@ -93,6 +63,14 @@ return {
             },
           },
         },
+      },
+    },
+  },
+  {
+    "stevearc/conform.nvim",
+    opts = {
+      default_format_opts = {
+        lsp_format = "last",
       },
     },
   },
