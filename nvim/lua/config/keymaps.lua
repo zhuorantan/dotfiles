@@ -20,6 +20,9 @@ keymap.del("t", "<C-_>")
 keymap.set("n", "<c-\\>", function()
   Snacks.terminal()
 end, { desc = "Terminal (cwd)" })
+keymap.set("n", "<leader><c-\\>", function()
+  Snacks.terminal("claude", { win = { position = "right", width = 0.4 } })
+end, { desc = "Claude Code" })
 keymap.set("t", "<c-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
 --------------------------------
