@@ -17,13 +17,13 @@ keymap.del("n", "<C-_>")
 keymap.del("t", "<C-/>")
 keymap.del("t", "<C-_>")
 
-keymap.set("n", "<c-\\>", function()
+keymap.set("n", "<C-\\>", function()
   Snacks.terminal()
 end, { desc = "Terminal (cwd)" })
-keymap.set("n", "<leader><c-\\>", function()
+keymap.set("n", "<leader><C-\\>", function()
   Snacks.terminal("claude", { win = { position = "right", width = 0.4 } })
 end, { desc = "Claude Code" })
-keymap.set("t", "<c-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+keymap.set("t", "<C-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
 --------------------------------
 -- bufferline
@@ -40,9 +40,11 @@ end
 --------------------------------
 -- buffer delete
 --------------------------------
-keymap.set("n", "<C-q>", "<cmd>bd<cr>", { desc = "Close Buffer" })
+keymap.set("n", "<C-q>", function()
+  require("util.sayonara")(false)
+end, { desc = "Close Buffer" })
 keymap.set("n", "<leader><C-q>", function()
-  Snacks.bufdelete()
+  require("util.sayonara")(true)
 end, { desc = "Delete Buffer" })
 
 keymap.set({ "n", "v", "t" }, "<C-w>z", function()
