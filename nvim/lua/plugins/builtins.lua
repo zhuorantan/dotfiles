@@ -3,7 +3,15 @@ return {
     "akinsho/bufferline.nvim",
     opts = {
       options = {
-        numbers = "ordinal",
+        numbers = function(opts)
+          local total_buffers = #vim.tbl_filter(function(buf)
+            return vim.api.nvim_buf_is_valid(buf) and vim.bo[buf].buflisted
+          end, vim.api.nvim_list_bufs())
+          return total_buffers - opts.ordinal + 1
+        end,
+        sort_by = function(buffer_a, buffer_b)
+          return buffer_a.id > buffer_b.id
+        end,
       },
     },
   },
