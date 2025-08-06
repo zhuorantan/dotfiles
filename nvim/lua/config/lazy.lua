@@ -18,6 +18,7 @@ require("lazy").setup({
       name = "catppuccin",
       opts = {
         transparent_background = true,
+        float = { transparent = true },
       },
     },
     -- add LazyVim and import its plugins
