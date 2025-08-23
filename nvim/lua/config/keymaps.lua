@@ -21,8 +21,8 @@ keymap.set("n", "<C-\\>", function()
   Snacks.terminal()
 end, { desc = "Terminal (cwd)" })
 keymap.set("n", "<leader><C-\\>", function()
-  Snacks.terminal("codex", { win = { position = "right", width = 0.4 } })
-end, { desc = "Codex" })
+  Snacks.terminal("claude", { win = { position = "right", width = 0.4 } })
+end, { desc = "Claude Code" })
 keymap.set("t", "<C-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
 --------------------------------

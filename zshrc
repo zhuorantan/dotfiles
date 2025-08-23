@@ -28,6 +28,10 @@ fi
 export MANPAGER="$VISUAL +Man! -"
 
 
+# path
+export PATH="${HOME}/.local/bin:${PATH}"
+
+
 # python
 if [ -d "${BREWPREFIX}/opt/python/libexec/bin" ]; then
     export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
