@@ -5,6 +5,10 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# longer history
+export HISTSIZE=10000
+export SAVEHIST=10000
+
 # brew
 BREWPREFIX="/opt/homebrew"
 export HOMEBREW_BUNDLE_FILE="${HOME}/.config/brew/Brewfile"
