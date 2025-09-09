@@ -59,7 +59,7 @@ typeset -U PATH # remove duplicated entries in $PATH
 # ohmyzsh
 export ZSH="${HOME}/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
-plugins=(git z colored-man-pages history docker fzf tmux)
+plugins=(git z colored-man-pages history docker fzf)
 source ${ZSH}/oh-my-zsh.sh
 
 if [ -d "${BREWPREFIX}" ]; then
@@ -94,15 +94,8 @@ fi
 
 # aliases
 alias v=${VISUAL}
-alias tm='tmux new -As main'
+alias t='tmux new -As main'
 alias del='trash'
-
-
-# GitHub Copilot CLI
-if command -v github-copilot-cli > /dev/null; then
-    eval "$(github-copilot-cli alias -- "$0")"
-fi
-
 
 
 unset BREWPREFIX
