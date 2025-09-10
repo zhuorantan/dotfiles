@@ -99,3 +99,17 @@ alias del='trash'
 
 
 unset BREWPREFIX
+
+# --- Cursor: blinking bar everywhere -----------------------------------------
+# Ensure the cursor is always a blinking bar (DECSCUSR Ps=5), including in tmux.
+# Apply once at shell start and before every prompt so programs that change
+# cursor style (less, vim, copy-mode, etc.) get reset when returning to the
+# prompt.
+if [[ -o interactive ]]; then
+  _cursor_blink_bar() { printf '\033[5 q'; }
+  typeset -ga precmd_functions
+  if [[ -z "${precmd_functions[(r)_cursor_blink_bar]}" ]]; then
+    precmd_functions+=(_cursor_blink_bar)
+  fi
+  _cursor_blink_bar
+fi
