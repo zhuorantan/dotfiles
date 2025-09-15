@@ -10,7 +10,7 @@ confirm-close-surface = false
 
 term = "xterm-256color"
 
-theme = catppuccin-macchiato
+theme = Catppuccin Macchiato
 
 background-opacity = 0.96
 background-blur-radius = 40
