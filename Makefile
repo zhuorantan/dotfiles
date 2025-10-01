@@ -18,6 +18,7 @@ link:
 	ln -snf $(PWD)/Brewfile $(HOME)/.config/brew/Brewfile
 	mkdir -p $(HOME)/.config/ghostty
 	ln -snf $(PWD)/ghostty $(HOME)/.config/ghostty/config
+	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
 
 tmux:
 	mkdir -p $(HOME)/.config/tmux/plugins/catppuccin
@@ -32,3 +33,4 @@ clean:
 	rm -rf $(HOME)/.config/brew
 	rm -rf $(HOME)/.config/ghostty
 	rm -rf $(HOME)/.config/tmux
+	rm -rf $(HOME)/.hammerspoon
