@@ -16,7 +16,47 @@ local function toggleApp(name)
 	end
 end
 
+local function moveWindowToScreen(direction)
+	return function()
+		local win = hs.window.focusedWindow()
+		if not win then
+			return
+		end
+
+		local currentScreen = win:screen()
+		if not currentScreen then
+			return
+		end
+
+		local targetScreen
+		if direction == "next" then
+			targetScreen = currentScreen:next()
+		else
+			targetScreen = currentScreen:previous()
+		end
+
+		if not targetScreen then
+			return
+		end
+
+		if not win:isFullScreen() then
+			win:moveToScreen(targetScreen)
+			return
+		end
+
+		-- Leave fullscreen before moving so the window can change displays, then restore it.
+		win:setFullScreen(false)
+		win:moveToScreen(targetScreen)
+		hs.timer.doAfter(0.6, function()
+			win:setFullScreen(true)
+		end)
+	end
+end
+
 function M.set_up()
+	local hyperWithShift = { table.unpack(M.hyper) }
+	hyperWithShift[#hyperWithShift + 1] = "shift"
+
 	-- -- Application keybinding
 	hs.hotkey.bind(M.hyper, "t", toggleApp("Ghostty"))
 	hs.hotkey.bind(M.hyper, "s", toggleApp("Safari"))
@@ -32,9 +72,19 @@ function M.set_up()
 	hs.hotkey.bind(M.hyper, "o", toggleApp("Microsoft Outlook"))
 	hs.hotkey.bind(M.hyper, "3", toggleApp("Slack"))
 
+	hs.hotkey.bind(M.hyper, "return", function()
+		local win = hs.window.focusedWindow()
+		if win then
+			win:maximize()
+		end
+	end)
+
+	hs.hotkey.bind(hyperWithShift, "n", moveWindowToScreen("next"))
+	hs.hotkey.bind(hyperWithShift, "p", moveWindowToScreen("previous"))
+
 	-- Show desktop
 	hs.hotkey.bind(M.hyper, "1", function()
-		hs.eventtap.keyStroke({ "fn" }, "f11")
+		hs.spaces.toggleShowDesktop()
 	end)
 
 	-- Defeating paste blocking
