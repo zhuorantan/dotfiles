@@ -1,3 +1,7 @@
+if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
+    source "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
+fi
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -100,6 +104,32 @@ alias del='trash'
 
 unset BREWPREFIX
 
-if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
-    source "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
-fi
+# Changes the cursor style to a blinking block in vi command mode
+# and a blinking bar in insert mode. Resets to default for commands.
+_zsh_cursor_style() {
+  case ${KEYMAP} in
+    vicmd|visual)
+      # Blinking block cursor
+      print -n '\e[1 q'
+      ;;
+    *)
+      # Blinking bar cursor
+      print -n '\e[5 q'
+      ;;
+  esac
+}
+
+# Resets the cursor to the terminal's default shape.
+_zsh_cursor_reset() {
+  print -n '\e[0 q'
+}
+
+zle -N zle-line-init _zsh_cursor_style
+zle -N zle-keymap-select _zsh_cursor_style
+
+# Add the functions to the appropriate hooks.
+autoload -U add-zsh-hook
+add-zsh-hook preexec _zsh_cursor_reset
+
+# Set the initial cursor style upon loading.
+_zsh_cursor_style
