@@ -99,6 +99,9 @@ function M.set_up()
 			hs.eventtap.keyStroke({}, "return")
 		end)
 	end
+
+	local mic_mute = require("mic_mute")
+	mic_mute.set_up(M.hyper, ".")
 end
 
 return M
