@@ -56,7 +56,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.typescript" },
     { import = "lazyvim.plugins.extras.lang.yaml" },
     { import = "lazyvim.plugins.extras.linting.eslint" },
-    vim.env.ZT_WORK and { import = "lazyvim.plugins.extras.lang.omnisharp" } or {},
+    vim.env.ZT_WORK and { import = "lazyvim.plugins.extras.lang.dotnet" } or {},
     { import = "plugins" },
   },
   lockfile = vim.fn.stdpath("data") .. "/lazy-lock.json",
