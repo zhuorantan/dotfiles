@@ -41,12 +41,12 @@ export PATH="${HOME}/.local/bin:${PATH}"
 
 
 # python
-if [ -d "${BREWPREFIX}/opt/python/libexec/bin" ]; then
+if [ -d "${BREWPREFIX}/opt/python" ]; then
     export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
 fi
 # ruby
-if [ -d "${BREWPREFIX}/lib/ruby/gems" ]; then
-    export GEM_HOME="${BREWPREFIX}/lib/ruby/gems"
+if [ -d "${BREWPREFIX}/opt/ruby" ]; then
+    export GEM_HOME="${BREWPREFIX}/opt/ruby/lib/ruby/gems"
     export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
 fi
 # node
