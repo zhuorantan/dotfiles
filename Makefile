@@ -21,6 +21,7 @@ link:
 	mkdir -p $(HOME)/.config/ghostty
 	ln -snf $(PWD)/ghostty $(HOME)/.config/ghostty/config
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
+	@if [ -f private/Makefile ]; then $(MAKE) -C private link; fi
 
 tmux:
 	mkdir -p $(HOME)/.config/tmux/plugins/catppuccin
@@ -36,3 +37,4 @@ clean:
 	rm -rf $(HOME)/.config/ghostty
 	rm -rf $(HOME)/.config/tmux
 	rm -rf $(HOME)/.hammerspoon
+	@if [ -f private/Makefile ]; then $(MAKE) -C private clean; fi
