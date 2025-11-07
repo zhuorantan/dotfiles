@@ -37,4 +37,6 @@ if [[ -d "${HOME}/.bun/bin" ]]; then
     export PATH="${HOME}/.bun/bin:${PATH}"
 fi
 
+[[ -r "${_zshenv_file:A:h:h}/env.local" ]] && source "${_zshenv_file:A:h:h}/env.local"
+
 typeset -U PATH # remove duplicated entries in $PATH
