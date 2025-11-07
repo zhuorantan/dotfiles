@@ -1,0 +1,5 @@
+[user]
+	email = me@zhuorant.com
+	name = Zhuoran Tan
+[push]
+	autoSetupRemote = true

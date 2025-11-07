@@ -14,3 +14,5 @@ theme = Catppuccin Macchiato
 
 background-opacity = 0.96
 background-blur-radius = 40
+
+macos-auto-secure-input = true

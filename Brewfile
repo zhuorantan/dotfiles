@@ -53,9 +53,6 @@ mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
 mas "Infuse", id: 1136220934
 mas "Keynote", id: 409183694
-mas "Microsoft Excel", id: 462058435
-mas "Microsoft PowerPoint", id: 462062816
-mas "Microsoft Word", id: 462054704
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "PastePilot", id: 1658252808
@@ -64,5 +61,4 @@ mas "Tailscale", id: 1475387142
 mas "Telegram", id: 747648890
 mas "TestFlight", id: 899247664
 mas "The Unarchiver", id: 425424353
-mas "WeChat", id: 836500024
 mas "Windows App", id: 1295203466
