@@ -20,6 +20,8 @@ ZSH_THEME="robbyrussell"
 plugins=(git z colored-man-pages history docker fzf)
 source ${ZSH}/oh-my-zsh.sh
 
+BREWPREFIX="/opt/homebrew"
+
 if [ -d "${BREWPREFIX}" ]; then
     source ${BREWPREFIX}/share/zsh-autosuggestions/zsh-autosuggestions.zsh
     source ${BREWPREFIX}/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -34,6 +36,9 @@ else
     fi
     source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
 fi
+
+unset BREWPREFIX
+
 
 # powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -55,8 +60,6 @@ alias v=${VISUAL}
 alias t='tmux new -As main'
 alias del='trash'
 
-
-unset BREWPREFIX
 
 # Changes the cursor style to a blinking block in vi command mode
 # and a blinking bar in insert mode. Resets to default for commands.

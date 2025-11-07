@@ -39,4 +39,7 @@ fi
 
 [[ -r "${_zshenv_file:A:h:h}/env.local" ]] && source "${_zshenv_file:A:h:h}/env.local"
 
+unset BREWPREFIX
+unset _zshenv_file
+
 typeset -U PATH # remove duplicated entries in $PATH
