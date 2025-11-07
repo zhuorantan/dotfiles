@@ -12,6 +12,7 @@ link:
 	mkdir -p $(HOME)/.config
 	ln -snf $(PWD)/zshrc $(HOME)/.zshrc
 	ln -snf $(PWD)/gitconfig $(HOME)/.gitconfig
+	ln -snf $(PWD)/gitignore $(HOME)/.gitignore
 	ln -snf $(PWD)/p10k.zsh $(HOME)/.p10k.zsh
 	ln -snf $(PWD)/nvim $(HOME)/.config/nvim
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf

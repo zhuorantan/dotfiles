@@ -3,3 +3,7 @@
 	name = Zhuoran Tan
 [push]
 	autoSetupRemote = true
+[pull]
+	rebase = true
+[core]
+	excludesFile = ~/.gitignore
