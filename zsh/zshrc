@@ -13,52 +13,6 @@ fi
 export HISTSIZE=10000
 export SAVEHIST=10000
 
-# brew
-BREWPREFIX="/opt/homebrew"
-export HOMEBREW_BUNDLE_FILE="${HOME}/.config/brew/Brewfile"
-[[ ! -f "${BREWPREFIX}/bin/brew" ]] || eval "$(${BREWPREFIX}/bin/brew shellenv)"
-export FPATH="${BREWPREFIX}/share/zsh/site-functions:${FPATH}"
-
-
-# fzf
-export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git"
-export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
-export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
-export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
-
-
-# editor
-if [ -z "${NVIM}" ]; then
-    export VISUAL="nvim"
-else
-    export VISUAL="nvim --server ${NVIM} --remote-tab"
-fi
-export MANPAGER="$VISUAL +Man! -"
-
-
-# path
-export PATH="${HOME}/.local/bin:${PATH}"
-
-
-# python
-if [ -d "${BREWPREFIX}/opt/python" ]; then
-    export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
-fi
-# ruby
-if [ -d "${BREWPREFIX}/opt/ruby" ]; then
-    export GEM_HOME="${BREWPREFIX}/opt/ruby/lib/ruby/gems"
-    export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
-fi
-# node
-if [ -d "${HOME}/.bun/bin" ]; then
-    export PATH="${HOME}/.bun/bin:${PATH}"
-fi
-if [ -d "/usr/share/nvm" ]; then
-    source /usr/share/nvm/init-nvm.sh
-fi
-
-typeset -U PATH # remove duplicated entries in $PATH
-
 
 # ohmyzsh
 export ZSH="${HOME}/.oh-my-zsh"

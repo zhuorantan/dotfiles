@@ -1,0 +1,40 @@
+_zshenv_file="${(%):-%N}"
+
+# brew
+BREWPREFIX="/opt/homebrew"
+export HOMEBREW_BUNDLE_FILE="${_zshenv_file:A:h:h}/Brewfile"
+if [[ -x "${BREWPREFIX}/bin/brew" ]]; then
+    eval "$(${BREWPREFIX}/bin/brew shellenv)"
+fi
+export FPATH="${BREWPREFIX}/share/zsh/site-functions:${FPATH}"
+
+# fzf defaults
+export FZF_DEFAULT_COMMAND="fd --hidden --follow --exclude .git"
+export FZF_ALT_C_COMMAND="fd --type d --hidden --follow --exclude .git"
+export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
+export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
+
+# editor
+if [[ -z "${NVIM}" ]]; then
+    export VISUAL="nvim"
+else
+    export VISUAL="nvim --server ${NVIM} --remote-tab"
+fi
+
+# python
+if [[ -d "${BREWPREFIX}/opt/python" ]]; then
+    export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
+fi
+
+# ruby
+if [[ -d "${BREWPREFIX}/opt/ruby" ]]; then
+    export GEM_HOME="${BREWPREFIX}/opt/ruby/lib/ruby/gems"
+    export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
+fi
+
+# bun
+if [[ -d "${HOME}/.bun/bin" ]]; then
+    export PATH="${HOME}/.bun/bin:${PATH}"
+fi
+
+typeset -U PATH # remove duplicated entries in $PATH
