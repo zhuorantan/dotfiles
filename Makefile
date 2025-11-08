@@ -9,12 +9,12 @@ ohmyzsh:
 	curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh | bash
 
 link:
-	mkdir -p $(HOME)/.config
 	ln -snf $(PWD)/zsh/zshrc $(HOME)/.zshrc
 	ln -snf $(PWD)/zsh/zshenv $(HOME)/.zshenv
 	ln -snf $(PWD)/git/gitconfig $(HOME)/.gitconfig
 	ln -snf $(PWD)/git/gitignore $(HOME)/.gitignore
 	ln -snf $(PWD)/zsh/p10k.zsh $(HOME)/.p10k.zsh
+	mkdir -p $(HOME)/.config
 	ln -snf $(PWD)/nvim $(HOME)/.config/nvim
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf
 	mkdir -p $(HOME)/.config/ghostty

@@ -9,3 +9,5 @@
 	excludesFile = ~/.gitignore
 [init]
 	defaultBranch = main
+[include]
+	path = ~/.gitconfig.local
