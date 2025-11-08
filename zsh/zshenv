@@ -20,6 +20,7 @@ if [[ -z "${NVIM}" ]]; then
 else
     export VISUAL="nvim --server ${NVIM} --remote-tab"
 fi
+export EDITOR=${VISUAL}
 
 # python
 if [[ -d "${BREWPREFIX}/opt/python" ]]; then
