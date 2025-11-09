@@ -17,9 +17,11 @@ link:
 	mkdir -p $(HOME)/.config
 	ln -snf $(PWD)/nvim $(HOME)/.config/nvim
 	ln -snf $(PWD)/tmux.conf $(HOME)/.tmux.conf
+ifeq ($(shell uname -s), Darwin)
 	mkdir -p $(HOME)/.config/ghostty
 	ln -snf $(PWD)/ghostty $(HOME)/.config/ghostty/config
 	ln -snf $(PWD)/hammerspoon $(HOME)/.hammerspoon
+endif
 	@if [ -f private/Makefile ]; then $(MAKE) -C private link; fi
 
 tmux:
