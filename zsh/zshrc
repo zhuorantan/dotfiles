@@ -60,6 +60,15 @@ alias v=${VISUAL}
 alias t='tmux new -As main'
 alias del='trash'
 
+function y() {
+  local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+  yazi "$@" --cwd-file="$tmp"
+  IFS= read -r -d '' cwd < "$tmp"
+  [ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+  rm -f -- "$tmp"
+}
+
+
 
 # Changes the cursor style to a blinking block in vi command mode
 # and a blinking bar in insert mode. Resets to default for commands.
@@ -90,13 +99,3 @@ add-zsh-hook preexec _zsh_cursor_reset
 
 # Set the initial cursor style upon loading.
 _zsh_cursor_style
-
-
-
-function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	IFS= read -r -d '' cwd < "$tmp"
-	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
-	rm -f -- "$tmp"
-}
