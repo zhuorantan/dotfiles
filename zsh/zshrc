@@ -90,3 +90,13 @@ add-zsh-hook preexec _zsh_cursor_reset
 
 # Set the initial cursor style upon loading.
 _zsh_cursor_style
+
+
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
