@@ -45,7 +45,7 @@ cask "google-chrome"
 cask "hammerspoon"
 cask "iina"
 cask "jordanbaird-ice" if system 'system_profiler SPPowerDataType | grep -q "Battery Information"'
-cask "microsoft-outlook"
+cask "moonlight"
 cask "orbstack"
 cask "sf-symbols"
 cask "stats"
@@ -55,6 +55,7 @@ mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
 mas "Infuse", id: 1136220934
 mas "Keynote", id: 409183694
+mas "Microsoft Outlook", id: 985367838
 mas "Numbers", id: 409203825
 mas "Pages", id: 409201541
 mas "PastePilot", id: 1658252808
