@@ -21,10 +21,7 @@ keymap.set("n", "<C-\\>", function()
   Snacks.terminal()
 end, { desc = "Terminal (cwd)" })
 keymap.set("n", "<leader><C-\\>", function()
-  Snacks.terminal(
-    "codex -m gpt-5-codex -c model_reasoning_effort=high --search",
-    { win = { position = "right", width = 0.4 } }
-  )
+  Snacks.terminal("codex -c model_reasoning_effort=high --search", { win = { position = "right", width = 0.4 } })
 end, { desc = "Codex" })
 keymap.set("t", "<C-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
