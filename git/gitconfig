@@ -5,6 +5,8 @@
 	autoSetupRemote = true
 [pull]
 	rebase = true
+[rebase]
+	autoStash = true
 [core]
 	excludesFile = ~/.gitignore
 [init]
