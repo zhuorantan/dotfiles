@@ -74,4 +74,19 @@ return {
       },
     },
   },
+  {
+    "folke/snacks.nvim",
+    opts = {
+      gitbrowse = {
+        url_patterns = {
+          ["gitlab%..+"] = {
+            branch = "/-/tree/{branch}",
+            file = "/-/blob/{branch}/{file}#L{line_start}-{line_end}",
+            permalink = "/-/blob/{commit}/{file}#L{line_start}-{line_end}",
+            commit = "/-/commit/{commit}",
+          },
+        },
+      },
+    },
+  },
 }
