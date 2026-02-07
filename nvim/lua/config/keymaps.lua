@@ -12,18 +12,13 @@ end, { desc = "Sync" })
 --------------------------------
 -- terminal
 --------------------------------
-keymap.del("n", "<C-/>")
-keymap.del("n", "<C-_>")
-keymap.del("t", "<C-/>")
-keymap.del("t", "<C-_>")
-
 keymap.set("n", "<C-\\>", function()
   Snacks.terminal()
 end, { desc = "Terminal (cwd)" })
-keymap.set("n", "<leader><C-\\>", function()
+keymap.set("t", "<C-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+keymap.set("n", "<C-_>", function()
   Snacks.terminal("codex", { win = { position = "right", width = 0.4 } })
 end, { desc = "Codex" })
-keymap.set("t", "<C-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
 --------------------------------
 -- bufferline
