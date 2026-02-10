@@ -58,6 +58,7 @@ fi
 # aliases
 alias v=${VISUAL}
 alias t='tmux new -As main'
+alias c='codex'
 alias del='trash'
 
 function y() {
