@@ -12,11 +12,10 @@ end, { desc = "Sync" })
 --------------------------------
 -- terminal
 --------------------------------
-keymap.set("n", "<C-\\>", function()
+keymap.set({ "n", "t" }, "<C-\\>", function()
   Snacks.terminal()
 end, { desc = "Terminal (cwd)" })
-keymap.set("t", "<C-\\>", "<cmd>close<cr>", { desc = "Hide Terminal" })
-keymap.set("n", "<C-_>", function()
+keymap.set({ "n", "t" }, "<C-_>", function()
   Snacks.terminal("codex", { win = { position = "right", width = 0.4 } })
 end, { desc = "Codex" })
 
