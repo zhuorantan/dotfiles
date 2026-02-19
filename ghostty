@@ -1,5 +1,6 @@
 font-family = SF Mono Terminal
 font-size = 14
+font-feature = -calt
 
 window-height = 128
 window-width = 256
