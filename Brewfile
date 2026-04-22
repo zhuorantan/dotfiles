@@ -2,13 +2,14 @@ tap "oven-sh/bun"
 tap "xcodesorg/made"
 brew "bat"
 brew "cloc"
+brew "ruby"
 brew "cocoapods"
 brew "docker"
 brew "docker-compose"
-brew "ruby"
 brew "fastlane"
 brew "fd"
 brew "fzf"
+brew "node"
 brew "gemini-cli"
 brew "gh"
 brew "ipatool"
@@ -16,7 +17,6 @@ brew "lua"
 brew "mas"
 brew "neovim"
 brew "nmap"
-brew "node"
 brew "pam-reattach"
 brew "powerlevel10k"
 brew "pwgen"
@@ -39,7 +39,6 @@ cask "claude-code"
 cask "codex"
 cask "db-browser-for-sqlite"
 cask "figma"
-cask "font-sf-mono"
 cask "ghostty"
 cask "google-chrome"
 cask "hammerspoon"
@@ -54,10 +53,10 @@ mas "Developer", id: 640199958
 mas "GarageBand", id: 682658836
 mas "iMovie", id: 408981434
 mas "Infuse", id: 1136220934
-mas "Keynote", id: 409183694
+mas "Keynote", id: 361285480
 mas "Microsoft Outlook", id: 985367838
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
+mas "Numbers", id: 361304891
+mas "Pages", id: 361309726
 mas "PastePilot", id: 1658252808
 mas "Slack", id: 803453959
 mas "Tailscale", id: 1475387142
