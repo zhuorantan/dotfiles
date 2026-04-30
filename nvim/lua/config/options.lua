@@ -6,6 +6,8 @@ opt.secure = true
 opt.smarttab = true
 opt.softtabstop = 2
 
+opt.clipboard = ""
+
 opt.number = false
 opt.relativenumber = false
 
