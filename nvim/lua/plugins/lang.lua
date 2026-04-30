@@ -1,5 +1,8 @@
 local markdownlint_config = vim.fn.stdpath("config") .. "/.markdownlint.yaml"
 
+local uname = (vim.uv or vim.loop).os_uname()
+local is_linux_arm64 = uname.sysname == "Linux" and (uname.machine == "aarch64" or uname.machine == "arm64")
+
 return {
   {
     "mason-org/mason.nvim",
@@ -39,6 +42,7 @@ return {
     opts = {
       servers = {
         clangd = {
+          mason = false,
           filetypes = { "c", "cpp", "objc", "objcpp", "cuda" },
         },
       },

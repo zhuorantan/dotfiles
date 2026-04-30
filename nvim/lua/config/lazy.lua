@@ -1,6 +1,4 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-local uname = (vim.uv or vim.loop).os_uname()
-local is_linux_arm64 = uname.sysname == "Linux" and (uname.machine == "aarch64" or uname.machine == "arm64")
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   vim.fn.system({
@@ -48,7 +46,7 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.editor.snacks_explorer" },
     { import = "lazyvim.plugins.extras.editor.snacks_picker" },
     { import = "lazyvim.plugins.extras.formatting.prettier" },
-    not is_linux_arm64 and { import = "lazyvim.plugins.extras.lang.clangd" } or {},
+    { import = "lazyvim.plugins.extras.lang.clangd" },
     { import = "lazyvim.plugins.extras.lang.docker" },
     { import = "lazyvim.plugins.extras.lang.git" },
     { import = "lazyvim.plugins.extras.lang.json" },
