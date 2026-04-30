@@ -28,7 +28,7 @@ endif
 tmux:
 	mkdir -p $(HOME)/.config/tmux/plugins/catppuccin
 	rm -rf $(HOME)/.config/tmux/plugins/catppuccin/tmux
-	git clone -b v2.1.3 https://github.com/catppuccin/tmux.git $(HOME)/.config/tmux/plugins/catppuccin/tmux
+	git clone -b v2.3.0 https://github.com/catppuccin/tmux.git $(HOME)/.config/tmux/plugins/catppuccin/tmux
 
 clean:
 	rm -f $(HOME)/.zshrc
