@@ -9,6 +9,13 @@ return {
   },
   {
     "gbprod/yanky.nvim",
+    -- Avoid reading the system clipboard on focus changes; keep yank history
+    -- limited to text yanked inside Neovim.
+    opts = {
+      system_clipboard = {
+        sync_with_ring = false,
+      },
+    },
     keys = {
       { "<leader>p", "", desc = "+clipboard" },
       {
