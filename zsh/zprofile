@@ -1,0 +1,6 @@
+_zprofile_file="${(%):-%N}"
+
+# Restore preferred command paths after macOS path_helper.
+source "${_zprofile_file:A:h}/path.zsh"
+
+unset _zprofile_file

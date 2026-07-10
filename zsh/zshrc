@@ -10,8 +10,8 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # longer history
-export HISTSIZE=10000
-export SAVEHIST=10000
+export HISTSIZE=1000000
+export SAVEHIST=1000000
 
 
 # ohmyzsh

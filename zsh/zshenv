@@ -1,5 +1,9 @@
 _zshenv_file="${(%):-%N}"
 
+# Keep a large history limit even for zsh processes that skip ~/.zshrc.
+export HISTSIZE=1000000
+export SAVEHIST=1000000
+
 # brew
 BREWPREFIX="/opt/homebrew"
 export HOMEBREW_BUNDLE_FILE="${_zshenv_file:A:h:h}/Brewfile"
@@ -22,27 +26,14 @@ else
 fi
 export EDITOR=${VISUAL}
 
-export PATH="${HOME}/.local/bin:/usr/local/bin:${PATH}"
-
-# python
-if [[ -d "${BREWPREFIX}/opt/python" ]]; then
-    export PATH="${BREWPREFIX}/opt/python/libexec/bin:${PATH}"
-fi
-
 # ruby
 if [[ -d "${BREWPREFIX}/opt/ruby" ]]; then
     export GEM_HOME="${BREWPREFIX}/opt/ruby/lib/ruby/gems"
-    export PATH="${GEM_HOME}/bin:${BREWPREFIX}/opt/ruby/bin:${PATH}"
 fi
 
-# bun
-if [[ -d "${HOME}/.bun/bin" ]]; then
-    export PATH="${HOME}/.bun/bin:${PATH}"
-fi
+source "${_zshenv_file:A:h}/path.zsh"
 
 [[ -r "${HOME}/.zshenv.local" ]] && source "${HOME}/.zshenv.local"
 
 unset BREWPREFIX
 unset _zshenv_file
-
-typeset -U PATH # remove duplicated entries in $PATH

@@ -11,6 +11,7 @@ ohmyzsh:
 link:
 	ln -snf $(PWD)/zsh/zshrc $(HOME)/.zshrc
 	ln -snf $(PWD)/zsh/zshenv $(HOME)/.zshenv
+	ln -snf $(PWD)/zsh/zprofile $(HOME)/.zprofile
 	ln -snf $(PWD)/git/gitconfig $(HOME)/.gitconfig
 	ln -snf $(PWD)/git/gitignore $(HOME)/.gitignore
 	ln -snf $(PWD)/zsh/p10k.zsh $(HOME)/.p10k.zsh
@@ -33,6 +34,7 @@ tmux:
 clean:
 	rm -f $(HOME)/.zshrc
 	rm -f $(HOME)/.zshenv
+	rm -f $(HOME)/.zprofile
 	rm -f $(HOME)/.gitconfig
 	rm -f $(HOME)/.gitignore
 	rm -f $(HOME)/.p10k.zsh
