@@ -1,3 +1,12 @@
+# Codex starts its remote app server through an interactive SSH login shell
+# without allocating a TTY. Terminal setup below writes escape sequences to
+# stdout, which corrupts the app-server startup protocol. A tmux pane has a
+# real stdout TTY even when it inherits an SSH environment without SSH_TTY,
+# so keep its interactive setup while skipping genuinely headless sessions.
+if [[ -n ${SSH_CONNECTION:-} && -z ${SSH_TTY:-} ]] && [[ ! -t 1 ]]; then
+    return
+fi
+
 if [[ -n $GHOSTTY_RESOURCES_DIR ]]; then
     source "$GHOSTTY_RESOURCES_DIR"/shell-integration/zsh/ghostty-integration
 fi

@@ -94,8 +94,6 @@ cask "stats"
 # Video communication and virtual meeting platform
 cask "zoom"
 mas "Developer", id: 640199958
-mas "GarageBand", id: 682658836
-mas "iMovie", id: 408981434
 mas "Infuse", id: 1136220934
 mas "Keynote", id: 361285480
 mas "Microsoft Outlook", id: 985367838
