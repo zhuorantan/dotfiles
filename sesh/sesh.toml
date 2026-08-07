@@ -1,0 +1,26 @@
+[tui]
+show_icons = true
+show_windows = true
+preview = true
+
+[frecency]
+list_command = "~/.config/sesh/sesh_list.sh"
+
+[default_session]
+startup_command = "tmux rename-window code; nvim"
+
+[[wildcard]]
+pattern = "~/Documents/dotfiles"
+icon = ""
+
+[[wildcard]]
+pattern = "~/dotfiles"
+icon = ""
+
+[[wildcard]]
+pattern = "~/Workspace/*"
+icon = ""
+windows = ["dev"]
+
+[[window]]
+name = "dev"

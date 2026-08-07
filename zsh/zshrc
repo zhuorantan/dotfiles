@@ -26,7 +26,7 @@ export SAVEHIST=1000000
 # ohmyzsh
 export ZSH="${HOME}/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
-plugins=(git z colored-man-pages history docker fzf)
+plugins=(git colored-man-pages history docker fzf)
 source ${ZSH}/oh-my-zsh.sh
 
 BREWPREFIX="/opt/homebrew"
@@ -51,17 +51,6 @@ unset BREWPREFIX
 
 # powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-
-# proxy
-if [ -n "$(nmap -p 7890 localhost | grep open)" ]; then
-    export http_proxy=http://127.0.0.1:7890
-    export https_proxy=http://127.0.0.1:7890
-    export no_proxy="localhost,127.0.0.1,.lan"
-    export GIT_SSH_COMMAND='ssh -o "ProxyCommand=nc -X 5 -x localhost:7890 %h %p"'
-
-    alias gfw='http_proxy= https_proxy= GIT_SSH_COMMAND='
-fi
 
 
 # aliases
@@ -109,3 +98,5 @@ add-zsh-hook preexec _zsh_cursor_reset
 
 # Set the initial cursor style upon loading.
 _zsh_cursor_style
+
+eval "$(zoxide init zsh)"

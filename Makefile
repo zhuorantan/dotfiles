@@ -18,6 +18,7 @@ link:
 	mkdir -p $(HOME)/.config
 	ln -snf $(PWD)/nvim $(HOME)/.config/nvim
 	ln -snf $(PWD)/yazi $(HOME)/.config/yazi
+	ln -snf $(PWD)/sesh $(HOME)/.config/sesh
 	ln -snf $(PWD)/tmux/tmux.conf $(HOME)/.tmux.conf
 ifeq ($(shell uname -s), Darwin)
 	mkdir -p $(HOME)/.config/ghostty
@@ -40,6 +41,7 @@ clean:
 	rm -f $(HOME)/.p10k.zsh
 	rm -rf $(HOME)/.config/nvim
 	rm -rf $(HOME)/.config/yazi
+	rm -rf $(HOME)/.config/sesh
 	rm -f $(HOME)/.tmux.conf
 	rm -rf $(HOME)/.config/tmux
 	rm -rf $(HOME)/.config/ghostty

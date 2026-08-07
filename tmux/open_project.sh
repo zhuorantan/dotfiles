@@ -31,14 +31,11 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-if [[ -f ~/.z ]]; then
-  NOW="$(date +%s)"
-  typeset -A FRECENTS
-  while read LINE; do
-    IFS="|" read DIR RANK TIME <<< "$LINE"
-    FRECENT=$((10000 * $RANK * (3.75 / (0.0001 * ($NOW - $TIME) + 1.25))))
-    FRECENTS["$DIR"]=$FRECENT
-  done < ~/.z
+typeset -A FRECENTS
+if (( $+commands[zoxide] )); then
+  while read -r SCORE DIR; do
+    FRECENTS["$DIR"]=$SCORE
+  done < <(zoxide query --list --score)
 fi
 
 RANKED_PROJECTS=$(for i in "${PROJECTS[@]}"; do FRECENT=${FRECENTS["$i"]-0}; echo "$FRECENT\t$i"; done)

@@ -42,6 +42,8 @@ brew "python"
 brew "ripgrep"
 # Safe, concurrent, practical language
 brew "rust"
+# Smart session manager for the terminal
+brew "sesh"
 # Formatting tool for reformatting Swift code
 brew "swiftformat"
 # Tool to enforce Swift style and conventions
@@ -54,10 +56,12 @@ brew "tmux"
 brew "wget"
 # Build server protocol implementation for integrating Xcode with sourcekit-lsp
 brew "xcode-build-server"
-# Best command-line tool to install and switch between multiple versions of Xcode
+# Command-line tool to install and switch between multiple versions of Xcode
 brew "xcodes"
 # Blazing fast terminal file manager written in Rust, based on async I/O
 brew "yazi"
+# Shell extension to navigate your filesystem faster
+brew "zoxide"
 # Fish-like fast/unobtrusive autosuggestions for zsh
 brew "zsh-autosuggestions"
 # Fish shell like syntax highlighting for zsh
