@@ -1,8 +1,16 @@
-[default_session]
+# Only real projects get an editor and a spare shell; connecting to some other
+# directory just leaves you at a prompt there.
+[[wildcard]]
+pattern = "~/Documents/dotfiles"
+startup_command = "tmux rename-window code; nvim"
+
+[[wildcard]]
+pattern = "~/dotfiles"
 startup_command = "tmux rename-window code; nvim"
 
 [[wildcard]]
 pattern = "~/Workspace/*"
+startup_command = "tmux rename-window code; nvim"
 windows = ["dev"]
 
 [[window]]

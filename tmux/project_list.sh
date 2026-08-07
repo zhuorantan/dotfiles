@@ -16,7 +16,6 @@
 # Modes:
 #   (default)   the full list above
 #   --tmux      only live tmux sessions
-#   --no-tmux   the full list minus tmux sessions, so every row is a path
 #   --dirs      directory search under $HOME
 #
 # Rows are "<icon> <label>\t<target>": the icon is joined to the label with a
@@ -93,7 +92,7 @@ windows_text() {
 # where the first (tmux) row wins.
 typeset -A HAS_SESSION
 
-if [[ $MODE != --dirs && $MODE != --no-tmux ]]; then
+if [[ $MODE != --dirs ]]; then
   while IFS=$TAB read -r NAME SPATH; do
     [[ -n $NAME ]] || continue
     HAS_SESSION[${SPATH%/}]=1
