@@ -1,16 +1,18 @@
 # Only real projects get an editor and a spare shell; connecting to some other
-# directory just leaves you at a prompt there.
+# directory just leaves you at a prompt there. `wt` is tmux/worktree.sh, linked
+# into ~/.local/bin: spread gives each git worktree of the repo its own window,
+# in the order the worktrees were created.
 [[wildcard]]
 pattern = "~/Documents/dotfiles"
-startup_command = "tmux rename-window code; nvim"
+startup_command = "tmux rename-window code; wt spread; nvim"
 
 [[wildcard]]
 pattern = "~/dotfiles"
-startup_command = "tmux rename-window code; nvim"
+startup_command = "tmux rename-window code; wt spread; nvim"
 
 [[wildcard]]
 pattern = "~/Workspace/*"
-startup_command = "tmux rename-window code; nvim"
+startup_command = "tmux rename-window code; wt spread; nvim"
 windows = ["dev"]
 
 [[window]]

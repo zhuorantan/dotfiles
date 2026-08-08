@@ -20,6 +20,8 @@ link:
 	ln -snf $(PWD)/yazi $(HOME)/.config/yazi
 	ln -snf $(PWD)/sesh $(HOME)/.config/sesh
 	ln -snf $(PWD)/tmux/tmux.conf $(HOME)/.tmux.conf
+	mkdir -p $(HOME)/.local/bin
+	ln -snf $(PWD)/tmux/worktree.sh $(HOME)/.local/bin/wt
 ifeq ($(shell uname -s), Darwin)
 	mkdir -p $(HOME)/.config/ghostty
 	ln -snf $(PWD)/ghostty $(HOME)/.config/ghostty/config
@@ -43,6 +45,7 @@ clean:
 	rm -rf $(HOME)/.config/yazi
 	rm -rf $(HOME)/.config/sesh
 	rm -f $(HOME)/.tmux.conf
+	rm -f $(HOME)/.local/bin/wt
 	rm -rf $(HOME)/.config/tmux
 	rm -rf $(HOME)/.config/ghostty
 	rm -rf $(HOME)/.hammerspoon
