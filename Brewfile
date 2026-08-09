@@ -20,6 +20,8 @@ brew "fzf"
 brew "gh"
 # CLI tool for searching and downloading app packages from the iOS App Store
 brew "ipatool"
+# Simple terminal UI for git commands
+brew "lazygit"
 # Powerful, lightweight programming language
 brew "lua"
 # Mac App Store command-line interface

@@ -22,7 +22,7 @@ export FZF_DEFAULT_OPTS="--cycle --layout=reverse"
 if [[ -z "${NVIM}" ]]; then
     export VISUAL="nvim"
 else
-    export VISUAL="nvim --server ${NVIM} --remote-tab"
+    export VISUAL="nvim --server ${NVIM} --remote"
 fi
 export EDITOR=${VISUAL}
 

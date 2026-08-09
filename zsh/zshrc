@@ -57,6 +57,7 @@ unset BREWPREFIX
 alias v=${VISUAL}
 alias t='tmux new -As main'
 alias c='codex'
+alias lg='lazygit'
 alias del='trash'
 
 function y() {

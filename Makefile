@@ -1,5 +1,7 @@
 .PHONY: default brew ohmyzsh link tmux clean
 
+LAZYGIT_CONFIG_DIR := $(shell lazygit --print-config-dir 2>/dev/null)
+
 default: link tmux
 
 brew:
@@ -24,6 +26,12 @@ link:
 	ln -snf $(PWD)/tmux/worktree.sh $(HOME)/.local/bin/wt
 	mkdir -p $(HOME)/.codex/bin
 	ln -snf $(PWD)/codex/bin/tmux-notify.sh $(HOME)/.codex/bin/tmux-notify.sh
+	@if [ -n "$(LAZYGIT_CONFIG_DIR)" ]; then \
+		mkdir -p "$(LAZYGIT_CONFIG_DIR)"; \
+		ln -snf "$(PWD)/lazygit/config.yml" "$(LAZYGIT_CONFIG_DIR)/config.yml"; \
+	else \
+		echo "lazygit is not installed; skipping config"; \
+	fi
 ifeq ($(shell uname -s), Darwin)
 	mkdir -p $(HOME)/.config/ghostty
 	ln -snf $(PWD)/ghostty $(HOME)/.config/ghostty/config
@@ -50,6 +58,7 @@ clean:
 	rm -f $(HOME)/.local/bin/wt
 	rm -f $(HOME)/.codex/bin/tmux-notify.sh
 	rm -rf $(HOME)/.config/tmux
+	@if [ -n "$(LAZYGIT_CONFIG_DIR)" ]; then rm -f "$(LAZYGIT_CONFIG_DIR)/config.yml"; fi
 	rm -rf $(HOME)/.config/ghostty
 	rm -rf $(HOME)/.hammerspoon
 	@if [ -f private/Makefile ]; then $(MAKE) -C private clean; fi
