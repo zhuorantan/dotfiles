@@ -1,5 +1,7 @@
 # Catppuccin Macchiato with the blue accent.
 gui:
+  scrollHeight: 10
+
   theme:
     activeBorderColor:
       - "#8aadf4"
