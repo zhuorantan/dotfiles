@@ -18,10 +18,10 @@
 #   --tmux      only live tmux sessions
 #   --dirs      directory search under $HOME
 #
-# Rows are "<icon> <label>\t<target>": the icon is joined to the label with a
-# space, the way sesh renders it, and the picker connects to the second field so
-# nothing has to strip the icon back off. Icons are ours rather than sesh's, which
-# is why projects get a glyph of their own instead of the generic zoxide one.
+# Rows are "<icon> <label>\t<target>\t<open-dir>": the icon is joined to the
+# label with a space, the way sesh renders it. The picker connects to the second
+# field and uses the third for ^o/^r. Icons are ours rather than sesh's, which is
+# why projects get a glyph of their own instead of the generic zoxide one.
 
 emulate -L zsh
 setopt null_glob
@@ -69,11 +69,11 @@ is_nested() {
   return 1
 }
 
-# row <icon> <label> <target> — <target> is what gets passed to `sesh connect`.
-# For live tmux sessions that is the session name, so sesh switches to the session
-# instead of treating the path as a new one; everything else is a path.
+# row <icon> <label> <target> [<open-dir>] — <target> is what gets passed to
+# `sesh connect`. For live tmux sessions that is the session name, while open-dir
+# is the first window's current path. For every other row both fields are its path.
 row() {
-  print -r -- "$1 $2$TAB$3"
+  print -r -- "$1 $2$TAB$3$TAB${4:-$3}"
 }
 
 # Window names trailing a tmux session, dimmed and capped like sesh's picker.
@@ -114,6 +114,7 @@ if [[ $MODE != --dirs ]]; then
   while IFS=$TAB read -r NAME SPATH; do
     [[ -n $NAME ]] || continue
     HAS_SESSION[${SPATH%/}]=1
+    FIRST_WINDOW_PATH=${${(f)"$(tmux list-windows -t "$NAME" -F '#{pane_current_path}' 2>/dev/null)"}[1]}
     if session_has_agent_notification "$NAME"; then
       NOTICE=" $ICON_AGENT"
     elif session_has_agent_working "$NAME"; then
@@ -123,7 +124,7 @@ if [[ $MODE != --dirs ]]; then
     else
       NOTICE=
     fi
-    row $ICON_TMUX "$NAME$NOTICE$(windows_text $NAME)" "$NAME"
+    row $ICON_TMUX "$NAME$NOTICE$(windows_text $NAME)" "$NAME" "$FIRST_WINDOW_PATH"
   done < <(tmux list-sessions -F "#{session_name}${TAB}#{session_path}" 2>/dev/null)
 fi
 

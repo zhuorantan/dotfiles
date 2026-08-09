@@ -14,11 +14,10 @@
 #
 # Also: ^u/^d scroll the list by half a page, ^x kills the selected session, and
 # ^o / ^r open the selection as a new window or in the current pane instead of
-# attaching to it. Both decline session rows, which have no directory to cd into.
+# attaching to it. For a session row they use that session's first-window dir.
 #
-# Rows are "<icon> <label>\t<target>". fzf shows the first field (--with-nth) and
-# returns the second (--accept-nth), so the icon never has to be stripped back off
-# the selection.
+# Rows are "<icon> <label>\t<target>\t<open-dir>". fzf shows the first field
+# (--with-nth), returns the second (--accept-nth), and uses the third for ^o/^r.
 
 emulate -L zsh
 
@@ -29,13 +28,12 @@ LIST=${SELF:h}/project_list.sh
 # shell-quotes field placeholders, so each one unquotes $2 before using it.
 if [[ ${1:-} == --open-bind ]]; then
   TARGET=$(eval print -r -- "$3")
-  # Only a directory can be opened this way; decline session rows.
   [[ $TARGET == /* ]] || { print -r -- ignore; exit 0 }
-  print -r -- "become($SELF --open $2 {2})"
+  print -r -- "become($SELF --open $2 {3})"
   exit 0
 fi
 
-# Unlike transform, become() substitutes {2} unquoted, so $3 arrives verbatim.
+# Unlike transform, become() substitutes {3} unquoted, so $3 arrives verbatim.
 if [[ ${1:-} == --open ]]; then
   case $2 in
     new-window)   exec tmux new-window -c ${3%/} 'nvim; zsh' ;;
@@ -78,8 +76,8 @@ TARGET=$(
     --preview-window 'right,60%' \
     --bind "ctrl-a:change-border-label($MODE_ALL)+change-prompt($PROMPT_ALL)+reload($LIST)" \
     --bind "ctrl-t:change-border-label($MODE_TMUX)+change-prompt($PROMPT_TMUX)+reload($LIST --tmux)" \
-    --bind "ctrl-o:transform:$SELF --open-bind new-window {2}" \
-    --bind "ctrl-r:transform:$SELF --open-bind respawn-pane {2}" \
+    --bind "ctrl-o:transform:$SELF --open-bind new-window {3}" \
+    --bind "ctrl-r:transform:$SELF --open-bind respawn-pane {3}" \
     --bind "ctrl-x:execute-silent($SELF --kill {2})+transform:
       case \$FZF_BORDER_LABEL in
         $MODE_TMUX) echo 'reload($LIST --tmux)' ;;
