@@ -27,6 +27,8 @@ DIM=$'\e[2;90m'
 RESET=$'\e[0m'
 ICON_MAIN=$'\e[35m\ue725\e[39m'      # git-branch, for the main checkout
 ICON_WORKTREE=$'\e[33m\ue725\e[39m'  # git-branch, for the rest
+ICON_NOTIFICATION=$'\e[33m󰂞\e[39m'  # bell, matching Catppuccin's tmux flag
+ICON_AGENT=$'\e[32m󰚩\e[39m'     # completed agent turn
 HERE=$'\e[32m\u25cf\e[39m'           # marks the worktree we were opened from
 NOT_HERE=' '                          # keeps the label column aligned
 
@@ -64,6 +66,19 @@ worktrees_by_age() {
 # tmux window names cannot contain a colon or period without confusing targets.
 window_name() {
   print -r -- ${${1//:/-}//./-}
+}
+
+# Notification marker for the tmux window represented by a picker row. Missing
+# windows are normal: a worktree does not get one until opened or spread.
+notification_suffix() {
+  local state
+  state=$(tmux display-message -p -t "$1" '#{@agent_notification} #{window_bell_flag}' 2>/dev/null) ||
+    return
+  if [[ $state == '1 '* ]]; then
+    print -r -- " $ICON_AGENT"
+  elif [[ $state == *' 1' ]]; then
+    print -r -- " $ICON_NOTIFICATION"
+  fi
 }
 
 # Select the window for a worktree if it exists, otherwise create it.
@@ -174,9 +189,11 @@ case $ACTION in
       BR=$(branch_of $WT)
       [[ ${WT:A} == $CWD ]] && MARK=$HERE || MARK=$NOT_HERE
       if [[ $WT == $ROOT ]]; then
-        print -r -- "$MARK $ICON_MAIN $BR$DIM ${ROOT:t}$RESET$TAB$WT"
+        NOTICE=$(notification_suffix ':{start}')
+        print -r -- "$MARK $ICON_MAIN $BR$NOTICE$DIM ${ROOT:t}$RESET$TAB$WT"
       else
-        print -r -- "$MARK $ICON_WORKTREE $BR$TAB$WT"
+        NOTICE=$(notification_suffix ":=$(window_name $BR)")
+        print -r -- "$MARK $ICON_WORKTREE $BR$NOTICE$TAB$WT"
       fi
     done
     exit 0 ;;
@@ -187,7 +204,6 @@ case $ACTION in
       $SELF list | fzf \
         --style minimal \
         --ansi \
-        --no-sort \
         --delimiter=$TAB \
         --with-nth 1 \
         --accept-nth 2 \

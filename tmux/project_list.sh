@@ -36,6 +36,8 @@ ICON_TMUX=$'\e[34m\e[39m'      # sesh's tmux glyph
 ICON_PROJECT=$'\e[36m\e[39m'   # folder
 ICON_DOTFILES=$'\e[35m\e[39m'  # folder-git
 ICON_DIR=$'\e[36m\e[39m'       # sesh's zoxide glyph
+ICON_NOTIFICATION=$'\e[33m󰂞\e[39m'  # bell, matching Catppuccin's tmux flag
+ICON_AGENT=$'\e[32m󰚩\e[39m'     # completed agent turn
 
 DOTFILES=${${(%):-%N}:A:h:h}
 DOTFILE_DIRS=($DOTFILES ~/dotfiles)
@@ -85,6 +87,11 @@ windows_text() {
   print -r -- "$DIM ${(j: :)shown}$RESET"
 }
 
+session_has_agent_notification() {
+  tmux list-windows -t "$1" -F '#{@agent_notification}' 2>/dev/null |
+    grep -qx 1
+}
+
 # -- tmux sessions -------------------------------------------------------------
 
 # A live session and its directory are the same destination, so remember the
@@ -93,11 +100,18 @@ windows_text() {
 typeset -A HAS_SESSION
 
 if [[ $MODE != --dirs ]]; then
-  while IFS=$TAB read -r NAME SPATH; do
+  while IFS=$TAB read -r NAME SPATH ALERTS; do
     [[ -n $NAME ]] || continue
     HAS_SESSION[${SPATH%/}]=1
-    row $ICON_TMUX "$NAME$(windows_text $NAME)" "$NAME"
-  done < <(tmux list-sessions -F "#{session_name}${TAB}#{session_path}" 2>/dev/null)
+    if session_has_agent_notification "$NAME"; then
+      NOTICE=" $ICON_AGENT"
+    elif [[ $ALERTS == *'!'* ]]; then
+      NOTICE=" $ICON_NOTIFICATION"
+    else
+      NOTICE=
+    fi
+    row $ICON_TMUX "$NAME$NOTICE$(windows_text $NAME)" "$NAME"
+  done < <(tmux list-sessions -F "#{session_name}${TAB}#{session_path}${TAB}#{session_alerts}" 2>/dev/null)
 fi
 
 [[ $MODE == --tmux ]] && exit 0

@@ -68,7 +68,6 @@ TARGET=$(
   $LIST | fzf \
     --style minimal \
     --ansi \
-    --no-sort \
     --delimiter=$'\t' \
     --with-nth 1 \
     --accept-nth 2 \
