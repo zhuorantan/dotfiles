@@ -72,8 +72,15 @@ window_name() {
 # Agent or bell marker for the tmux window represented by a picker row. Missing
 # windows are normal: a worktree does not get one until opened or spread.
 notification_suffix() {
-  local state
-  state=$(tmux display-message -p -t "$1" '#{==:#{@agent_notification},1} #{m/r:(^|[|])[⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏] ,#{P:#{pane_title}|}} #{window_bell_flag}' 2>/dev/null) ||
+  local target=$1 expected=${2:-} actual state
+  if [[ -n $expected ]]; then
+    actual=$(tmux display-message -p -t "$target" '#{window_name}' 2>/dev/null) ||
+      return
+    # tmux falls back to the current window when an exact named target is
+    # missing, so reject that fallback before reading its alert state.
+    [[ $actual == $expected ]] || return
+  fi
+  state=$(tmux display-message -p -t "$target" '#{==:#{@agent_notification},1} #{m/r:(^|[|])[⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏] ,#{P:#{pane_title}|}} #{window_bell_flag}' 2>/dev/null) ||
     return
   if [[ $state == '1 '* ]]; then
     print -r -- " $ICON_AGENT"
@@ -201,7 +208,8 @@ case $ACTION in
         NOTICE=$(notification_suffix ':{start}')
         print -r -- "$MARK $ICON_MAIN $BR$NOTICE$DIM ${ROOT:t}$RESET$TAB$WT"
       else
-        NOTICE=$(notification_suffix ":=$(window_name $BR)")
+        NAME=$(window_name $BR)
+        NOTICE=$(notification_suffix ":=$NAME" "$NAME")
         print -r -- "$MARK $ICON_WORKTREE $BR$NOTICE$TAB$WT"
       fi
     done

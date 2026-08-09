@@ -98,6 +98,11 @@ session_has_agent_working() {
     grep -qx 1
 }
 
+session_has_bell() {
+  tmux list-windows -t "$1" -F '#{window_bell_flag}' 2>/dev/null |
+    grep -qx 1
+}
+
 # -- tmux sessions -------------------------------------------------------------
 
 # A live session and its directory are the same destination, so remember the
@@ -106,20 +111,20 @@ session_has_agent_working() {
 typeset -A HAS_SESSION
 
 if [[ $MODE != --dirs ]]; then
-  while IFS=$TAB read -r NAME SPATH ALERTS; do
+  while IFS=$TAB read -r NAME SPATH; do
     [[ -n $NAME ]] || continue
     HAS_SESSION[${SPATH%/}]=1
     if session_has_agent_notification "$NAME"; then
       NOTICE=" $ICON_AGENT"
     elif session_has_agent_working "$NAME"; then
       NOTICE=" $ICON_AGENT_WORKING"
-    elif [[ $ALERTS == *'!'* ]]; then
+    elif session_has_bell "$NAME"; then
       NOTICE=" $ICON_NOTIFICATION"
     else
       NOTICE=
     fi
     row $ICON_TMUX "$NAME$NOTICE$(windows_text $NAME)" "$NAME"
-  done < <(tmux list-sessions -F "#{session_name}${TAB}#{session_path}${TAB}#{session_alerts}" 2>/dev/null)
+  done < <(tmux list-sessions -F "#{session_name}${TAB}#{session_path}" 2>/dev/null)
 fi
 
 [[ $MODE == --tmux ]] && exit 0
