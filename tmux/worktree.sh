@@ -175,10 +175,16 @@ case $ACTION in
     BRANCH=$(branch_of $WT_PATH)
     NAME=$(window_name $BRANCH)
 
-    # Both of these refuse to discard work: `worktree remove` fails on a dirty
-    # tree, `branch -d` on unmerged commits. Neither is forced here on purpose.
+    # Check integration before removing the directory: `branch -d` also refuses
+    # an unmerged branch, but by then the worktree would already be gone.
+    [[ -n $BRANCH && $BRANCH != HEAD ]] || die "refusing to remove a detached worktree"
+    git -C $ROOT merge-base --is-ancestor $BRANCH $BASE_BRANCH 2>/dev/null ||
+      die "refusing to remove $BRANCH: not merged into $BASE_BRANCH"
+
+    # Neither operation is forced: removal still protects dirty worktrees, and
+    # branch deletion remains a second check against discarding commits.
     git -C $ROOT worktree remove $WT_PATH || exit 1
-    [[ -n $BRANCH && $BRANCH != HEAD ]] && git -C $ROOT branch -d $BRANCH
+    git -C $ROOT branch -d $BRANCH || exit 1
     [[ -n $NAME ]] && tmux kill-window -t "=$NAME" 2>/dev/null
     print -r -- "removed $WT_PATH" ;;
 
