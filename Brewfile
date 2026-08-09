@@ -1,5 +1,7 @@
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# Resource monitor. C++ version and continuation of bashtop and bpytop
+brew "btop"
 # Incredibly fast JavaScript runtime, bundler, test runner, and package manager
 brew "bun"
 # Statistics utility to count lines of code
