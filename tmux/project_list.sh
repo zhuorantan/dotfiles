@@ -30,6 +30,7 @@ TAB=$'\t'
 DIM=$'\e[2;90m'
 RESET=$'\e[0m'
 WINDOW_LIMIT=4
+ICON_AGENT_WORKING=$'\e[36m▶\e[39m'  # agent turn in progress
 
 # Nerd Font glyphs, coloured in the spirit of sesh's own source glyphs.
 ICON_TMUX=$'\e[34m\e[39m'      # sesh's tmux glyph
@@ -92,6 +93,11 @@ session_has_agent_notification() {
     grep -qx 1
 }
 
+session_has_agent_working() {
+  tmux list-windows -t "$1" -F '#{m/r:(^|[|])[⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏] ,#{P:#{pane_title}|}}' 2>/dev/null |
+    grep -qx 1
+}
+
 # -- tmux sessions -------------------------------------------------------------
 
 # A live session and its directory are the same destination, so remember the
@@ -105,6 +111,8 @@ if [[ $MODE != --dirs ]]; then
     HAS_SESSION[${SPATH%/}]=1
     if session_has_agent_notification "$NAME"; then
       NOTICE=" $ICON_AGENT"
+    elif session_has_agent_working "$NAME"; then
+      NOTICE=" $ICON_AGENT_WORKING"
     elif [[ $ALERTS == *'!'* ]]; then
       NOTICE=" $ICON_NOTIFICATION"
     else

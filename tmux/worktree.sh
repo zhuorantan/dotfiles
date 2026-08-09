@@ -21,6 +21,7 @@ setopt null_glob
 SELF=${${(%):-%N}:A}
 WORKTREE_DIR=.worktrees
 BASE_BRANCH=${WORKTREE_BASE_BRANCH:-main}
+ICON_AGENT_WORKING=$'\e[36m▶\e[39m'  # agent turn in progress
 
 TAB=$'\t'
 DIM=$'\e[2;90m'
@@ -68,14 +69,16 @@ window_name() {
   print -r -- ${${1//:/-}//./-}
 }
 
-# Notification marker for the tmux window represented by a picker row. Missing
+# Agent or bell marker for the tmux window represented by a picker row. Missing
 # windows are normal: a worktree does not get one until opened or spread.
 notification_suffix() {
   local state
-  state=$(tmux display-message -p -t "$1" '#{@agent_notification} #{window_bell_flag}' 2>/dev/null) ||
+  state=$(tmux display-message -p -t "$1" '#{==:#{@agent_notification},1} #{m/r:(^|[|])[⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏] ,#{P:#{pane_title}|}} #{window_bell_flag}' 2>/dev/null) ||
     return
   if [[ $state == '1 '* ]]; then
     print -r -- " $ICON_AGENT"
+  elif [[ $state == '0 1 '* ]]; then
+    print -r -- " $ICON_AGENT_WORKING"
   elif [[ $state == *' 1' ]]; then
     print -r -- " $ICON_NOTIFICATION"
   fi
