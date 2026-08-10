@@ -88,19 +88,23 @@ windows_text() {
   print -r -- "$DIM ${(j: :)shown}$RESET"
 }
 
-session_has_agent_notification() {
-  tmux list-windows -t "$1" -F '#{@agent_notification}' 2>/dev/null |
-    grep -qx 1
-}
-
-session_has_agent_working() {
-  tmux list-windows -t "$1" -F '#{m/r:(^|[|])[⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏] ,#{P:#{pane_title}|}}' 2>/dev/null |
-    grep -qx 1
-}
-
-session_has_bell() {
-  tmux list-windows -t "$1" -F '#{window_bell_flag}' 2>/dev/null |
-    grep -qx 1
+# Highest-priority alert per session, from a single pass over every window. Three
+# lookups per session would each cost a tmux round trip; @agent_alert_state (see
+# tmux.conf) keeps the flags and their precedence in one place.
+typeset -A SESSION_ALERT
+session_alerts() {
+  local session state
+  while IFS=$TAB read -r session state; do
+    [[ -n $session ]] || continue
+    # A completed agent turn is more specific than the BEL it also emits.
+    case $state in
+      1\|*) SESSION_ALERT[$session]=agent ;;
+      *\|1\|*) [[ ${SESSION_ALERT[$session]:-} == agent ]] ||
+        SESSION_ALERT[$session]=working ;;
+      *\|1) [[ -n ${SESSION_ALERT[$session]:-} ]] ||
+        SESSION_ALERT[$session]=bell ;;
+    esac
+  done < <(tmux list-windows -a -F "#{session_name}${TAB}#{E:@agent_alert_state}" 2>/dev/null)
 }
 
 # -- tmux sessions -------------------------------------------------------------
@@ -111,19 +115,17 @@ session_has_bell() {
 typeset -A HAS_SESSION
 
 if [[ $MODE != --dirs ]]; then
+  session_alerts
   while IFS=$TAB read -r NAME SPATH; do
     [[ -n $NAME ]] || continue
     HAS_SESSION[${SPATH%/}]=1
     FIRST_WINDOW_PATH=${${(f)"$(tmux list-windows -t "$NAME" -F '#{pane_current_path}' 2>/dev/null)"}[1]}
-    if session_has_agent_notification "$NAME"; then
-      NOTICE=" $ICON_AGENT"
-    elif session_has_agent_working "$NAME"; then
-      NOTICE=" $ICON_AGENT_WORKING"
-    elif session_has_bell "$NAME"; then
-      NOTICE=" $ICON_NOTIFICATION"
-    else
-      NOTICE=
-    fi
+    case ${SESSION_ALERT[$NAME]:-} in
+      agent) NOTICE=" $ICON_AGENT" ;;
+      working) NOTICE=" $ICON_AGENT_WORKING" ;;
+      bell) NOTICE=" $ICON_NOTIFICATION" ;;
+      *) NOTICE= ;;
+    esac
     row $ICON_TMUX "$NAME$NOTICE$(windows_text $NAME)" "$NAME" "$FIRST_WINDOW_PATH"
   done < <(tmux list-sessions -F "#{session_name}${TAB}#{session_path}" 2>/dev/null)
 fi

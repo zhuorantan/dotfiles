@@ -2,6 +2,11 @@
 
 LAZYGIT_CONFIG_DIR := $(shell lazygit --print-config-dir 2>/dev/null)
 
+# Agents each read the notify helper from their own config dir, so only link it
+# for the ones actually installed.
+CODEX := $(shell command -v codex 2>/dev/null)
+CLAUDE := $(shell command -v claude 2>/dev/null)
+
 default: link tmux
 
 brew:
@@ -24,8 +29,18 @@ link:
 	ln -snf $(PWD)/tmux/tmux.conf $(HOME)/.tmux.conf
 	mkdir -p $(HOME)/.local/bin
 	ln -snf $(PWD)/tmux/worktree.sh $(HOME)/.local/bin/wt
-	mkdir -p $(HOME)/.codex/bin
-	ln -snf $(PWD)/codex/bin/tmux-notify.sh $(HOME)/.codex/bin/tmux-notify.sh
+	@if [ -n "$(CODEX)" ]; then \
+		mkdir -p "$(HOME)/.codex/bin"; \
+		ln -snf "$(PWD)/tmux/agent_notify.sh" "$(HOME)/.codex/bin/agent-notify"; \
+	else \
+		echo "codex is not installed; skipping notify helper"; \
+	fi
+	@if [ -n "$(CLAUDE)" ]; then \
+		mkdir -p "$(HOME)/.claude/bin"; \
+		ln -snf "$(PWD)/tmux/agent_notify.sh" "$(HOME)/.claude/bin/agent-notify"; \
+	else \
+		echo "claude is not installed; skipping notify helper"; \
+	fi
 	@if [ -n "$(LAZYGIT_CONFIG_DIR)" ]; then \
 		mkdir -p "$(LAZYGIT_CONFIG_DIR)"; \
 		ln -snf "$(PWD)/lazygit/config.yml" "$(LAZYGIT_CONFIG_DIR)/config.yml"; \
@@ -56,7 +71,8 @@ clean:
 	rm -rf $(HOME)/.config/sesh
 	rm -f $(HOME)/.tmux.conf
 	rm -f $(HOME)/.local/bin/wt
-	rm -f $(HOME)/.codex/bin/tmux-notify.sh
+	rm -f $(HOME)/.codex/bin/agent-notify
+	rm -f $(HOME)/.claude/bin/agent-notify
 	rm -rf $(HOME)/.config/tmux
 	@if [ -n "$(LAZYGIT_CONFIG_DIR)" ]; then rm -f "$(LAZYGIT_CONFIG_DIR)/config.yml"; fi
 	rm -rf $(HOME)/.config/ghostty

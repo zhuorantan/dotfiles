@@ -26,11 +26,11 @@ ICON_AGENT_WORKING=$'\e[36m▶\e[39m'  # agent turn in progress
 TAB=$'\t'
 DIM=$'\e[2;90m'
 RESET=$'\e[0m'
-ICON_MAIN=$'\e[35m\ue725\e[39m'      # git-branch, for the main checkout
-ICON_WORKTREE=$'\e[33m\ue725\e[39m'  # git-branch, for the rest
+ICON_MAIN=$'\e[35m\e[39m'      # git-branch, for the main checkout
+ICON_WORKTREE=$'\e[33m\e[39m'  # git-branch, for the rest
 ICON_NOTIFICATION=$'\e[33m󰂞\e[39m'  # bell, matching Catppuccin's tmux flag
 ICON_AGENT=$'\e[32m󰚩\e[39m'     # completed agent turn
-HERE=$'\e[32m\u25cf\e[39m'           # marks the worktree we were opened from
+HERE=$'\e[32m●\e[39m'               # marks the worktree we were opened from
 NOT_HERE=' '                          # keeps the label column aligned
 
 die() { print -ru2 -- "$1"; exit 1 }
@@ -80,15 +80,14 @@ notification_suffix() {
     # missing, so reject that fallback before reading its alert state.
     [[ $actual == $expected ]] || return
   fi
-  state=$(tmux display-message -p -t "$target" '#{==:#{@agent_notification},1} #{m/r:(^|[|])[⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏] ,#{P:#{pane_title}|}} #{window_bell_flag}' 2>/dev/null) ||
+  state=$(tmux display-message -p -t "$target" '#{E:@agent_alert_state}' 2>/dev/null) ||
     return
-  if [[ $state == '1 '* ]]; then
-    print -r -- " $ICON_AGENT"
-  elif [[ $state == '0 1 '* ]]; then
-    print -r -- " $ICON_AGENT_WORKING"
-  elif [[ $state == *' 1' ]]; then
-    print -r -- " $ICON_NOTIFICATION"
-  fi
+  # A completed agent turn is more specific than the BEL it also emits.
+  case $state in
+    1\|*) print -r -- " $ICON_AGENT" ;;
+    *\|1\|*) print -r -- " $ICON_AGENT_WORKING" ;;
+    *\|1) print -r -- " $ICON_NOTIFICATION" ;;
+  esac
 }
 
 # Select the window for a worktree if it exists, otherwise create it.
@@ -224,7 +223,7 @@ case $ACTION in
         --delimiter=$TAB \
         --with-nth 1 \
         --accept-nth 2 \
-        --prompt=$'\ue725  ' \
+        --prompt='  ' \
         --header='enter window · ^o new · ^s spread · ^x delete' \
         --preview 'git -C {2} log --oneline --graph --decorate -20' \
         --preview-window 'right,60%' \

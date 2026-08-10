@@ -8,21 +8,17 @@ CURRENT_SESSION=${1:-}
 TAB=$'\t'
 typeset -A STATE
 
-while IFS=$TAB read -r SESSION AGENT WORKING BELL; do
+while IFS=$TAB read -r SESSION ALERT; do
   [[ -n $SESSION && $SESSION != $CURRENT_SESSION ]] || continue
 
-  # A completed Codex turn is more specific than the BEL it also emits.
-  if [[ $AGENT == 1 ]]; then
-    STATE[$SESSION]=agent
-  elif [[ $WORKING == 1 && ${STATE[$SESSION]:-} != agent ]]; then
-    STATE[$SESSION]=working
-  elif [[ $BELL == 1 && -z ${STATE[$SESSION]:-} ]]; then
-    STATE[$SESSION]=bell
-  fi
+  # A completed agent turn is more specific than the BEL it also emits.
+  case $ALERT in
+    1\|*) STATE[$SESSION]=agent ;;
+    *\|1\|*) [[ ${STATE[$SESSION]:-} == agent ]] || STATE[$SESSION]=working ;;
+    *\|1) [[ -n ${STATE[$SESSION]:-} ]] || STATE[$SESSION]=bell ;;
+  esac
 done < <(
-  tmux list-windows -a \
-    -F "#{session_name}${TAB}#{==:#{@agent_notification},1}${TAB}#{m/r:(^|[|])[⠋⠙⠹⠸⠼⠴⠦⠧⠇⠏] ,#{P:#{pane_title}|}}${TAB}#{window_bell_flag}" \
-    2>/dev/null
+  tmux list-windows -a -F "#{session_name}${TAB}#{E:@agent_alert_state}" 2>/dev/null
 )
 
 typeset -a AGENT_SESSIONS WORKING_SESSIONS BELL_SESSIONS
