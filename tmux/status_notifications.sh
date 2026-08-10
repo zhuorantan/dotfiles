@@ -39,6 +39,30 @@ status_pill() {
   print -n -r -- "$output"
 }
 
+# Session IDs, which is what range=session|X wants: names would break on the
+# spaces and commas tmux allows in them, and IDs are stable for the session's
+# life. Looked up once, since one tmux call per pill would be a call per redraw.
+typeset -A SESSION_ID
+while IFS=$TAB read -r ID NAME; do
+  [[ -n $NAME ]] && SESSION_ID[$NAME]=$ID
+done < <(tmux list-sessions -F "#{session_id}${TAB}#{session_name}" 2>/dev/null)
+
+# Wrap a pill so clicking it acts on the session it names. tmux's default
+# MouseDown1Status binding is `switch-client -t =`, where = resolves to the
+# clicked range's session — so a single-session pill needs no new key binding.
+#
+# The summary pill ("N sessions") has no single target, so it gets a user range
+# instead; tmux.conf binds that to the session picker.
+clickable() {
+  local target=$1 body=$2
+  if [[ -n $target ]]; then
+    print -n -r -- "#[range=session|$target]$body#[norange]"
+  else
+    print -n -r -- "#[range=user|alerts]$body#[norange]"
+  fi
+}
+
+# ALERT_TARGET is the session ID to jump to, left empty for the summary pill.
 TOTAL=$(( $#AGENT_SESSIONS + $#WORKING_SESSIONS + $#BELL_SESSIONS ))
 if (( TOTAL > 1 )); then
   if (( $#AGENT_SESSIONS )); then
@@ -49,15 +73,19 @@ if (( TOTAL > 1 )); then
     ALERT_TYPE=bell_notification
   fi
   ALERT_LABEL="$TOTAL sessions"
+  ALERT_TARGET=
 elif (( $#AGENT_SESSIONS )); then
   ALERT_TYPE=agent_notification
   ALERT_LABEL=${AGENT_SESSIONS[1]}
+  ALERT_TARGET=${SESSION_ID[$ALERT_LABEL]:-}
 elif (( $#WORKING_SESSIONS )); then
   ALERT_TYPE=agent_working
   ALERT_LABEL=${WORKING_SESSIONS[1]}
+  ALERT_TARGET=${SESSION_ID[$ALERT_LABEL]:-}
 elif (( $#BELL_SESSIONS )); then
   ALERT_TYPE=bell_notification
   ALERT_LABEL=${BELL_SESSIONS[1]}
+  ALERT_TARGET=${SESSION_ID[$ALERT_LABEL]:-}
 fi
 
 PILL_FORMAT=$(tmux show-option -gv @_status_pill_format 2>/dev/null) || exit 0
@@ -75,6 +103,9 @@ fi
 if [[ -n ${ALERT_TYPE:-} ]]; then
   ALERT_ICON=$(tmux show-option -gv "@${ALERT_TYPE}_icon" 2>/dev/null) || exit 0
   ALERT_ACCENT=$(tmux show-option -gv "@${ALERT_TYPE}_status_accent" 2>/dev/null) || exit 0
-  status_pill "$ALERT_LABEL" "$ALERT_ICON" "$ALERT_ACCENT" default
+  # The range has to close before the trailing #[default], so the pill is wrapped
+  # as a whole rather than the range being opened around the format string.
+  clickable "${ALERT_TARGET:-}" \
+    "$(status_pill "$ALERT_LABEL" "$ALERT_ICON" "$ALERT_ACCENT" default)"
 fi
 print
