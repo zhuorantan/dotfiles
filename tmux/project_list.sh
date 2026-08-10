@@ -114,20 +114,29 @@ session_alerts() {
 # where the first (tmux) row wins.
 typeset -A HAS_SESSION
 
+# Alerts rise to the top of the tmux group, in the same order of specificity the
+# icons follow: a finished agent turn, then one still working, then a bare bell.
+# Sessions without an alert keep tmux's own order below them.
+#
+# One bucket per tier, joined at the end: appending keeps each tier in the order
+# tmux listed it, so the grouping is stable without sorting on a rank column.
 if [[ $MODE != --dirs ]]; then
   session_alerts
+  TIERS=('' '' '' '')
   while IFS=$TAB read -r NAME SPATH; do
     [[ -n $NAME ]] || continue
     HAS_SESSION[${SPATH%/}]=1
     FIRST_WINDOW_PATH=${${(f)"$(tmux list-windows -t "$NAME" -F '#{pane_current_path}' 2>/dev/null)"}[1]}
     case ${SESSION_ALERT[$NAME]:-} in
-      agent) NOTICE=" $ICON_AGENT" ;;
-      working) NOTICE=" $ICON_AGENT_WORKING" ;;
-      bell) NOTICE=" $ICON_NOTIFICATION" ;;
-      *) NOTICE= ;;
+      agent) TIER=1; NOTICE=" $ICON_AGENT" ;;
+      working) TIER=2; NOTICE=" $ICON_AGENT_WORKING" ;;
+      bell) TIER=3; NOTICE=" $ICON_NOTIFICATION" ;;
+      *) TIER=4; NOTICE= ;;
     esac
-    row $ICON_TMUX "$NAME$NOTICE$(windows_text $NAME)" "$NAME" "$FIRST_WINDOW_PATH"
+    TIERS[$TIER]+="$(row $ICON_TMUX "$NAME$NOTICE$(windows_text $NAME)" "$NAME" "$FIRST_WINDOW_PATH")"$'\n'
   done < <(tmux list-sessions -F "#{session_name}${TAB}#{session_path}" 2>/dev/null)
+  # Each row already carries its newline, and empty tiers contribute nothing.
+  print -rn -- ${(j::)TIERS}
 fi
 
 [[ $MODE == --tmux ]] && exit 0

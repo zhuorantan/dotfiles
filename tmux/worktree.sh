@@ -71,8 +71,14 @@ window_name() {
 
 # Agent or bell marker for the tmux window represented by a picker row. Missing
 # windows are normal: a worktree does not get one until opened or spread.
+#
+# Sets two globals rather than printing, so the caller gets the alert tier as well
+# as the icon: a command substitution would run this in a subshell and strip the
+# tier off. NOTICE is the icon (empty when quiet); NOTICE_TIER groups the row —
+# 1 agent, 2 working, 3 bell, 4 none.
 notification_suffix() {
   local target=$1 expected=${2:-} actual state
+  NOTICE= NOTICE_TIER=4
   if [[ -n $expected ]]; then
     actual=$(tmux display-message -p -t "$target" '#{window_name}' 2>/dev/null) ||
       return
@@ -84,9 +90,9 @@ notification_suffix() {
     return
   # A completed agent turn is more specific than the BEL it also emits.
   case $state in
-    1\|*) print -r -- " $ICON_AGENT" ;;
-    *\|1\|*) print -r -- " $ICON_AGENT_WORKING" ;;
-    *\|1) print -r -- " $ICON_NOTIFICATION" ;;
+    1\|*) NOTICE=" $ICON_AGENT" NOTICE_TIER=1 ;;
+    *\|1\|*) NOTICE=" $ICON_AGENT_WORKING" NOTICE_TIER=2 ;;
+    *\|1) NOTICE=" $ICON_NOTIFICATION" NOTICE_TIER=3 ;;
   esac
 }
 
@@ -199,19 +205,26 @@ case $ACTION in
     # $PWD needs :A because tmux hands us /tmp where git reports /private/tmp.
     CWD=${PWD:A}
     # Branch is the label because the path is just a sanitised copy of it; a
-    # dimmed suffix marks the main checkout. Oldest first, matching `spread`.
+    # dimmed suffix marks the main checkout.
+    #
+    # Rows carrying an alert float to the top, in the order the icons imply:
+    # finished agent turn, then working, then bell. One bucket per tier keeps
+    # each tier oldest-first — matching `spread` — without a sort pass.
+    TIERS=('' '' '' '')
     for WT in $(worktrees_by_age $ROOT); do
       BR=$(branch_of $WT)
       [[ ${WT:A} == $CWD ]] && MARK=$HERE || MARK=$NOT_HERE
       if [[ $WT == $ROOT ]]; then
-        NOTICE=$(notification_suffix ':{start}')
-        print -r -- "$MARK $ICON_MAIN $BR$NOTICE$DIM ${ROOT:t}$RESET$TAB$WT"
+        notification_suffix ':{start}'
+        ROW="$MARK $ICON_MAIN $BR$NOTICE$DIM ${ROOT:t}$RESET$TAB$WT"
       else
         NAME=$(window_name $BR)
-        NOTICE=$(notification_suffix ":=$NAME" "$NAME")
-        print -r -- "$MARK $ICON_WORKTREE $BR$NOTICE$TAB$WT"
+        notification_suffix ":=$NAME" "$NAME"
+        ROW="$MARK $ICON_WORKTREE $BR$NOTICE$TAB$WT"
       fi
+      TIERS[$NOTICE_TIER]+="$ROW"$'\n'
     done
+    print -rn -- ${(j::)TIERS}
     exit 0 ;;
 
   picker)

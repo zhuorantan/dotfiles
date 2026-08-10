@@ -26,7 +26,7 @@ export SAVEHIST=1000000
 # ohmyzsh
 export ZSH="${HOME}/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
-plugins=(git colored-man-pages history docker fzf)
+plugins=(alias-finder bun colored-man-pages docker docker-compose fzf gh git history kamal zoxide zsh-interactive-cd)
 source ${ZSH}/oh-my-zsh.sh
 
 BREWPREFIX="/opt/homebrew"
@@ -99,5 +99,3 @@ add-zsh-hook preexec _zsh_cursor_reset
 
 # Set the initial cursor style upon loading.
 _zsh_cursor_style
-
-eval "$(zoxide init zsh)"
