@@ -5,22 +5,25 @@
 # keeps the usual alert state until the window is viewed.
 #
 # Codex calls this via `notify`; Claude Code via a Stop hook. Both pass a JSON
-# event, which is ignored unless the pane has to be located by workspace path.
+# event. Codex's thread ID is also exposed by its TUI in the pane title so the
+# app-server callback can locate the exact client pane.
 pane=${TMUX_PANE:-}
 
 # Codex app-server mode runs notify outside the TUI process tree, so TMUX_PANE is
-# not inherited. In that case, locate the pane by the callback's workspace path.
-# Claude Code runs hooks as children of the TUI, so its TMUX_PANE always wins.
+# not inherited. Match the callback's thread ID to the session ID in the title.
+# Codex renders the first 29 characters plus "..." within that item's 32-character
+# limit; this still identifies the pane without conflating clients that happen
+# to use the same workspace. Claude Code runs hooks as children of the TUI, so
+# its TMUX_PANE always wins.
 if [ -z "$pane" ]; then
-  event_cwd=$(printf '%s' "${1:-{}}" | jq -r '.cwd // empty' 2>/dev/null)
-  [ -n "$event_cwd" ] || exit 0
+  thread_id=$(printf '%s' "${1:-{}}" | jq -r '."thread-id" // empty' 2>/dev/null)
+  [ -n "$thread_id" ] || exit 0
+  thread_title=$(printf '%.29s...' "$thread_id")
 
   pane=$(
-    tmux list-panes -a -F '#{pane_id}|#{pane_current_command}|#{pane_current_path}' 2>/dev/null |
-      awk -F '|' -v cwd="$event_cwd" '
-        $3 == cwd && $2 ~ /^(codex|claude)/ { print $1; found = 1; exit }
-        $3 == cwd && fallback == "" { fallback = $1 }
-        END { if (!found && fallback != "") print fallback }
+    tmux list-panes -a -F '#{pane_id} #{pane_current_command} #{pane_title}' 2>/dev/null |
+      awk -v thread="$thread_title" '
+        $2 ~ /^codex/ && index($0, thread) { print $1; exit }
       '
   )
   [ -n "$pane" ] || exit 0
