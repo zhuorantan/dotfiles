@@ -35,6 +35,18 @@ NOT_HERE=' '                          # keeps the label column aligned
 
 die() { print -ru2 -- "$1"; exit 1 }
 
+confirm() {
+  local answer
+  answer=$(print -r -- confirm | fzf \
+    --style minimal \
+    --disabled \
+    --no-info \
+    --prompt="$1" \
+    --header='enter/y confirm · esc/n cancel' \
+    --bind 'y:accept,n:abort')
+  [[ $answer == confirm ]]
+}
+
 # The repo this worktree belongs to, whether $PWD is the main checkout or one of
 # the worktrees. --git-common-dir points at the shared .git for both.
 repo_root() {
@@ -200,6 +212,39 @@ case $ACTION in
     [[ -n $NAME ]] && tmux kill-window -t "=$NAME" 2>/dev/null
     print -r -- "removed $WT_PATH" ;;
 
+  remove-notify)
+    [[ -n ${1:-} ]] || exit 1
+    BRANCH=$(branch_of $1)
+    [[ -n $BRANCH ]] || BRANCH=${1:t}
+    OUTPUT=$($SELF remove $1 2>&1)
+    STATUS=$?
+    if (( STATUS != 0 )); then
+      OUTPUT=${OUTPUT//$'\n'/ }
+      tmux display-message -d 10000 "worktree deletion failed: $OUTPUT" 2>/dev/null
+    else
+      tmux display-message -d 5000 "worktree deleted: $BRANCH" 2>/dev/null
+    fi
+    exit $STATUS ;;
+
+  remove-background)
+    [[ -n ${1:-} ]] || exit 1
+    # Let the tmux server own the worker. A nohup child launched from the
+    # confirmation picker can receive SIGHUP before it finishes starting when
+    # the popup closes immediately afterwards.
+    COMMAND="${(q)SELF} remove-notify ${(q)1}"
+    tmux run-shell -b -c "$PWD" "$COMMAND"
+    exit 0 ;;
+
+  confirm-remove)
+    [[ -n ${1:-} ]] || exit 1
+    BRANCH=$(branch_of $1)
+    [[ -n $BRANCH ]] || BRANCH=${1:t}
+    if confirm "delete $BRANCH? "; then
+      $SELF remove-background $1
+      exit 0
+    fi
+    exec $SELF picker ;;
+
   list)
     ROOT=$(repo_root) || exit 0
     # $PWD needs :A because tmux hands us /tmp where git reports /private/tmp.
@@ -242,7 +287,7 @@ case $ACTION in
         --preview-window 'right,60%' \
         --bind "ctrl-o:become($SELF prompt-add)" \
         --bind "ctrl-s:execute-silent($SELF spread)+reload($SELF list)" \
-        --bind "ctrl-x:execute($SELF remove {2} || read -k1)+reload($SELF list)" \
+        --bind "ctrl-x:become($SELF confirm-remove {2})" \
         --bind 'tab:down,btab:up' \
         --bind 'ctrl-u:half-page-up' \
         --bind 'ctrl-d:half-page-down'

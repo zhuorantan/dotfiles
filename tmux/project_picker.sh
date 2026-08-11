@@ -50,6 +50,20 @@ if [[ ${1:-} == --kill ]]; then
   exit 0
 fi
 
+if [[ ${1:-} == --confirm-kill ]]; then
+  [[ -n $2 && $2 != /* ]] || exit 0
+  [[ $2 == $(tmux display-message -p '#{session_name}' 2>/dev/null) ]] && exit 0
+  ANSWER=$(print -r -- confirm | fzf \
+    --style minimal \
+    --disabled \
+    --no-info \
+    --prompt="kill $2? " \
+    --header='enter/y confirm · esc/n cancel' \
+    --bind 'y:accept,n:abort')
+  [[ $ANSWER == confirm ]] && $SELF --kill $2
+  exit 0
+fi
+
 # One prompt glyph per mode, so the source is obvious at a glance.
 PROMPT_ALL=$'\uf120  '
 PROMPT_TMUX=$'\uebc8  '
@@ -78,7 +92,7 @@ TARGET=$(
     --bind "ctrl-t:change-border-label($MODE_TMUX)+change-prompt($PROMPT_TMUX)+reload($LIST --tmux)" \
     --bind "ctrl-o:transform:$SELF --open-bind new-window {3}" \
     --bind "ctrl-r:transform:$SELF --open-bind respawn-pane {3}" \
-    --bind "ctrl-x:execute-silent($SELF --kill {2})+transform:
+    --bind "ctrl-x:execute($SELF --confirm-kill {2})+transform:
       case \$FZF_BORDER_LABEL in
         $MODE_TMUX) echo 'reload($LIST --tmux)' ;;
         $MODE_DIRS) echo 'reload($LIST --dirs)' ;;
