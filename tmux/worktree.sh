@@ -108,16 +108,34 @@ notification_suffix() {
   esac
 }
 
+# Put existing worktree windows in creation order while preserving focus. This
+# is separate from creating them: `open` should order the windows already in the
+# session, while `spread` first makes sure every worktree has one.
+reorder_windows() {
+  local root=$1 active wt name
+  active=$(tmux display-message -p '#{window_id}' 2>/dev/null)
+  for wt in $(worktrees_by_age $root); do
+    [[ $wt == $root ]] && continue
+    name=$(window_name "$(branch_of $wt)")
+    # -a appends after the target; a bare {end} is an index already in use.
+    [[ -n $name ]] && tmux move-window -d -a -s "=$name" -t '{end}' 2>/dev/null
+  done
+  tmux move-window -r 2>/dev/null   # close the gaps the moves leave behind
+  [[ -n $active ]] && tmux select-window -t $active 2>/dev/null
+}
+
 # Select the window for a worktree if it exists, otherwise create it.
 # NB: never name a local "path" in zsh — it is tied to $PATH and would blank it.
 open_window() {
-  local dir=$1 name
+  local dir=$1 name root
   [[ -d $dir ]] || die "not a directory: $dir"
+  root=$(repo_root) || die "not in a git repository"
 
   # The main checkout is where the session already lives, so it has a window
   # already — the first one — rather than one named after its branch.
-  if [[ $dir == $(repo_root) ]]; then
+  if [[ $dir == $root ]]; then
     tmux select-window -t '{start}'
+    reorder_windows $root
     return 0
   fi
 
@@ -132,10 +150,10 @@ open_window() {
     return 0
   fi
 
-  if tmux select-window -t "=$name" 2>/dev/null; then
-    return 0
+  if ! tmux select-window -t "=$name" 2>/dev/null; then
+    tmux new-window -n $name -c $dir
   fi
-  tmux new-window -n $name -c $dir
+  reorder_windows $root
 }
 
 ACTION=${1:-}
@@ -155,19 +173,7 @@ case $ACTION in
       open_window $WT background
     done
 
-    # Windows opened earlier in this session, or in a previous run, sit wherever
-    # they landed. Walk the same oldest-first order again and shuffle each window
-    # to the end, so afterwards the window order matches the creation order.
-    # Moving the active window makes tmux jump to window 1, so put focus back.
-    WAS_ACTIVE=$(tmux display-message -p '#{window_id}' 2>/dev/null)
-    for WT in $(worktrees_by_age $ROOT); do
-      [[ $WT == $ROOT ]] && continue
-      NAME=$(window_name "$(branch_of $WT)")
-      # -a appends after the target; a bare {end} is an index already in use.
-      [[ -n $NAME ]] && tmux move-window -d -a -s "=$NAME" -t "{end}" 2>/dev/null
-    done
-    tmux move-window -r 2>/dev/null   # close the gaps the moves leave behind
-    [[ -n $WAS_ACTIVE ]] && tmux select-window -t $WAS_ACTIVE 2>/dev/null
+    reorder_windows $ROOT
     exit 0 ;;
 
   add)
