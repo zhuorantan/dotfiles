@@ -8,7 +8,7 @@ export SAVEHIST=1000000
 BREWPREFIX="/opt/homebrew"
 export HOMEBREW_BUNDLE_FILE="${_zshenv_file:A:h:h}/Brewfile"
 if [[ -x "${BREWPREFIX}/bin/brew" ]]; then
-    eval "$(${BREWPREFIX}/bin/brew shellenv)"
+    eval "$(${BREWPREFIX}/bin/brew shellenv zsh)"
 fi
 export FPATH="${BREWPREFIX}/share/zsh/site-functions:${FPATH}"
 
