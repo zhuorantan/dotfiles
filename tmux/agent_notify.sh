@@ -1,8 +1,9 @@
 #!/bin/sh
 
-# Agents already emit their own OSC desktop notification. When the agent's tmux
-# pane is not focused, also mark that window and write BEL to its pane so tmux
-# keeps the usual alert state until that pane is focused.
+# Agents already emit their own OSC desktop notification. Mark the tmux window
+# whenever a turn completes so its tab shows the completion icon. When the
+# agent's pane is not focused, also write BEL so tmux keeps the usual alert
+# state until that pane is focused.
 #
 # Codex calls this via `notify`; Claude Code via a Stop hook. Both pass a JSON
 # event. Codex's thread ID is also exposed by its TUI in the pane title so the
@@ -47,8 +48,8 @@ foreground=$(printf '%s\n' "$focused" | awk -v active="$pane_active" -v list="$v
   BEGIN { n = split(list, a, ",") }
   NF { for (i = 1; i <= n; i++) if (a[i] == $0) { print 1; exit } }
 ')
-[ -z "$foreground" ] || exit 0
-[ -w "$pane_tty" ] || exit 0
 
 tmux set-option -w -t "$pane" @agent_notification 1 || exit 0
+[ -z "$foreground" ] || exit 0
+[ -w "$pane_tty" ] || exit 0
 printf '\a' >"$pane_tty"
