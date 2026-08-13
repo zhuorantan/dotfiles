@@ -60,8 +60,6 @@ brew "tmux"
 brew "wget"
 # Build server protocol implementation for integrating Xcode with sourcekit-lsp
 brew "xcode-build-server"
-# Generate your Xcode project from a spec file and your folder structure
-brew "xcodegen"
 # Command-line tool to install and switch between multiple versions of Xcode
 brew "xcodes"
 # Blazing fast terminal file manager written in Rust, based on async I/O

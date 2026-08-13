@@ -1,9 +1,8 @@
 #!/bin/sh
 
-# Agents already emit their own OSC desktop notification. Mark the tmux window
-# whenever a turn completes so its tab shows the completion icon. When the
-# agent's pane is not focused, also write BEL so tmux keeps the usual alert
-# state until that pane is focused.
+# Agents already emit their own OSC desktop notification. When the agent's tmux
+# window is not visible, also mark that window and write BEL to its pane so tmux
+# keeps the usual alert state until that window is viewed.
 #
 # Codex calls this via `notify`; Claude Code via a Stop hook. Both pass a JSON
 # event. Codex's thread ID is also exposed by its TUI in the pane title so the
@@ -22,34 +21,31 @@ if [ -z "$pane" ]; then
   thread_title=$(printf '%.29s...' "$thread_id")
 
   pane=$(
-    tmux list-panes -a -F '#{pane_id} #{pane_current_command} #{pane_title}' 2>/dev/null |
+    tmux list-panes -a -F '#{pane_id} #{pane_title}' 2>/dev/null |
       awk -v thread="$thread_title" '
-        $2 ~ /^codex/ && index($0, thread) { print $1; exit }
+        index($0, thread) { print $1; exit }
       '
   )
   [ -n "$pane" ] || exit 0
 fi
 
-state=$(tmux display-message -p -t "$pane" '#{pane_tty}|#{pane_active}|#{window_active_clients_list}' 2>/dev/null) ||
+state=$(tmux display-message -p -t "$pane" '#{pane_tty}|#{window_id}' 2>/dev/null) ||
   exit 0
 pane_tty=${state%%|*}
-state=${state#*|}
-pane_active=${state%%|*}
-viewing=${state#*|}
+window_id=${state#*|}
 
-# A completed pane is foreground only when it is the window's active pane and a
-# focused client is viewing that window. An inactive split is still background
-# work and should leave a robot marker even though the containing window is on
-# screen. tmux has no client_focused format; `focused` appears in client_flags.
-focused=$(tmux list-clients -F '#{client_name}' \
+# A completed pane is foreground whenever its window is the focused client's
+# current window, regardless of which pane in that window is active. Comparing
+# the exact window ID avoids treating the active window of an inactive session
+# as visible merely because that session remains attached to the client. tmux
+# has no client_focused format; `focused` appears in client_flags.
+focused_windows=$(tmux list-clients -F '#{window_id}' \
   -f '#{m:*focused*,#{client_flags}}' 2>/dev/null)
-foreground=$(printf '%s\n' "$focused" | awk -v active="$pane_active" -v list="$viewing" '
-  active != 1 { exit }
-  BEGIN { n = split(list, a, ",") }
-  NF { for (i = 1; i <= n; i++) if (a[i] == $0) { print 1; exit } }
+foreground=$(printf '%s\n' "$focused_windows" | awk -v target="$window_id" '
+  $0 == target { print 1; exit }
 ')
 
-tmux set-option -w -t "$pane" @agent_notification 1 || exit 0
 [ -z "$foreground" ] || exit 0
+tmux set-option -w -t "$pane" @agent_notification 1 || exit 0
 [ -w "$pane_tty" ] || exit 0
 printf '\a' >"$pane_tty"
