@@ -6,10 +6,8 @@ brew "btop"
 brew "bun"
 # Statistics utility to count lines of code
 brew "cloc"
-# Powerful, clean, object-oriented scripting language
-brew "ruby"
-# Dependency manager for Cocoa projects
-brew "cocoapods"
+# GNU File, Shell, and Text utilities
+brew "coreutils"
 # Pack, ship and run any application as a lightweight container
 brew "docker"
 # Easiest way to build and release mobile apps
@@ -22,6 +20,8 @@ brew "fzf"
 brew "gh"
 # CLI tool for searching and downloading app packages from the iOS App Store
 brew "ipatool"
+# Lightweight and flexible command-line JSON processor
+brew "jq"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Powerful, lightweight programming language
@@ -36,6 +36,8 @@ brew "nmap"
 brew "node"
 # PAM module for reattaching to the user's GUI (Aqua) session
 brew "pam-reattach"
+# Execute binaries from Python packages in isolated environments
+brew "pipx"
 # Theme for zsh
 brew "powerlevel10k"
 # Password generator
@@ -44,12 +46,12 @@ brew "pwgen"
 brew "python"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# Powerful, clean, object-oriented scripting language
+brew "ruby"
 # Rust toolchain installer
 brew "rustup"
 # Smart session manager for the terminal
 brew "sesh"
-# Formatting tool for reformatting Swift code
-brew "swiftformat"
 # Tool to enforce Swift style and conventions
 brew "swiftlint"
 # Simplified and community-driven man pages
@@ -58,8 +60,6 @@ brew "tldr"
 brew "tmux"
 # Internet file retriever
 brew "wget"
-# Build server protocol implementation for integrating Xcode with sourcekit-lsp
-brew "xcode-build-server"
 # Command-line tool to install and switch between multiple versions of Xcode
 brew "xcodes"
 # Blazing fast terminal file manager written in Rust, based on async I/O
