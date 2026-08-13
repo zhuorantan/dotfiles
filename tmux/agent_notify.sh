@@ -1,8 +1,8 @@
 #!/bin/sh
 
 # Agents already emit their own OSC desktop notification. When the agent's tmux
-# window is not visible, also mark that window and write BEL to its pane so tmux
-# keeps the usual alert state until the window is viewed.
+# pane is not focused, also mark that window and write BEL to its pane so tmux
+# keeps the usual alert state until that pane is focused.
 #
 # Codex calls this via `notify`; Claude Code via a Stop hook. Both pass a JSON
 # event. Codex's thread ID is also exposed by its TUI in the pane title so the
@@ -29,24 +29,25 @@ if [ -z "$pane" ]; then
   [ -n "$pane" ] || exit 0
 fi
 
-state=$(tmux display-message -p -t "$pane" '#{pane_tty}|#{window_active_clients_list}' 2>/dev/null) ||
+state=$(tmux display-message -p -t "$pane" '#{pane_tty}|#{pane_active}|#{window_active_clients_list}' 2>/dev/null) ||
   exit 0
 pane_tty=${state%%|*}
+state=${state#*|}
+pane_active=${state%%|*}
 viewing=${state#*|}
 
-# A client can be attached to this window while the user looks at another
-# session, so "some client is viewing it" is not the same as "it is on screen".
-# Treat the window as visible only when a client that is viewing it also holds
-# the terminal's focus. tmux has no client_focused format; `focused` appears in
-# client_flags, and only while the terminal emulator itself has OS focus -- so
-# backgrounding the terminal correctly makes every window not visible.
+# A completed pane is foreground only when it is the window's active pane and a
+# focused client is viewing that window. An inactive split is still background
+# work and should leave a robot marker even though the containing window is on
+# screen. tmux has no client_focused format; `focused` appears in client_flags.
 focused=$(tmux list-clients -F '#{client_name}' \
   -f '#{m:*focused*,#{client_flags}}' 2>/dev/null)
-visible=$(printf '%s\n' "$focused" | awk -v list="$viewing" '
+foreground=$(printf '%s\n' "$focused" | awk -v active="$pane_active" -v list="$viewing" '
+  active != 1 { exit }
   BEGIN { n = split(list, a, ",") }
   NF { for (i = 1; i <= n; i++) if (a[i] == $0) { print 1; exit } }
 ')
-[ -z "$visible" ] || exit 0
+[ -z "$foreground" ] || exit 0
 [ -w "$pane_tty" ] || exit 0
 
 tmux set-option -w -t "$pane" @agent_notification 1 || exit 0
