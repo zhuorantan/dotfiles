@@ -44,8 +44,8 @@ brew "pwgen"
 brew "python"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
-# Safe, concurrent, practical language
-brew "rust"
+# Rust toolchain installer
+brew "rustup"
 # Smart session manager for the terminal
 brew "sesh"
 # Formatting tool for reformatting Swift code
@@ -60,10 +60,14 @@ brew "tmux"
 brew "wget"
 # Build server protocol implementation for integrating Xcode with sourcekit-lsp
 brew "xcode-build-server"
+# Generate your Xcode project from a spec file and your folder structure
+brew "xcodegen"
 # Command-line tool to install and switch between multiple versions of Xcode
 brew "xcodes"
 # Blazing fast terminal file manager written in Rust, based on async I/O
 brew "yazi"
+# Programming language designed for robustness, optimality, and clarity
+brew "zig"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
 # Fish-like fast/unobtrusive autosuggestions for zsh

@@ -22,6 +22,10 @@ if [[ -d /opt/homebrew/opt/python ]]; then
     _preferred_paths+=(/opt/homebrew/opt/python/libexec/bin)
 fi
 
+if [[ -d /opt/homebrew/opt/rustup ]]; then
+    _preferred_paths+=(/opt/homebrew/opt/rustup/bin)
+fi
+
 _preferred_paths+=(
     /opt/homebrew/bin
     /opt/homebrew/sbin
