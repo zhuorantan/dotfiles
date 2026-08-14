@@ -81,6 +81,30 @@ window_name() {
   print -r -- ${${1//:/-}//./-}
 }
 
+# Find the immutable ID of the window that owns a worktree. Its initial manual
+# name disables automatic renaming, but a user or application can still rename
+# it later; the ID remains stable for the lifetime of the window.
+window_id_for_worktree() {
+  local worktree=${1:A} id pane_dir
+  while IFS=$TAB read -r id pane_dir; do
+    [[ -n $id && -n $pane_dir ]] || continue
+    pane_dir=${pane_dir:A}
+    if [[ $pane_dir == $worktree || $pane_dir == ${worktree}/* ]]; then
+      print -r -- $id
+      return 0
+    fi
+  done < <(tmux list-panes -a -F "#{window_id}$TAB#{pane_current_path}" 2>/dev/null)
+  return 1
+}
+
+window_id_exists() {
+  local wanted=$1 existing
+  while IFS= read -r existing; do
+    [[ $existing == $wanted ]] && return 0
+  done < <(tmux list-windows -a -F '#{window_id}' 2>/dev/null)
+  return 1
+}
+
 # Agent or bell marker for the tmux window represented by a picker row. Missing
 # windows are normal: a worktree does not get one until opened or spread.
 #
@@ -199,11 +223,12 @@ case $ACTION in
     [[ -n ${1:-} ]] || die "usage: ${0:t} remove <worktree-path>"
     WT_PATH=${1%/}
     ROOT=$(repo_root) || die "not in a git repository"
+    WINDOW_ID=${2:-}
+    [[ -n $WINDOW_ID ]] || WINDOW_ID=$(window_id_for_worktree $WT_PATH)
     # Compare resolved paths: tmux hands over /tmp where git reports /private/tmp.
     [[ ${WT_PATH:A} == ${ROOT:A} ]] && die "refusing to remove the main worktree"
 
     BRANCH=$(branch_of $WT_PATH)
-    NAME=$(window_name $BRANCH)
 
     # Check integration before removing the directory: `branch -d` also refuses
     # an unmerged branch, but by then the worktree would already be gone.
@@ -211,18 +236,55 @@ case $ACTION in
     git -C $ROOT merge-base --is-ancestor $BRANCH $BASE_BRANCH 2>/dev/null ||
       die "refusing to remove $BRANCH: not merged into $BASE_BRANCH"
 
-    # Neither operation is forced: removal still protects dirty worktrees, and
-    # branch deletion remains a second check against discarding commits.
+    # Check the remaining conditions that `git worktree remove` protects before
+    # closing the window. The removal below stays non-forced as a final guard.
+    CHANGES=$(git -C $WT_PATH status --porcelain --untracked-files=all) ||
+      die "cannot inspect worktree: $WT_PATH"
+    [[ -z $CHANGES ]] || die "refusing to remove $BRANCH: worktree has changes"
+
+    ADMIN_DIR=$(git -C $WT_PATH rev-parse --path-format=absolute --git-dir 2>/dev/null) ||
+      die "cannot find worktree metadata: $WT_PATH"
+    [[ ! -e $ADMIN_DIR/locked ]] || die "refusing to remove $BRANCH: worktree is locked"
+
+    SUBMODULE_STATUS=$(git -C $WT_PATH submodule status --recursive 2>/dev/null) ||
+      die "cannot inspect submodules: $WT_PATH"
+    for SUBMODULE in ${(f)SUBMODULE_STATUS}; do
+      [[ $SUBMODULE == -* ]] ||
+        die "refusing to remove $BRANCH: worktree has an initialized submodule"
+    done
+
+    # Stop applications in the worktree before removing its files. Otherwise a
+    # build tool can recreate ignored paths after Git removes the worktree but
+    # before the old, name-based window cleanup runs.
+    if [[ -n $WINDOW_ID ]] && window_id_exists $WINDOW_ID; then
+      PANE_PROCESSES=(${(f)"$(tmux list-panes -t "$WINDOW_ID" -F '#{pane_pid}' 2>/dev/null)"})
+      tmux kill-window -t "$WINDOW_ID" || die "failed to close tmux window $WINDOW_ID"
+      for ATTEMPT in {1..20}; do
+        PROCESS_ALIVE=0
+        for PANE_PROCESS in $PANE_PROCESSES; do
+          kill -0 $PANE_PROCESS 2>/dev/null && PROCESS_ALIVE=1
+        done
+        (( PROCESS_ALIVE )) || break
+        sleep 0.05
+      done
+    fi
+
+    # Neither Git operation is forced. After removal, briefly give external
+    # watchers a chance to reveal themselves before deleting the branch.
     git -C $ROOT worktree remove $WT_PATH || exit 1
+    sleep 0.1
+    [[ ! -e $WT_PATH ]] ||
+      die "worktree directory was recreated by a running app: $WT_PATH"
     git -C $ROOT branch -d $BRANCH || exit 1
-    [[ -n $NAME ]] && tmux kill-window -t "=$NAME" 2>/dev/null
     print -r -- "removed $WT_PATH" ;;
 
   remove-notify)
     [[ -n ${1:-} ]] || exit 1
     BRANCH=$(branch_of $1)
     [[ -n $BRANCH ]] || BRANCH=${1:t}
-    OUTPUT=$($SELF remove $1 2>&1)
+    REMOVE_ARGS=("$1")
+    [[ -n ${2:-} ]] && REMOVE_ARGS+=("$2")
+    OUTPUT=$($SELF remove "${REMOVE_ARGS[@]}" 2>&1)
     STATUS=$?
     if (( STATUS != 0 )); then
       OUTPUT=${OUTPUT//$'\n'/ }
@@ -237,8 +299,13 @@ case $ACTION in
     # Let the tmux server own the worker. A nohup child launched from the
     # confirmation picker can receive SIGHUP before it finishes starting when
     # the popup closes immediately afterwards.
+    ROOT=$(repo_root) || exit 1
+    WINDOW_ID=$(window_id_for_worktree $1)
     COMMAND="${(q)SELF} remove-notify ${(q)1}"
-    tmux run-shell -b -c "$PWD" "$COMMAND"
+    [[ -n $WINDOW_ID ]] && COMMAND+=" ${(q)WINDOW_ID}"
+    # Run from the main checkout so successful removal never deletes the
+    # background worker's own current directory.
+    tmux run-shell -b -c "$ROOT" "$COMMAND"
     exit 0 ;;
 
   confirm-remove)
