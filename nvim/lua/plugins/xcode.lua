@@ -216,7 +216,7 @@ return {
       { "<leader>iC", "<cmd>XcodebuildShowCodeCoverageReport<cr>", desc = "Show Code Coverage Report" },
       { "<leader>ie", "<cmd>XcodebuildTestExplorerToggle<cr>", desc = "Toggle Test Explorer" },
       { "<leader>is", "<cmd>XcodebuildFailingSnapshots<cr>", desc = "Show Failing Snapshots" },
-      { "<leader>id", "<cmd>XcodebuildSelectDevice<cr>", desc = "Select Device" },
+      { "<leader>id", "<cmd>XcodebuildBuildDebug<cr>", desc = "Build & Debug Project" },
       { "<leader>iq", "<cmd>copen<cr>", desc = "Show Quickfix List" },
       { "<leader>ix", "<cmd>XcodebuildQuickfixLine<cr>", desc = "Quickfix Line" },
       { "<leader>iA", "<cmd>XcodebuildCodeActions<cr>", desc = "Show Code Actions" },
