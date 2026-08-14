@@ -43,7 +43,7 @@ return {
         win = {
           keys = {
             hide_lazygit = {
-              "<c-q>",
+              "q",
               function(self)
                 self:hide()
               end,
