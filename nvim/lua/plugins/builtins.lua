@@ -39,6 +39,20 @@ return {
     "folke/snacks.nvim",
     opts = {
       image = { enabled = true },
+      lazygit = {
+        win = {
+          keys = {
+            hide_lazygit = {
+              "<c-q>",
+              function(self)
+                self:hide()
+              end,
+              mode = "t",
+              desc = "Hide LazyGit",
+            },
+          },
+        },
+      },
       picker = {
         sources = {
           explorer = {

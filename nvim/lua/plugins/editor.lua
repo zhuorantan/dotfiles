@@ -18,6 +18,22 @@ return {
     },
   },
   {
+    "mikavilpas/yazi.nvim",
+    version = "*",
+    dependencies = {
+      { "nvim-lua/plenary.nvim", lazy = true },
+    },
+    keys = {
+      {
+        "<leader>fy",
+        "<cmd>Yazi<cr>",
+        mode = { "n", "v" },
+        desc = "Open Yazi at Current File",
+      },
+    },
+    opts = {},
+  },
+  {
     "tpope/vim-fugitive",
     dependencies = { "tpope/vim-rhubarb" },
     cmd = { "Git", "Gdiffsplit", "GBrowse" },
