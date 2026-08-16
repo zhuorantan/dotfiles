@@ -183,6 +183,7 @@ return {
       apply_xcode_27_destination_fix()
     end,
     keys = {
+      { "<leader>is", "<cmd>XcodebuildSetup<cr>", desc = "Setup Xcode Project" },
       { "<leader>ia", "<cmd>XcodebuildPicker<cr>", desc = "Show Xcodebuild Actions" },
       { "<leader>ib", "<cmd>XcodebuildBuild<cr>", desc = "Build Project" },
       { "<leader>ir", "<cmd>XcodebuildBuildRun<cr>", desc = "Build & Run Project" },
