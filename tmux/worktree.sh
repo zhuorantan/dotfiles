@@ -2,10 +2,12 @@
 
 # Git worktrees as tmux windows, one window per worktree.
 #
-#   worktree.sh picker            pick a worktree; also creates and deletes them
+#   worktree.sh picker            pick a worktree; creates, renames, and deletes
 #   worktree.sh spread            a window for every worktree of this repo
 #   worktree.sh open <path>       open (or jump to) a window for one worktree
 #   worktree.sh add <branch>      create the worktree, then open its window
+#   worktree.sh rename <path> <branch>
+#                               reuse a base-synced worktree for a new branch
 #   worktree.sh remove <path>     drop the worktree, its branch, and its window
 #   worktree.sh list              "<icon> <branch>\t<path>" rows for the picker
 #
@@ -35,6 +37,9 @@ NOT_HERE=' '                          # keeps the label column aligned
 
 die() { print -ru2 -- "$1"; exit 1 }
 
+# zsh/stat keeps timestamp reads identical across BSD and GNU systems.
+zmodload zsh/stat 2>/dev/null || die "cannot load zsh/stat"
+
 confirm() {
   local answer
   answer=$(print -r -- confirm | fzf \
@@ -59,15 +64,21 @@ branch_of() {
   git -C $1 rev-parse --abbrev-ref HEAD 2>/dev/null
 }
 
-# Worktree paths in the order git created them. git itself does not record a
-# timestamp, but it makes one admin directory per worktree under .git/worktrees,
-# and that directory's birth time never changes — mtime does, as soon as anything
-# commits in the worktree. The main checkout has no admin dir, so it goes first.
+# Worktree paths in creation/reuse order. Git creates a stable `gitdir` file in
+# every linked worktree's admin directory, including worktrees created outside
+# this script. Its mtime begins at creation, is unchanged by normal commits, and
+# is bumped explicitly when this script reuses a worktree. The main checkout has
+# no linked-worktree admin directory, so it goes first.
 worktrees_by_age() {
-  local root=$1
+  local root=$1 admin timestamp
   print -r -- $root
-  # Sort by birth time, then map each admin dir back to its worktree path.
-  stat -f '%B %N' $root/.git/worktrees/*(/) 2>/dev/null |
+  # Sort by the portable epoch mtime, then map each admin directory back to its
+  # worktree path. The final path also makes same-second ties deterministic.
+  for admin in $root/.git/worktrees/*(/); do
+    [[ -r $admin/gitdir ]] || continue
+    timestamp=$(zstat +mtime $admin/gitdir 2>/dev/null) || continue
+    print -r -- "$timestamp $admin"
+  done |
     sort -n |
     while read -r _ ADMIN; do
       [[ -r $ADMIN/gitdir ]] || continue
@@ -103,6 +114,19 @@ window_id_exists() {
     [[ $existing == $wanted ]] && return 0
   done < <(tmux list-windows -a -F '#{window_id}' 2>/dev/null)
   return 1
+}
+
+# Refuse a rename that would make the window-name lookup ambiguous inside the
+# session that owns this worktree. Duplicate names are legal in tmux, but later
+# `open` calls could then select the wrong window.
+window_name_available() {
+  local window_id=$1 wanted=$2 session_id existing_id existing_name
+  [[ -n $window_id ]] || return 0
+  session_id=$(tmux display-message -p -t "$window_id" '#{session_id}' 2>/dev/null) ||
+    return 1
+  while IFS=$TAB read -r existing_id existing_name; do
+    [[ $existing_id == $window_id || $existing_name != $wanted ]] || return 1
+  done < <(tmux list-windows -t "$session_id" -F "#{window_id}$TAB#{window_name}" 2>/dev/null)
 }
 
 # Agent or bell marker for the tmux window represented by a picker row. Missing
@@ -219,6 +243,91 @@ case $ACTION in
     fi
     open_window $WT_PATH ;;
 
+  rename)
+    [[ -n ${1:-} && -n ${2:-} ]] ||
+      die "usage: ${0:t} rename <worktree-path> <new-branch>"
+    WT_PATH=${1%/}
+    NEW_BRANCH=$2
+    ROOT=$(repo_root) || die "not in a git repository"
+    [[ ${WT_PATH:A} == ${ROOT:A} ]] && die "refusing to rename the main worktree"
+    [[ -d $WT_PATH ]] || die "not a directory: $WT_PATH"
+
+    BRANCH=$(branch_of $WT_PATH)
+    [[ -n $BRANCH && $BRANCH != HEAD ]] || die "refusing to rename a detached worktree"
+    [[ $NEW_BRANCH != $BRANCH ]] || die "worktree is already named $NEW_BRANCH"
+    git check-ref-format --branch "$NEW_BRANCH" >/dev/null 2>&1 ||
+      die "invalid branch name: $NEW_BRANCH"
+    git -C $ROOT show-ref --quiet --verify "refs/heads/$NEW_BRANCH" &&
+      die "branch already exists: $NEW_BRANCH"
+
+    # Reuse is intentionally stricter than deletion's merged-ancestry check.
+    # The old branch must point at exactly the configured base commit, so a
+    # rename cannot hide either unmerged work or an older, not-yet-updated base.
+    HEAD_OID=$(git -C $WT_PATH rev-parse --verify 'HEAD^{commit}' 2>/dev/null) ||
+      die "cannot resolve HEAD for $BRANCH"
+    BASE_OID=$(git -C $ROOT rev-parse --verify "${BASE_BRANCH}^{commit}" 2>/dev/null) ||
+      die "cannot resolve base branch: $BASE_BRANCH"
+    [[ $HEAD_OID == $BASE_OID ]] ||
+      die "refusing to rename $BRANCH: HEAD is not the same as $BASE_BRANCH"
+
+    CHANGES=$(git -C $WT_PATH status --porcelain --untracked-files=all) ||
+      die "cannot inspect worktree: $WT_PATH"
+    [[ -z $CHANGES ]] || die "refusing to rename $BRANCH: worktree has changes"
+
+    NEW_WT_PATH=$ROOT/$WORKTREE_DIR/${NEW_BRANCH//\//+}
+    if [[ ${NEW_WT_PATH:A} != ${WT_PATH:A} ]]; then
+      [[ ! -e $NEW_WT_PATH ]] || die "worktree path already exists: $NEW_WT_PATH"
+    fi
+
+    WINDOW_ID=$(window_id_for_worktree $WT_PATH)
+    NEW_WINDOW_NAME=$(window_name $NEW_BRANCH)
+    window_name_available "$WINDOW_ID" "$NEW_WINDOW_NAME" ||
+      die "tmux window already exists: $NEW_WINDOW_NAME"
+
+    # Let Git move the worktree so its administrative metadata follows the
+    # directory. The owning tmux window is restarted below because the kernel
+    # cwd follows a directory rename, but an interactive shell's logical $PWD
+    # would otherwise keep the old path.
+    if [[ ${NEW_WT_PATH:A} != ${WT_PATH:A} ]]; then
+      mkdir -p $ROOT/$WORKTREE_DIR || exit 1
+      git -C $ROOT worktree move $WT_PATH $NEW_WT_PATH || exit 1
+    fi
+    if ! git -C $NEW_WT_PATH branch -m $NEW_BRANCH; then
+      # A successful preflight makes this unlikely, but restore the directory
+      # when possible so a partial failure does not separate its old branch and
+      # path names.
+      if [[ ${NEW_WT_PATH:A} != ${WT_PATH:A} ]]; then
+        git -C $ROOT worktree move $NEW_WT_PATH $WT_PATH 2>/dev/null
+      fi
+      die "failed to rename branch $BRANCH to $NEW_BRANCH"
+    fi
+
+    # Mark the successfully reused worktree as newest. This is Git's own
+    # metadata file, present regardless of how the worktree was first created;
+    # touching it changes no repository or worktree content.
+    ADMIN_DIR=$(git -C $NEW_WT_PATH rev-parse --path-format=absolute --git-dir 2>/dev/null) ||
+      die "renamed worktree, but cannot find its Git metadata"
+    touch $ADMIN_DIR/gitdir ||
+      die "renamed worktree, but failed to update its ordering timestamp"
+
+    if [[ -n $WINDOW_ID ]] && window_id_exists $WINDOW_ID; then
+      tmux rename-window -t "$WINDOW_ID" "$NEW_WINDOW_NAME" ||
+        die "renamed worktree, but failed to rename tmux window $WINDOW_ID"
+      # Restart panes separately rather than using respawn-window, which would
+      # collapse a multi-pane layout. tmux now resolves each cwd through the
+      # moved directory, including any pane that was in a subdirectory.
+      PANE_RESTART_FAILED=0
+      while IFS=$TAB read -r PANE_ID PANE_DIR; do
+        [[ -n $PANE_ID && -n $PANE_DIR ]] || continue
+        tmux respawn-pane -k -t "$PANE_ID" -c "$PANE_DIR" || PANE_RESTART_FAILED=1
+      done < <(tmux list-panes -t "$WINDOW_ID" \
+        -F "#{pane_id}$TAB#{pane_current_path}" 2>/dev/null)
+      (( ! PANE_RESTART_FAILED )) ||
+        die "renamed worktree, but failed to restart every pane in $WINDOW_ID"
+    fi
+    reorder_windows $ROOT
+    print -r -- "renamed $BRANCH to $NEW_BRANCH" ;;
+
   remove)
     [[ -n ${1:-} ]] || die "usage: ${0:t} remove <worktree-path>"
     WT_PATH=${1%/}
@@ -318,6 +427,18 @@ case $ACTION in
     fi
     exec $SELF picker ;;
 
+  prompt-rename)
+    [[ -n ${1:-} ]] || exit 1
+    WT_PATH=$1
+    BRANCH=$(branch_of $WT_PATH)
+    [[ -n $BRANCH ]] || BRANCH=${WT_PATH:t}
+    NEW_BRANCH=$(: | fzf --print-query --prompt='new branch: ' \
+      --header="reuse $BRANCH + restart window · enter rename · esc cancel" \
+      --height=100% 2>/dev/null)
+    [[ -n $NEW_BRANCH ]] || exec $SELF picker
+    $SELF rename $WT_PATH $NEW_BRANCH || read -k1
+    exit 0 ;;
+
   list)
     ROOT=$(repo_root) || exit 0
     # $PWD needs :A because tmux hands us /tmp where git reports /private/tmp.
@@ -355,10 +476,11 @@ case $ACTION in
         --with-nth 1 \
         --accept-nth 2 \
         --prompt='  ' \
-        --header='enter window · ^o new · ^s spread · ^x delete' \
+        --header='enter window · ^o new · ^r rename · ^s spread · ^x delete' \
         --preview 'git -C {2} log --oneline --graph --decorate -20' \
         --preview-window 'right,60%' \
         --bind "ctrl-o:become($SELF prompt-add)" \
+        --bind "ctrl-r:become($SELF prompt-rename {2})" \
         --bind "ctrl-s:execute-silent($SELF spread)+reload($SELF list)" \
         --bind "ctrl-x:become($SELF confirm-remove {2})" \
         --bind 'tab:down,btab:up' \
@@ -385,5 +507,5 @@ case $ACTION in
     exit 0 ;;
 
   *)
-    die "usage: ${0:t} picker | spread | open <path> | add <branch> | remove <path> | list" ;;
+    die "usage: ${0:t} picker | spread | open <path> | add <branch> | rename <path> <branch> | remove <path> | list" ;;
 esac
