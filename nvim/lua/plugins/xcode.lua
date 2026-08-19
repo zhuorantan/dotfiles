@@ -191,6 +191,7 @@ return {
       { "<leader>iT", "<cmd>XcodebuildTest<cr>", desc = "Run All Tests" },
       { "<leader>il", "<cmd>XcodebuildToggleLogs<cr>", desc = "Toggle Xcodebuild Logs" },
       { "<leader>id", "<cmd>XcodebuildBuildDebug<cr>", desc = "Build & Debug Project" },
+      { "<leader>iD", "<cmd>XcodebuildSelectDevice<cr>", desc = "Select Device" },
       { "<leader>ic", "<cmd>XcodebuildCancel<cr>", desc = "Cancel Xcodebuild Action" },
     },
   },
