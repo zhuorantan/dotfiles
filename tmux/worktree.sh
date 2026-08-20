@@ -2,14 +2,14 @@
 
 # Git worktrees as tmux windows, one window per worktree.
 #
-#   worktree.sh picker            pick a worktree; creates, renames, and deletes
+#   worktree.sh picker            pick or create a worktree; also manages them
 #   worktree.sh spread            a window for every worktree of this repo
 #   worktree.sh open <path>       open (or jump to) a window for one worktree
 #   worktree.sh add <branch>      create the worktree, then open its window
 #   worktree.sh rename <path> <branch>
 #                               reuse a base-synced worktree for a new branch
 #   worktree.sh remove <path>     drop the worktree, its branch, and its window
-#   worktree.sh list              "<icon> <branch>\t<path>" rows for the picker
+#   worktree.sh list              label/path/branch/kind rows for the picker
 #
 # Worktrees live in .worktrees/<branch with / turned into +> inside the repo, so
 # they travel with it and a single glob finds them all.
@@ -30,6 +30,7 @@ DIM=$'\e[2;90m'
 RESET=$'\e[0m'
 ICON_MAIN=$'\e[35m\e[39m'      # git-branch, for the main checkout
 ICON_WORKTREE=$'\e[33m\e[39m'  # git-branch, for the rest
+ICON_BRANCH=$'\e[90m\e[39m'    # local branch without a worktree
 ICON_NOTIFICATION=$'\e[33m󰂞\e[39m'  # bell, matching Catppuccin's tmux flag
 ICON_AGENT=$'\e[32m󰚩\e[39m'     # completed agent turn
 HERE=$'\e[32m●\e[39m'               # marks the worktree we were opened from
@@ -419,6 +420,7 @@ case $ACTION in
 
   confirm-remove)
     [[ -n ${1:-} ]] || exit 1
+    [[ ${2:-worktree} == worktree ]] || exec $SELF picker
     BRANCH=$(branch_of $1)
     [[ -n $BRANCH ]] || BRANCH=${1:t}
     if confirm "delete $BRANCH? "; then
@@ -429,6 +431,7 @@ case $ACTION in
 
   prompt-rename)
     [[ -n ${1:-} ]] || exit 1
+    [[ ${2:-worktree} == worktree ]] || exec $SELF picker
     WT_PATH=$1
     BRANCH=$(branch_of $WT_PATH)
     [[ -n $BRANCH ]] || BRANCH=${WT_PATH:t}
@@ -439,56 +442,76 @@ case $ACTION in
     $SELF rename $WT_PATH $NEW_BRANCH || read -k1
     exit 0 ;;
 
+  create-selected)
+    [[ -n ${1:-} ]] || exit 1
+    [[ ${2:-} == branch ]] || exec $SELF picker
+    $SELF add $1 || read -k1
+    exit 0 ;;
+
   list)
     ROOT=$(repo_root) || exit 0
     # $PWD needs :A because tmux hands us /tmp where git reports /private/tmp.
     CWD=${PWD:A}
     # Branch is the label because the path is just a sanitised copy of it; a
-    # dimmed suffix marks the main checkout.
+    # dimmed suffix marks the main checkout. Local branches without a worktree
+    # follow the worktrees and use the repository root for their log preview.
     #
     # Rows carrying an alert float to the top, in the order the icons imply:
     # finished agent turn, then working, then bell. One bucket per tier keeps
     # each tier oldest-first — matching `spread` — without a sort pass.
     TIERS=('' '' '' '')
+    typeset -A ATTACHED_BRANCHES
     for WT in $(worktrees_by_age $ROOT); do
       BR=$(branch_of $WT)
+      [[ -n $BR && $BR != HEAD ]] && ATTACHED_BRANCHES[$BR]=1
       [[ ${WT:A} == $CWD ]] && MARK=$HERE || MARK=$NOT_HERE
       if [[ $WT == $ROOT ]]; then
         notification_suffix ':{start}'
-        ROW="$MARK $ICON_MAIN $BR$NOTICE$DIM ${ROOT:t}$RESET$TAB$WT"
+        ROW="$MARK $ICON_MAIN $BR$NOTICE$DIM ${ROOT:t}$RESET$TAB$WT$TAB$BR${TAB}worktree"
       else
         NAME=$(window_name $BR)
         notification_suffix ":=$NAME" "$NAME"
-        ROW="$MARK $ICON_WORKTREE $BR$NOTICE$TAB$WT"
+        ROW="$MARK $ICON_WORKTREE $BR$NOTICE$TAB$WT$TAB$BR${TAB}worktree"
       fi
       TIERS[$NOTICE_TIER]+="$ROW"$'\n'
     done
     print -rn -- ${(j::)TIERS}
+    while IFS= read -r BR; do
+      [[ -n $BR && -z ${ATTACHED_BRANCHES[$BR]:-} ]] || continue
+      print -r -- "$NOT_HERE $ICON_BRANCH $BR$TAB$ROOT$TAB$BR${TAB}branch"
+    done < <(git -C $ROOT for-each-ref --sort=refname \
+      --format='%(refname:short)' refs/heads)
     exit 0 ;;
 
   picker)
     repo_root >/dev/null || die "not in a git repository"
-    TARGET=$(
+    SELECTION=$(
       $SELF list | fzf \
         --style minimal \
         --ansi \
         --delimiter=$TAB \
         --with-nth 1 \
-        --accept-nth 2 \
+        --accept-nth 2,3,4 \
         --prompt='  ' \
-        --header='enter window · ^o new · ^r rename · ^s spread · ^x delete' \
-        --preview 'git -C {2} log --oneline --graph --decorate -20' \
+        --header='^o new · ^w worktree · ^r rename · ^s spread · ^x delete' \
+        --preview 'git -C {2} log --oneline --graph --decorate -20 {3} --' \
         --preview-window 'right,60%' \
         --bind "ctrl-o:become($SELF prompt-add)" \
-        --bind "ctrl-r:become($SELF prompt-rename {2})" \
+        --bind "ctrl-w:become($SELF create-selected {3} {4})" \
+        --bind "ctrl-r:become($SELF prompt-rename {2} {4})" \
         --bind "ctrl-s:execute-silent($SELF spread)+reload($SELF list)" \
-        --bind "ctrl-x:become($SELF confirm-remove {2})" \
+        --bind "ctrl-x:become($SELF confirm-remove {2} {4})" \
         --bind 'tab:down,btab:up' \
         --bind 'ctrl-u:half-page-up' \
         --bind 'ctrl-d:half-page-down'
     )
-    [[ -n $TARGET ]] || exit 0
-    open_window $TARGET ;;
+    [[ -n $SELECTION ]] || exit 0
+    IFS=$TAB read -r TARGET BRANCH KIND <<< $SELECTION
+    if [[ $KIND == branch ]]; then
+      $SELF add $BRANCH || read -k1
+    else
+      open_window $TARGET
+    fi ;;
 
   prompt-add)
     # Reached through `become`, so the picker is gone and this owns the popup: a
