@@ -10,8 +10,6 @@ brew "cloc"
 brew "coreutils"
 # Pack, ship and run any application as a lightweight container
 brew "docker"
-# Easiest way to build and release mobile apps
-brew "fastlane"
 # Simple, fast and user-friendly alternative to find
 brew "fd"
 # Command-line fuzzy finder written in Go
@@ -22,6 +20,8 @@ brew "gh"
 brew "ipatool"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
+# Handy way to save and run project-specific commands
+brew "just"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Powerful, lightweight programming language
