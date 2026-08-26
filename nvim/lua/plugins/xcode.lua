@@ -136,7 +136,7 @@ return {
         },
         {
           function()
-            return " " .. vim.g.xcodebuild_test_plan
+            return "󰙨 " .. vim.g.xcodebuild_test_plan
           end,
           cond = function()
             return vim.g.xcodebuild_test_plan ~= nil
