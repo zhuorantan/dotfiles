@@ -60,6 +60,7 @@ function M.set_up()
 	-- -- Application keybinding
 	hs.hotkey.bind(M.hyper, "t", toggleApp("Ghostty"))
 	hs.hotkey.bind(M.hyper, "s", toggleApp("Safari"))
+	hs.hotkey.bind(M.hyper, "c", toggleApp("Google Chrome"))
 	hs.hotkey.bind(M.hyper, "x", toggleApp("Xcode"))
 	hs.hotkey.bind(M.hyper, "i", toggleApp("Mail"))
 	hs.hotkey.bind(M.hyper, "2", toggleApp("Finder"))
