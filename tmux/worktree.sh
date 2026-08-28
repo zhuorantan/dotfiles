@@ -65,6 +65,30 @@ branch_of() {
   git -C $1 rev-parse --abbrev-ref HEAD 2>/dev/null
 }
 
+# Git refuses to remove any linked worktree containing an initialized submodule
+# unless `--force` is used. Before allowing that narrow use of force, make sure
+# every initialized submodule is clean and its checked-out commit is recoverable
+# from a locally known remote-tracking ref.
+submodules_safe_to_remove() {
+  local worktree=$1
+  git -C $worktree submodule foreach --quiet --recursive '
+    changes=$(git -c diff.ignoreSubmodules=none status \
+      --porcelain=v1 --untracked-files=all --ignore-submodules=none) || {
+      printf "cannot inspect submodule: %s\n" "$displaypath"
+      exit 1
+    }
+    if test -n "$changes"; then
+      printf "submodule has changes: %s\n" "$displaypath"
+      exit 1
+    fi
+    if test -z "$(git for-each-ref --format="%(refname)" \
+      --contains HEAD refs/remotes)"; then
+      printf "submodule commit is not published: %s\n" "$displaypath"
+      exit 1
+    fi
+  '
+}
+
 # Worktree paths in creation/reuse order. Git creates a stable `gitdir` file in
 # every linked worktree's admin directory, including worktrees created outside
 # this script. Its mtime begins at creation, is unchanged by normal commits, and
@@ -347,8 +371,10 @@ case $ACTION in
       die "refusing to remove $BRANCH: not merged into $BASE_BRANCH"
 
     # Check the remaining conditions that `git worktree remove` protects before
-    # closing the window. The removal below stays non-forced as a final guard.
-    CHANGES=$(git -C $WT_PATH status --porcelain --untracked-files=all) ||
+    # closing the window. Explicitly include submodules even when repository
+    # configuration would normally hide their changes.
+    CHANGES=$(git -c diff.ignoreSubmodules=none -C $WT_PATH status \
+      --porcelain=v1 --untracked-files=all --ignore-submodules=none) ||
       die "cannot inspect worktree: $WT_PATH"
     [[ -z $CHANGES ]] || die "refusing to remove $BRANCH: worktree has changes"
 
@@ -356,12 +382,23 @@ case $ACTION in
       die "cannot find worktree metadata: $WT_PATH"
     [[ ! -e $ADMIN_DIR/locked ]] || die "refusing to remove $BRANCH: worktree is locked"
 
-    SUBMODULE_STATUS=$(git -C $WT_PATH submodule status --recursive 2>/dev/null) ||
+    SUBMODULE_LIST=$(git -C $WT_PATH submodule status --recursive 2>/dev/null) ||
       die "cannot inspect submodules: $WT_PATH"
-    for SUBMODULE in ${(f)SUBMODULE_STATUS}; do
-      [[ $SUBMODULE == -* ]] ||
-        die "refusing to remove $BRANCH: worktree has an initialized submodule"
+    HAS_INITIALIZED_SUBMODULE=0
+    for SUBMODULE in ${(f)SUBMODULE_LIST}; do
+      [[ $SUBMODULE == -* ]] || HAS_INITIALIZED_SUBMODULE=1
     done
+
+    # Suppress `submodule foreach`'s generic fatal suffix; the helper emits the
+    # precise offending submodule on stdout before returning failure.
+    SUBMODULE_ERROR=$(submodules_safe_to_remove $WT_PATH 2>/dev/null)
+    SUBMODULE_STATUS=$?
+    if (( SUBMODULE_STATUS != 0 )); then
+      [[ -n $SUBMODULE_ERROR ]] || SUBMODULE_ERROR="cannot inspect submodules: $WT_PATH"
+      die "refusing to remove $BRANCH: ${SUBMODULE_ERROR//$'\n'/; }"
+    fi
+    REMOVE_OPTIONS=()
+    (( HAS_INITIALIZED_SUBMODULE )) && REMOVE_OPTIONS=(--force)
 
     # Stop applications in the worktree before removing its files. Otherwise a
     # build tool can recreate ignored paths after Git removes the worktree but
@@ -379,9 +416,11 @@ case $ACTION in
       done
     fi
 
-    # Neither Git operation is forced. After removal, briefly give external
-    # watchers a chance to reveal themselves before deleting the branch.
-    git -C $ROOT worktree remove $WT_PATH || exit 1
+    # Force is used only for initialized submodules that passed the explicit
+    # clean/published preflight above. All other removals remain non-forced.
+    # After removal, briefly give external watchers a chance to reveal
+    # themselves before deleting the branch.
+    git -C $ROOT worktree remove $REMOVE_OPTIONS $WT_PATH || exit 1
     sleep 0.1
     [[ ! -e $WT_PATH ]] ||
       die "worktree directory was recreated by a running app: $WT_PATH"
