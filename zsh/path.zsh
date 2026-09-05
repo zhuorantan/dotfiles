@@ -13,7 +13,7 @@ fi
 
 if [[ -d /opt/homebrew/opt/ruby ]]; then
     _preferred_paths+=(
-        "${GEM_HOME}/bin"
+        "$(/opt/homebrew/opt/ruby/bin/ruby -r rubygems -e 'puts Gem.bindir')"
         /opt/homebrew/opt/ruby/bin
     )
 fi
