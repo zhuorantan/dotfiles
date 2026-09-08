@@ -40,6 +40,14 @@ return {
     opts = {
       image = { enabled = true },
       lazygit = {
+        config = {
+          os = {
+            -- The nvim-remote preset sends q, which quits LazyGit. Use our hide mapping instead.
+            edit = [[nvim --server "$NVIM" --remote-send "<C-q>" && nvim --server "$NVIM" --remote-tab {{filename}}]],
+            editAtLine = [[nvim --server "$NVIM" --remote-send "<C-q>" && nvim --server "$NVIM" --remote-tab {{filename}} && nvim --server "$NVIM" --remote-send ":{{line}}<CR>"]],
+            openDirInEditor = [[nvim --server "$NVIM" --remote-send "<C-q>" && nvim --server "$NVIM" --remote-tab {{dir}}]],
+          },
+        },
         win = {
           keys = {
             hide_lazygit = {
