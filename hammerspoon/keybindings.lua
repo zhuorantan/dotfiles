@@ -88,19 +88,6 @@ function M.set_up()
 		hs.spaces.toggleShowDesktop()
 	end)
 
-	-- Defeating paste blocking
-	hs.hotkey.bind(M.hyper, "v", function()
-		hs.eventtap.keyStrokes(hs.pasteboard.getContents())
-	end)
-
-	local has_envs, envs = pcall(require, "envs")
-	if has_envs and envs.work_password then
-		hs.hotkey.bind(M.hyper, "l", function()
-			hs.eventtap.keyStrokes(envs.work_password)
-			hs.eventtap.keyStroke({}, "return")
-		end)
-	end
-
 	local mic_mute = require("mic_mute")
 	mic_mute.set_up(M.hyper, ".")
 end
