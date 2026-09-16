@@ -23,64 +23,6 @@ local function xcodebuild_device()
   return os and string.format("%s %s (%s)", icon, device, os) or string.format("%s %s", icon, device)
 end
 
-local function apply_xcode_27_destination_fix()
-  local util = require("xcodebuild.util")
-  local xcode = require("xcodebuild.core.xcode")
-
-  -- Xcode 27 renamed "Available destinations" to "Destinations compatible with".
-  -- Remove this override once xcodebuild.nvim recognizes the new heading upstream.
-  xcode.get_destinations = function(project_file, scheme, working_directory, callback)
-    local command = { "xcodebuild" }
-
-    if project_file then
-      table.insert(command, project_file:match("%.xcodeproj$") and "-project" or "-workspace")
-      table.insert(command, project_file)
-    end
-
-    vim.list_extend(command, { "-showdestinations", "-scheme", scheme })
-
-    return vim.fn.jobstart(command, {
-      stdout_buffered = true,
-      cwd = working_directory,
-      on_stdout = function(_, output)
-        local destinations = {}
-        local found_destinations = false
-        local value_pattern = ":%s*([^@}]-)%s*[@}]"
-
-        for _, line in ipairs(output) do
-          local trimmed_line = util.trim(line)
-
-          if found_destinations and trimmed_line == "" then
-            break
-          elseif found_destinations and vim.startswith(trimmed_line, "{") then
-            local sanitized_line = trimmed_line:gsub(", ", "@")
-            local destination = {
-              platform = sanitized_line:match("platform" .. value_pattern),
-              variant = sanitized_line:match("variant" .. value_pattern),
-              arch = sanitized_line:match("arch" .. value_pattern),
-              id = sanitized_line:match("id" .. value_pattern),
-              name = sanitized_line:match("name" .. value_pattern),
-              os = sanitized_line:match("OS" .. value_pattern),
-              error = sanitized_line:match("error" .. value_pattern),
-            }
-
-            if destination.platform and destination.id and destination.name then
-              table.insert(destinations, destination)
-            end
-          elseif
-            trimmed_line:find("Available destinations", 1, true)
-            or trimmed_line:find("Destinations compatible with", 1, true)
-          then
-            found_destinations = true
-          end
-        end
-
-        callback(destinations)
-      end,
-    })
-  end
-end
-
 return {
   {
     "mason-org/mason.nvim",
@@ -180,7 +122,6 @@ return {
     config = function(_, opts)
       require("xcodebuild").setup(opts)
       require("xcodebuild.integrations.dap").setup()
-      apply_xcode_27_destination_fix()
     end,
     keys = {
       { "<leader>is", "<cmd>XcodebuildSetup<cr>", desc = "Setup Xcode Project" },
