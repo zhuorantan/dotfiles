@@ -28,6 +28,8 @@ export EDITOR=${VISUAL}
 
 source "${_zshenv_file:A:h}/path.zsh"
 
+[[ -r "${_zshenv_file:A:h:h}/private/env" ]] && source "${_zshenv_file:A:h:h}/private/env"
+
 [[ -r "${HOME}/.zshenv.local" ]] && source "${HOME}/.zshenv.local"
 
 unset BREWPREFIX

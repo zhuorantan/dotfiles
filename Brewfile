@@ -1,5 +1,7 @@
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# Double-entry accounting tool that works on plain text files
+brew "beancount"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
 # Incredibly fast JavaScript runtime, bundler, test runner, and package manager
@@ -34,6 +36,8 @@ brew "neovim"
 brew "nmap"
 # Open-source, cross-platform JavaScript runtime environment
 brew "node"
+# Provides a software solution to manage, store, and distribute sensitive data
+brew "openbao"
 # PAM module for reattaching to the user's GUI (Aqua) session
 brew "pam-reattach"
 # Execute binaries from Python packages in isolated environments
@@ -52,6 +56,8 @@ brew "ruby"
 brew "rustup"
 # Smart session manager for the terminal
 brew "sesh"
+# Command-line tool for Stripe
+brew "stripe-cli"
 # Tool to enforce Swift style and conventions
 brew "swiftlint"
 # Simplified and community-driven man pages
