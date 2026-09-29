@@ -13,3 +13,5 @@
 	defaultBranch = main
 [include]
 	path = ~/.gitconfig.local
+[credential "https://github.com"]
+	helper = "!f() { if command -v gh >/dev/null 2>&1; then gh auth git-credential \"$@\"; fi; }; f"
