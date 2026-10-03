@@ -22,8 +22,6 @@ brew "gh"
 brew "ipatool"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
-# Handy way to save and run project-specific commands
-brew "just"
 # Simple terminal UI for git commands
 brew "lazygit"
 # Powerful, lightweight programming language
