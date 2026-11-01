@@ -13,5 +13,5 @@ term = "xterm-256color"
 
 theme = Catppuccin Macchiato
 
-background-opacity = 0.96
-background-blur-radius = 40
+background-opacity = 0.9
+background-blur = macos-glass-regular
