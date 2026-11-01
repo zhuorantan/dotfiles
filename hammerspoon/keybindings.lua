@@ -59,6 +59,7 @@ function M.set_up()
 
 	-- -- Application keybinding
 	hs.hotkey.bind(M.hyper, "t", toggleApp("Ghostty"))
+	hs.hotkey.bind(M.hyper, "r", toggleApp("Rex Beta"))
 	hs.hotkey.bind(M.hyper, "s", toggleApp("Safari"))
 	hs.hotkey.bind(M.hyper, "c", toggleApp("Google Chrome"))
 	hs.hotkey.bind(M.hyper, "x", toggleApp("Xcode"))

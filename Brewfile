@@ -1,3 +1,4 @@
+tap "pastepilot/tap"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Double-entry accounting tool that works on plain text files
@@ -88,6 +89,7 @@ cask "codex"
 cask "db-browser-for-sqlite"
 # Collaborative team software
 cask "figma"
+cask "font-sf-mono"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
 # Web browser
@@ -101,6 +103,8 @@ cask "jordanbaird-ice" if system 'system_profiler SPPowerDataType | grep -q "Bat
 cask "moonlight"
 # Replacement for Docker Desktop
 cask "orbstack"
+# Clipboard manager with history, snippets, and text tools
+cask "pastepilot/tap/pastepilot", trusted: true
 # Tool that provides consistent, highly configurable symbols for apps
 cask "sf-symbols"
 # System monitor for the menu bar
@@ -113,7 +117,6 @@ mas "Keynote", id: 361285480
 mas "Microsoft Outlook", id: 985367838
 mas "Numbers", id: 361304891
 mas "Pages", id: 361309726
-mas "PastePilot", id: 1658252808
 mas "Slack", id: 803453959
 mas "Tailscale", id: 1475387142
 mas "Telegram", id: 747648890
