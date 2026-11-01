@@ -229,8 +229,17 @@ open_window() {
   reorder_windows $root
 }
 
+# Rex shares the Git safeguards, but manages its own panes. Preflight performs
+# every safety check without moving/removing files or touching either terminal.
+GIT_ONLY=0
+if [[ ${1:-} == --git-only ]]; then GIT_ONLY=1; shift; fi
+CHECK_ONLY=0
+if [[ ${1:-} == --check ]]; then CHECK_ONLY=1; shift; fi
 ACTION=${1:-}
 shift 2>/dev/null
+if (( GIT_ONLY || CHECK_ONLY )); then
+  [[ $ACTION == rename || $ACTION == remove ]] || die "Git-only checks require rename or remove"
+fi
 
 case $ACTION in
   open)
@@ -304,10 +313,14 @@ case $ACTION in
       [[ ! -e $NEW_WT_PATH ]] || die "worktree path already exists: $NEW_WT_PATH"
     fi
 
-    WINDOW_ID=$(window_id_for_worktree $WT_PATH)
-    NEW_WINDOW_NAME=$(window_name $NEW_BRANCH)
-    window_name_available "$WINDOW_ID" "$NEW_WINDOW_NAME" ||
-      die "tmux window already exists: $NEW_WINDOW_NAME"
+    WINDOW_ID=
+    if (( ! GIT_ONLY )); then
+      WINDOW_ID=$(window_id_for_worktree $WT_PATH)
+      NEW_WINDOW_NAME=$(window_name $NEW_BRANCH)
+      window_name_available "$WINDOW_ID" "$NEW_WINDOW_NAME" ||
+        die "tmux window already exists: $NEW_WINDOW_NAME"
+    fi
+    (( CHECK_ONLY )) && exit 0
 
     # Let Git move the worktree so its administrative metadata follows the
     # directory. The owning tmux window is restarted below because the kernel
@@ -350,7 +363,7 @@ case $ACTION in
       (( ! PANE_RESTART_FAILED )) ||
         die "renamed worktree, but failed to restart every pane in $WINDOW_ID"
     fi
-    reorder_windows $ROOT
+    (( GIT_ONLY )) || reorder_windows $ROOT
     print -r -- "renamed $BRANCH to $NEW_BRANCH" ;;
 
   remove)
@@ -358,7 +371,11 @@ case $ACTION in
     WT_PATH=${1%/}
     ROOT=$(repo_root) || die "not in a git repository"
     WINDOW_ID=${2:-}
-    [[ -n $WINDOW_ID ]] || WINDOW_ID=$(window_id_for_worktree $WT_PATH)
+    if (( GIT_ONLY )); then
+      WINDOW_ID=
+    else
+      [[ -n $WINDOW_ID ]] || WINDOW_ID=$(window_id_for_worktree $WT_PATH)
+    fi
     # Compare resolved paths: tmux hands over /tmp where git reports /private/tmp.
     [[ ${WT_PATH:A} == ${ROOT:A} ]] && die "refusing to remove the main worktree"
 
@@ -399,6 +416,7 @@ case $ACTION in
     fi
     REMOVE_OPTIONS=()
     (( HAS_INITIALIZED_SUBMODULE )) && REMOVE_OPTIONS=(--force)
+    (( CHECK_ONLY )) && exit 0
 
     # Stop applications in the worktree before removing its files. Otherwise a
     # build tool can recreate ignored paths after Git removes the worktree but

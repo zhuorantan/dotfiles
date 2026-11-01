@@ -1,0 +1,28 @@
+#!/bin/sh
+# Started by init.lua. One listener survives config reloads and reconnects.
+set -eu
+umask 077
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/rex"
+mkdir -p "$state_dir"
+if [ "${1:-}" != locked ]; then
+  if command -v lockf >/dev/null 2>&1; then
+    exec lockf -ks -t 0 "$state_dir/tab-history.lock" /bin/sh "$0" locked
+  else
+    exec flock -n "$state_dir/tab-history.lock" /bin/sh "$0" locked
+  fi
+fi
+exec >>"$state_dir/tab-history.log" 2>&1
+cd "$(dirname "$0")"
+if command -v rex >/dev/null 2>&1; then
+  executable=$(command -v rex)
+else
+  for app in 'Rex Beta.app' 'Rex.app'; do
+    executable="/Applications/$app/Contents/Helpers/Rex Server.rex/Contents/MacOS/rex"
+    [ ! -x "$executable" ] || break
+  done
+fi
+[ -x "$executable" ] || { echo 'Cannot find the Rex CLI' >&2; exit 1; }
+while true; do
+  "$executable" --autostart=false do ./watch_tabs.lua --all || true
+  sleep 2
+done

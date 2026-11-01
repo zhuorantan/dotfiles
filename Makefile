@@ -26,6 +26,7 @@ link:
 	ln -snf $(PWD)/nvim $(HOME)/.config/nvim
 	ln -snf $(PWD)/yazi $(HOME)/.config/yazi
 	ln -snf $(PWD)/sesh $(HOME)/.config/sesh
+	ln -snf $(PWD)/rex $(HOME)/.config/rex
 	ln -snf $(PWD)/tmux/tmux.conf $(HOME)/.tmux.conf
 	mkdir -p $(HOME)/.local/bin
 	ln -snf $(PWD)/tmux/worktree.sh $(HOME)/.local/bin/wt
@@ -69,6 +70,7 @@ clean:
 	rm -rf $(HOME)/.config/nvim
 	rm -rf $(HOME)/.config/yazi
 	rm -rf $(HOME)/.config/sesh
+	rm -f $(HOME)/.config/rex
 	rm -f $(HOME)/.tmux.conf
 	rm -f $(HOME)/.local/bin/wt
 	rm -f $(HOME)/.codex/bin/agent-notify
