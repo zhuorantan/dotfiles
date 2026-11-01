@@ -1,7 +1,6 @@
 # Catppuccin Macchiato with the blue accent.
 gui:
   scrollHeight: 10
-
   theme:
     activeBorderColor:
       - "#8aadf4"
@@ -28,8 +27,6 @@ gui:
       - "#ed8796"
     defaultFgColor:
       - "#cad3f5"
-
-  authorColors:
-    "*": "#b7bdf8"
-
+    authorColors:
+      "*": "#b7bdf8"
   nerdFontsVersion: "3"
