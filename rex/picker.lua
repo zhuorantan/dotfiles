@@ -90,8 +90,15 @@ local function cli()
 end
 
 local function command(kind, ctx, directory)
+	local client_id = ctx.client_id
+	if ctx.server and ctx.server ~= "" then
+		-- Remote calls travel through the originating app's connection. Its
+		-- attachment identifies that app on this server; ctx.client_id is local.
+		local attachment = assert(rex.call("session.attach", { session_id = ctx.session_id }))
+		client_id = assert(attachment.client_id, "Cannot identify the originating app on the remote server")
+	end
 	return { cli(), "do", script, "action=pick", "kind=" .. kind,
-		"session_id=" .. ctx.session_id, "client_id=" .. ctx.client_id,
+		"session_id=" .. ctx.session_id, "client_id=" .. client_id,
 		"origin_block_id=" .. ctx.block_id, "directory=" .. directory }
 end
 
