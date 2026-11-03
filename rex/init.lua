@@ -8,6 +8,8 @@ rex.bind(prefix .. ">" .. prefix, "pane.send_key", { key = prefix })
 -- Sessions.
 rex.bind(prefix .. ">ctrl+c", "session.new")
 rex.bind(prefix .. ">shift+x", "session.close")
+rex.bind(prefix .. ">ctrl+j", "session.next")
+rex.bind(prefix .. ">ctrl+k", "session.previous")
 
 -- Splits: lowercase creates after the current pane; uppercase creates before.
 rex.bind(prefix .. ">s", "pane.split", { direction = "down" })
@@ -27,6 +29,24 @@ require("repeat_keys").install(prefix)
 
 rex.bind(prefix .. ">z", "pane.zoom")
 rex.bind(prefix .. ">x", "pane.close")
+
+-- Select tabs in the current session: 1–9, then 0 for the tenth tab.
+for index = 1, 10 do
+	local name = "session_tab_" .. index
+	rex.action({
+		name = name,
+		title = "Go to Session Tab " .. index,
+		category = "Navigation",
+		run = function(ctx)
+			local view = assert(rex.session.view({ session_id = ctx.session_id }))
+			local target = (view.windows or {})[index]
+			if target then
+				rex.client.queue("session.select", { session_id = ctx.session_id, window_id = target.window_id })
+			end
+		end,
+	})
+	rex.bind(prefix .. ">" .. (index % 10), name)
+end
 
 local tab_history = require("tab_history")
 -- Keep listening for native tab changes between shortcut invocations. The
