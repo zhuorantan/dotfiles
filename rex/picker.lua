@@ -336,10 +336,12 @@ function M.picker_layout(kind, ctx)
 	local process = api("com.superlogical.terminal.process", {
 		session_id = ctx.session_id, block_id = ctx.block_id, args = {},
 	})
-	local directory = canonical(assert((process.foreground and process.foreground.cwd)
-		or (process.child and process.child.cwd), "Cannot determine the current pane's directory"))
-	local cwd = kind == "worktrees" and worktrees(directory)[1].worktree or directory
-	return terminal(cwd, command(kind, ctx, directory))
+	local directory = assert((process.foreground and process.foreground.cwd)
+		or (process.child and process.child.cwd), "Cannot determine the current pane's directory")
+	-- Paths from the pane belong to its server, not the config's machine.
+	-- Resolve them in pick(), after the terminal starts on that server. Keep
+	-- the picker outside any worktree it may rename or remove.
+	return terminal(config_dir, command(kind, ctx, directory))
 end
 
 local function open_tab(session_id, directory, reuse, focus, command)
@@ -435,7 +437,7 @@ local function worktree_command(root, check, action, directory, branch)
 end
 
 -- Snapshot all affected terminal panes before moving/removing their directory.
--- The picker itself runs from the main checkout, so it survives either action.
+-- The picker itself runs from the config directory, so it survives either action.
 local function worktree_panes(directory)
 	local panes = {}
 	for _, session in ipairs(api("session.list").sessions or {}) do

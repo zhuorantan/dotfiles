@@ -23,8 +23,6 @@ rex.bind(prefix .. ">" .. prefix, "pane.send_key", { key = prefix })
 -- Sessions.
 rex.bind(prefix .. ">ctrl+c", "session.new")
 rex.bind(prefix .. ">shift+x", "session.close")
-rex.bind(prefix .. ">ctrl+j", "session.next")
-rex.bind(prefix .. ">ctrl+k", "session.previous")
 
 -- Splits: lowercase creates after the current pane; uppercase creates before.
 rex.bind(prefix .. ">s", "pane.split", { direction = "down" })
@@ -39,7 +37,7 @@ rex.bind(prefix .. ">k", "pane.focus", { direction = "up" })
 rex.bind(prefix .. ">l", "pane.focus", { direction = "right" })
 
 -- Rex moves dividers by percentage, whereas tmux uses terminal cells.
--- Resize and previous/next tab keys repeat for 500 ms without another prefix.
+-- Resize and previous/next session/tab keys repeat for 500 ms without another prefix.
 require("repeat_keys").install(prefix)
 
 rex.bind(prefix .. ">z", "pane.zoom")

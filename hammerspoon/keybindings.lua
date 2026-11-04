@@ -58,8 +58,8 @@ function M.set_up()
 	hyperWithShift[#hyperWithShift + 1] = "shift"
 
 	-- -- Application keybinding
-	hs.hotkey.bind(M.hyper, "t", toggleApp("Ghostty"))
-	hs.hotkey.bind(M.hyper, "r", toggleApp("Rex Beta"))
+	hs.hotkey.bind(M.hyper, "t", toggleApp("Rex Beta"))
+	hs.hotkey.bind(M.hyper, "r", toggleApp("Ghostty"))
 	hs.hotkey.bind(M.hyper, "s", toggleApp("Safari"))
 	hs.hotkey.bind(M.hyper, "c", toggleApp("Google Chrome"))
 	hs.hotkey.bind(M.hyper, "x", toggleApp("Xcode"))

@@ -22,6 +22,8 @@ function M.install(prefix)
 		{ "shift+l", "resize_right", "pane.resize", { direction = "right", amount = 5 } },
 		{ "ctrl+h", "tab_previous", "client.tab.previous" },
 		{ "ctrl+l", "tab_next", "client.tab.next" },
+		{ "ctrl+j", "session_next", "session.next" },
+		{ "ctrl+k", "session_previous", "session.previous" },
 	}) do
 		local key, name, action, args = binding[1], binding[2], binding[3], binding[4]
 		name = "repeat_" .. name
