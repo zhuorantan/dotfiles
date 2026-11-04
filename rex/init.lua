@@ -1,6 +1,21 @@
 local rex = rex
 local prefix = "ctrl+a"
 
+local function select_window(ctx, window_id)
+	local args = { session_id = ctx.session_id, window_id = window_id }
+	if ctx.server and ctx.server ~= "" then
+		-- Queued actions run on the home connection. Select remote tabs through
+		-- the app's connection to the server that owns this session instead.
+		local attachment = assert(rex.call("session.attach", { session_id = ctx.session_id }))
+		local client_id = assert(attachment.client_id, "Cannot identify the originating app on the remote server")
+		assert(rex.call("client.perform", {
+			client_id = client_id, session_id = ctx.session_id, action = "session.select", args = args,
+		}))
+	else
+		rex.client.queue("session.select", args)
+	end
+end
+
 -- Match the pane and window shortcuts in ../tmux/tmux.conf.
 -- Press Ctrl+A, release it, then press the second key. Escape cancels.
 rex.bind(prefix .. ">" .. prefix, "pane.send_key", { key = prefix })
@@ -41,7 +56,7 @@ for index = 1, 10 do
 			local view = assert(rex.session.view({ session_id = ctx.session_id }))
 			local target = (view.windows or {})[index]
 			if target then
-				rex.client.queue("session.select", { session_id = ctx.session_id, window_id = target.window_id })
+				select_window(ctx, target.window_id)
 			end
 		end,
 	})
@@ -61,7 +76,7 @@ rex.action({
 		local view = assert(rex.session.view({}))
 		local target = tab_history.previous(tab_history.read(), ctx.session_id, view, ctx.block_id)
 		if target then
-			rex.client.queue("session.select", { session_id = ctx.session_id, window_id = target })
+			select_window(ctx, target)
 		end
 	end,
 })
@@ -107,7 +122,7 @@ rex.action({
 			layout = terminal_in_current_directory(ctx, { "zsh", "-ic", "y; exec zsh" }),
 		}))
 		-- Server focus alone doesn't select the tab in the originating app.
-		rex.client.queue("session.select", { session_id = ctx.session_id, window_id = created.window_id })
+		select_window(ctx, created.window_id)
 		return created
 	end,
 })
